@@ -16,7 +16,7 @@
                 <a class="nav-link ${param['pageName'] eq 'home' ?'active':''}"  href="/" >Strona główna</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link ${param['pageName'] eq 'propertiesList' ?'active':''}"  href="propertiesList.html">Lista ogloszeń</a>
+                <a class="nav-link ${param['pageName'] eq 'propertiesList' ?'active':''}"  href="propertyList.html">Lista ogloszeń</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link ${param['pageName'] eq 'propertyForm' ?'active':''}"  href="propertyForm.html">Nowe ogłoszenie</a>

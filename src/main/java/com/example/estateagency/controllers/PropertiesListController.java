@@ -3,8 +3,7 @@ package com.example.estateagency.controllers;
 import com.example.estateagency.models.Property;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +12,7 @@ import java.util.List;
 @Controller
 public class PropertiesListController {
 
-	private static List<Property> propertiesList = new ArrayList<Property>();
+	public static List<Property> propertiesList = new ArrayList<Property>();
 
 	static{
 
@@ -52,26 +51,30 @@ public class PropertiesListController {
 		propertiesList.add(p4);
 	}
 
+	@GetMapping(value="/propertyList.html", params = "id")
+	public String showPropertyDetails(Model model, int id){
+		System.out.println("Pokayzwanie szczegółów");
 
-	@RequestMapping(value= "/propertyDetails.html", method = RequestMethod.GET)
-	public String showPropertyDetails(Model model){
-		System.out.println("Pokazywanie szczegółów");
-
-		Property p = new Property();
-		p.setId(1);
-		p.setName(null);
-		p.setPropertyType("House");
-		p.setAvailableDate(new Date(2020,8,16));
-		p.setPrice(174000);
-
-		model.addAttribute("property", p);
+		Property v = propertiesList.stream().filter(x->x.getId() == id).findFirst().get();
+		//obłużyć not found exception
+		model.addAttribute("property", v);
 		return "propertyDetails";
 	}
 
-	@RequestMapping(value= "/propertyList.html", method = RequestMethod.GET)
+	@GetMapping(value= "/propertyList.html")
 	public String showPropertyList(Model model){
 		model.addAttribute("propertyList", propertiesList);
 		return "propertyList";
+	}
+	@GetMapping(path="/propertyList.html", params={"did"})
+	public String deleteVehicle(int did){
+		for(int i =0, n = PropertiesListController.propertiesList.size(); i < n; i++){
+			if(PropertiesListController.propertiesList.get(i).getId() == did){
+				PropertiesListController.propertiesList.remove(i);
+				break;
+			}
+		}
+		return "redirect:propertyList.html";
 	}
 
 }

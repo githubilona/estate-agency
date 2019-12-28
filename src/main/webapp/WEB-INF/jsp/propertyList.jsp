@@ -13,7 +13,7 @@
 <head>
 	<title>Lista ogłoszeń</title>
 </head>
-<body>
+<body class="card">
 <div id="main">
 	<H1>LISTA OGŁOSZEŃ</H1>
 	<H3>Implementacja widoku z tagów JSTL(JSP Standard Tags Library)</H3>
@@ -64,8 +64,8 @@
 					</td>
 					<td>${property.exclusive?'Tak': 'Nie'}</td>
 					<td>
-						<a>Usuń</a>
-						<a>Edytuj</a>
+						<a class="btn btn-danger" href="?did=${property.id}">Usuń</a>
+						<a class="btn btn-success" href="propertyForm.html?id=${property.id}">Edytuj</a>
 					</td>
 				</tr>
 			</c:forEach>
@@ -73,7 +73,7 @@
 		</table>
 	</c:if>
 
-	<a>Dodaj Nowy</a>
+	<a class="btn btn-success" href="propertyForm.html">Dodaj nowe ogłoszenie</a>
 </div>
 </body>
 </html>

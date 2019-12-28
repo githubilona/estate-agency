@@ -12,7 +12,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Szczegóły ogłoszenia</title>
 </head>
-<body>
+<body class="card">
 <div id="main">
     <H1>Dane nieruchmości</H1>
     Id: <b>${property.id}</b><br/>
@@ -21,7 +21,7 @@
     Cena: <b><fmt:formatNumber type="CURRENCY" value="${property.price}"  currencySymbol="PLN"/></b><br/>
     Dostępne od: <b><fmt:formatDate  value="${property.availableDate}"  type="date" timeStyle="medium"/></b><br/>
     Czy ekskluzywne? <b>${property.exclusive?'Tak': 'Nie'}</b><br/>
-    <a href="/">Wstecz</a>
+    <a href="/propertyList.html">Wstecz</a>
 </div>
 </body>
 </html>
