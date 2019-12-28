@@ -53,7 +53,7 @@ public class PropertiesListController {
 	}
 
 
-	@RequestMapping(value= "/property.html", method = RequestMethod.GET)
+	@RequestMapping(value= "/propertyDetails.html", method = RequestMethod.GET)
 	public String showPropertyDetails(Model model){
 		System.out.println("Pokazywanie szczegółów");
 

@@ -78,6 +78,13 @@
             <artifactId>tomcat-embed-jasper</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.webjars.npm/bootstrap-material-design -->
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>bootstrap-material-design</artifactId>
+            <version>4.1.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>
