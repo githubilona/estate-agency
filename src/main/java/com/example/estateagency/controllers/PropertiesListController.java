@@ -2,6 +2,7 @@ package com.example.estateagency.controllers;
 
 import com.example.estateagency.models.Property;
 import com.example.estateagency.models.PropertyType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,6 +73,7 @@ public class PropertiesListController {
 		propertiesList.add(p4);
 	}
 
+	@Secured("IS_AUTHENTICATED_FULLY")
 	@GetMapping(value="/propertyList.html", params = "id")
 	public String showPropertyDetails(Model model, int id){
 		System.out.println("Pokayzwanie szczegółów");
@@ -87,6 +89,7 @@ public class PropertiesListController {
 		model.addAttribute("propertyList", propertiesList);
 		return "propertyList";
 	}
+	@Secured("ROLE_ADMIN")
 	@GetMapping(path="/propertyList.html", params={"did"})
 	public String deleteVehicle(int did){
 		for(int i =0, n = PropertiesListController.propertiesList.size(); i < n; i++){
