@@ -2,6 +2,8 @@ package com.example.estateagency.controllers;
 
 import com.example.estateagency.models.Property;
 import com.example.estateagency.models.PropertyType;
+import com.example.estateagency.repositories.PropertyRepository;
+import com.example.estateagency.repositories.PropertyTypeRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -25,12 +27,26 @@ public class PropertyFormController {
 
 	protected final Log log = LogFactory.getLog(getClass());//Dodatkowy komponent do logowania
 
+	private PropertyRepository propertyRepository;
+	private PropertyTypeRepository propertyTypeRepository;
+
+	//Wstrzyknięcie zależności przez konstruktor. Od wersji 4.3 Springa nie trzeba używać adnontacji @Autowired, gdy mamy jeden konstruktor
+	//@Autowired
+	public PropertyFormController(
+			PropertyRepository vehicleRepository,
+			PropertyTypeRepository vehicleTypeRepository
+	)
+	{
+		this.propertyRepository = vehicleRepository;
+		this.propertyTypeRepository = vehicleTypeRepository;
+	}
+
 	@GetMapping(path="/propertyForm.html")
-	public String showForm(Model model, @RequestParam(name="id", required = false, defaultValue = "-1") int id){
+	public String showForm(Model model, @RequestParam(name="id", required = false, defaultValue = "-1") long id){
 		Property p;
 
 		if(id>0){
-			p = PropertiesListController.propertiesList.stream().filter(x->x.getId() == id).findFirst().get();
+			p = propertyRepository.findById(id).get();
 			//obsłużyć not found exception
 		}else{
 			p = new Property();
@@ -43,7 +59,7 @@ public class PropertyFormController {
 
 	@ModelAttribute("propertyTypes")
 	public List<PropertyType> loadTypes(){
-		List<PropertyType> types = PropertiesListController.propertyTypes;
+		List<PropertyType> types = propertyTypeRepository.findAll();
 		log.info("Ładowanie listy "+types.size()+" typów ");
 		return types;
 	}
@@ -58,22 +74,7 @@ public class PropertyFormController {
 		log.info("Data utworzenia komponentu "+p.getCreationDate());
 		log.info("Data edycji komponentu "+new Date());
 
-		if(p.getPropertyType().getId() > 0 ) {//uzupełnianie obiektu property o typ o zadanym id.
-			PropertyType selectedPropertyType =
-					PropertiesListController.propertyTypes.stream().filter(x -> x.getId() == p.getPropertyType().getId()).findFirst().get();
-			p.setPropertyType(selectedPropertyType);
-		}
-
-		if(p.getId() > 0){//to edycja
-			for(int i =0, n = PropertiesListController.propertiesList.size(); i < n; i++){
-				if(PropertiesListController.propertiesList.get(i).getId() == p.getId()){
-					PropertiesListController.propertiesList.set(i, p);
-					break;
-				}
-			}
-		}else{//to dodawanie nowego
-			PropertiesListController.propertiesList.add(p);
-		}
+		propertyRepository.save(p);
 
 		return "redirect:propertyList.html";//po udanym dodaniu/edycji przekierowujemy na listę
 	}

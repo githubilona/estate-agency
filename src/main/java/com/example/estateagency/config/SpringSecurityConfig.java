@@ -22,13 +22,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         PasswordEncoder encoder = passwordEncoder();
         auth.inMemoryAuthentication()
                 .passwordEncoder(encoder)
-                .withUser("user1").password(encoder.encode("user")).roles("USER");
+                .withUser("user").password(encoder.encode("user")).roles("USER");
         auth.inMemoryAuthentication()
                 .passwordEncoder(encoder)
-                .withUser("admin1").password(encoder.encode("admin")).roles("ADMIN");
+                .withUser("admin").password(encoder.encode("admin")).roles("ADMIN");
         auth.inMemoryAuthentication()
                 .passwordEncoder(encoder)
-                .withUser("useradmin1").password(encoder.encode("useradmin")).roles("USER","ADMIN");
+                .withUser("useradmin").password(encoder.encode("useradmin")).roles("USER","ADMIN");
     }
 
 

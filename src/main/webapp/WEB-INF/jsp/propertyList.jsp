@@ -33,7 +33,7 @@
 			<thead>
 			<tr>
 				<th>Tytuł ogłoszenia</th>
-				<th>Model</th>
+				<th>Opis</th>
 				<th>Dostępne od</th>
 				<th>Cena</th>
 				<th>Opinia</th>
