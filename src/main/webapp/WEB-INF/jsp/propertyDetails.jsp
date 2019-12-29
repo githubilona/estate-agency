@@ -16,11 +16,13 @@
 <div id="main">
     <H1>Dane nieruchmości</H1>
     Id: <b>${property.id}</b><br/>
-    Marka: <b>${empty property.name?'Brak danych': property.name}</b><br/>
-    Model: <b>${empty property.propertyType?'Brak danych': property.propertyType}</b><br/>
+    Tytuł: <b>${empty property.name?'Brak danych': property.name}</b><br/>
+    Opis: <b>${empty property.description?'Brak danych': property.description}</b><br/>
     Cena: <b><fmt:formatNumber type="CURRENCY" value="${property.price}"  currencySymbol="PLN"/></b><br/>
     Dostępne od: <b><fmt:formatDate  value="${property.availableDate}"  type="date" timeStyle="medium"/></b><br/>
-    Czy ekskluzywne? <b>${property.exclusive?'Tak': 'Nie'}</b><br/>
+    Ogłoszenie premium? <b>${property.exclusive?'Tak': 'Nie'}</b><br/>
+    Data dodania <b><fmt:formatDate  value="${property.creationDate}"  type="date" timeStyle="medium"/></b><br/>
+    Typ nieruchomości: <b>${property.propertyType.name}</b><br/>
     <a href="/propertyList.html">Wstecz</a>
 </div>
 </body>

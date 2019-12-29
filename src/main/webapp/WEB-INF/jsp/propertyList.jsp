@@ -46,7 +46,7 @@
 					<td>
 						<a href="?id=${property.id}">${property.name}</a>
 					</td>
-					<td>${empty property.propertyType?'Brak danych': property.propertyType}</td>
+					<td>${empty property.description?'Brak danych': property.description}</td>
 					<td><fmt:formatDate  value="${property.availableDate}"  type="date" timeStyle="medium"/></td>
 					<td><fmt:formatNumber type="CURRENCY" value="${property.price}"  currencySymbol="PLN"/></td>
 					<td>

@@ -22,24 +22,37 @@
 		<form:form modelAttribute="property">
 			<div class="form-group">
 				<label for="name" class="bmd-label-floating">Tytuł ogłoszenia:</label>
-				<form:input path="name" cssClass="form-control"/>
+				<form:input path="name" cssClass="form-control" cssErrorClass="form-control is-invalid"/>
+				<form:errors path="name" cssClass="error text-danger" element="div"/>
 			</div>
 			<div class="form-group">
-				<label for="propertyType" class="bmd-label-floating">Typ nieruchmości:</label>
-				<form:input path="propertyType" cssClass="form-control"/>
+				<label for="description" class="bmd-label-floating">Opis:</label>
+				<form:input path="description" cssClass="form-control" cssErrorClass="form-control is-invalid"/>
+				<form:errors path="description" cssClass="error text-danger" element="div"/>
 			</div>
 			<div class="form-group">
 				<label for="price" class="bmd-label-floating">Cena:</label>
-				<form:input path="price" cssClass="form-control" />
+				<form:input path="price" cssClass="form-control" cssErrorClass="form-control is-invalid"/>
+				<form:errors path="price" cssClass="error text-danger" element="div"/>
 			</div>
 			<div class="form-group">
 				<label for="availableDate" class="bmd-label-floating">Dostępne od:</label>
-				<form:input path="availableDate" cssClass="form-control" type="date"/>
+				<form:input path="availableDate" cssClass="form-control" type="date" cssErrorClass="form-control is-invalid"/>
+				<form:errors path="availableDate" cssClass="error text-danger" element="div"/>
 			</div>
 			<div class="form-group">
 				<label class="bmd-label-floating">
 					<form:checkbox path="exclusive" /> Ogłoszenie premium
 				</label>
+			</div>
+
+			<div class="form-group">
+				<label for="propertyType.id" class="bmd-label-floating">Typ nieruchomości:</label>
+				<form:select path="propertyType.id" cssClass="form-control" cssErrorClass="form-control is-invalid">
+					<form:option value="-1">--wybierz typ nieruchomości--</form:option>
+					<form:options items="${propertyTypes}" itemLabel="name" itemValue="id"/>
+				</form:select>
+				<form:errors path="propertyType.id" cssClass="error text-danger" element="div"/>
 			</div>
 
 
