@@ -2,6 +2,8 @@ package com.example.estateagency.config;
 
 import com.example.estateagency.models.Property;
 import com.example.estateagency.models.PropertyType;
+import com.example.estateagency.models.Role;
+import com.example.estateagency.models.User;
 import com.example.estateagency.repositories.PropertyRepository;
 import com.example.estateagency.repositories.PropertyTypeRepository;
 import com.example.estateagency.repositories.RoleRepository;
@@ -12,7 +14,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 
 @Configuration
 public class RepositoriesInitializer {
@@ -34,7 +38,7 @@ public class RepositoriesInitializer {
 
         return () -> {
 
-            if(propertyTypeRepository.findAll().isEmpty()) {//przyjmijmy, że jeśli repozytorium typów jest puste, to trzeba zainicjalizować bazę danych
+            if (propertyTypeRepository.findAll().isEmpty()) {//przyjmijmy, że jeśli repozytorium typów jest puste, to trzeba zainicjalizować bazę danych
 
                 PropertyType pt = new PropertyType("Dom");
                 propertyTypeRepository.saveAndFlush(pt);
@@ -44,7 +48,7 @@ public class RepositoriesInitializer {
 
                 Property p1 =
                         new Property(
-                                 "Dom Jednorodzinny",
+                                "Dom Jednorodzinny",
                                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ut ligula non est scelerisque dapibus. Pellentesque aliquam vel augue ut fermentum. Sed sollicitudin mauris diam. Sed mattis convallis nisl congue interdum. ",
                                 469000f,
                                 new Date(110, 6, 1),
@@ -86,6 +90,31 @@ public class RepositoriesInitializer {
                 p4.setPropertyType(pt);
                 p4.setCreationDate(new Date());
                 propertyRepository.saveAndFlush(p4);
+            }
+
+            if (roleRepository.findAll().isEmpty() == true) {
+                try {
+                    Role roleUser = roleRepository.save(new Role(Role.Types.ROLE_USER));
+                    Role roleAdmin = roleRepository.save(new Role(Role.Types.ROLE_ADMIN));
+
+                    User user = new User("user", true);
+                    user.setRoles(new HashSet<>(Arrays.asList(roleUser)));
+                    user.setPassword(passwordEncoder.encode("user"));
+
+                    User admin = new User("admin", true);
+                    admin.setRoles(new HashSet<>(Arrays.asList(roleAdmin)));
+                    admin.setPassword(passwordEncoder.encode("admin"));
+
+                    User test = new User("useradmin", true);
+                    test.setRoles(new HashSet<>(Arrays.asList(roleAdmin, roleUser)));
+                    test.setPassword(passwordEncoder.encode("useradmin"));
+
+                    userRepository.save(user);
+                    userRepository.save(admin);
+                    userRepository.save(test);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         };
     }
