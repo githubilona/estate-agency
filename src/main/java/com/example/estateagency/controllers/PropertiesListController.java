@@ -3,6 +3,7 @@ package com.example.estateagency.controllers;
 import com.example.estateagency.controllers.commands.PropertyFilter;
 import com.example.estateagency.models.Property;
 import com.example.estateagency.repositories.PropertyRepository;
+import com.example.estateagency.services.PropertyService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,14 @@ public class PropertiesListController {
 	protected final Log log = LogFactory.getLog(getClass());//Dodatkowy komponent do logowania
 	
 	@Autowired
-	PropertyRepository propertyRepository;
+	PropertyService propertyService;
 
 	@Secured("IS_AUTHENTICATED_FULLY")
 	@GetMapping(value="/propertyList.html", params = "id")
 	public String showPropertyDetails(Model model, long id){
 		System.out.println("Pokayzwanie szczegółów");
 
-		Property p = propertyRepository.findById(id).get();
+		Property p = propertyService.getProperty(id);
 		//obłużyć not found exception
 		model.addAttribute("property", p);
 		return "propertyDetails";
@@ -47,28 +48,21 @@ public class PropertiesListController {
 	}
 
 	@GetMapping(value="/propertyList.html", params = {"all"})
-	public String resetehicleList(@ModelAttribute("searchCommand") PropertyFilter search){
+	public String resetPropertyList(@ModelAttribute("searchCommand") PropertyFilter search){
 		search.clear();
 		return "redirect:propertyList.html";
 	}
 
 	@RequestMapping(value="/propertyList.html", method = {RequestMethod.GET, RequestMethod.POST})
 	public String showPropertyList(Model model, Pageable pageable, @Valid @ModelAttribute("searchCommand") PropertyFilter search, BindingResult result){
-		Page page;
-		if(search.isEmpty()){
-			page = propertyRepository.findAll(pageable);
-		}else{
-			page = propertyRepository.findAllPropertiesUsingFilter(search.getPhraseLIKE(), search.getMinPrice(), search.getMaxPrice(), pageable);
-		}
-		
-		model.addAttribute("propertyListPage", page);
+		model.addAttribute("propertyListPage", propertyService.getAllProperties(search, pageable));
 		return "propertyList";
 	}
 	@Secured("ROLE_ADMIN")
 	@GetMapping(path="/propertyList.html", params={"did"})
 	public String deleteProperty(long did, HttpServletRequest request){
 		log.info("Usuwanie ogłoszenia o id "+did);
-		propertyRepository.deleteById(did);
+		propertyService.deleteProperty(did);
 		String queryString = prepareQueryString(request.getQueryString());
 		return String.format("redirect:propertyList.html?%s", queryString);//robimy przekierowanie, ale zachowując parametry pageingu
 

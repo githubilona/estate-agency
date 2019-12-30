@@ -4,6 +4,7 @@ import com.example.estateagency.models.Property;
 import com.example.estateagency.models.PropertyType;
 import com.example.estateagency.repositories.PropertyRepository;
 import com.example.estateagency.repositories.PropertyTypeRepository;
+import com.example.estateagency.services.PropertyService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -27,18 +28,12 @@ public class PropertyFormController {
 
 	protected final Log log = LogFactory.getLog(getClass());//Dodatkowy komponent do logowania
 
-	private PropertyRepository propertyRepository;
-	private PropertyTypeRepository propertyTypeRepository;
+	private PropertyService propertyService;
 
 	//Wstrzyknięcie zależności przez konstruktor. Od wersji 4.3 Springa nie trzeba używać adnontacji @Autowired, gdy mamy jeden konstruktor
 	//@Autowired
-	public PropertyFormController(
-			PropertyRepository propertyRepository,
-			PropertyTypeRepository propertyTypeRepository
-	)
-	{
-		this.propertyRepository = propertyRepository;
-		this.propertyTypeRepository = propertyTypeRepository;
+	public PropertyFormController(PropertyService propertyService) {
+		this.propertyService = propertyService;
 	}
 
 	@GetMapping(path="/propertyForm.html")
@@ -46,7 +41,7 @@ public class PropertyFormController {
 		Property p;
 
 		if(id>0){
-			p = propertyRepository.findById(id).get();
+			p = propertyService.getProperty(id);
 			//obsłużyć not found exception
 		}else{
 			p = new Property();
@@ -59,7 +54,7 @@ public class PropertyFormController {
 
 	@ModelAttribute("propertyTypes")
 	public List<PropertyType> loadTypes(){
-		List<PropertyType> types = propertyTypeRepository.findAll();
+		List<PropertyType> types = propertyService.getAllTypes();
 		log.info("Ładowanie listy "+types.size()+" typów ");
 		return types;
 	}
@@ -74,7 +69,7 @@ public class PropertyFormController {
 		log.info("Data utworzenia komponentu "+p.getCreationDate());
 		log.info("Data edycji komponentu "+new Date());
 
-		propertyRepository.save(p);
+		propertyService.saveProperty(p);
 
 		return "redirect:propertyList.html";//po udanym dodaniu/edycji przekierowujemy na listę
 	}
