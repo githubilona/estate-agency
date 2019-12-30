@@ -13,6 +13,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "properties")
+@NamedQuery(name = "Property.findAllPropertiesUsingNamedQuery",
+        query = "SELECT p FROM Property p WHERE upper(p.name) LIKE upper(:phrase) or upper(p.description) LIKE upper(:phrase) or upper(p.propertyType.name) LIKE upper(:phrase)")
 public class Property {
 
 	@Id
@@ -33,6 +35,7 @@ public class Property {
 	private float price;
 
 	@Column(name="available_date")
+    @Temporal(TemporalType.DATE)
 	private Date availableDate;
 
 	private boolean exclusive;

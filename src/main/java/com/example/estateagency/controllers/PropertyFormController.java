@@ -33,12 +33,12 @@ public class PropertyFormController {
 	//Wstrzyknięcie zależności przez konstruktor. Od wersji 4.3 Springa nie trzeba używać adnontacji @Autowired, gdy mamy jeden konstruktor
 	//@Autowired
 	public PropertyFormController(
-			PropertyRepository vehicleRepository,
-			PropertyTypeRepository vehicleTypeRepository
+			PropertyRepository propertyRepository,
+			PropertyTypeRepository propertyTypeRepository
 	)
 	{
-		this.propertyRepository = vehicleRepository;
-		this.propertyTypeRepository = vehicleTypeRepository;
+		this.propertyRepository = propertyRepository;
+		this.propertyTypeRepository = propertyTypeRepository;
 	}
 
 	@GetMapping(path="/propertyForm.html")
