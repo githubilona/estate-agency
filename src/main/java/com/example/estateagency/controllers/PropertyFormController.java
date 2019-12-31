@@ -2,13 +2,13 @@ package com.example.estateagency.controllers;
 
 import com.example.estateagency.models.Property;
 import com.example.estateagency.models.PropertyType;
-import com.example.estateagency.repositories.PropertyRepository;
-import com.example.estateagency.repositories.PropertyTypeRepository;
 import com.example.estateagency.services.PropertyService;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,13 +20,13 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
 @SessionAttributes(names={"propertyTypes", "property"})
+@Log4j2
 public class PropertyFormController {
-
-	protected final Log log = LogFactory.getLog(getClass());//Dodatkowy komponent do logowania
 
 	private PropertyService propertyService;
 
@@ -36,18 +36,15 @@ public class PropertyFormController {
 		this.propertyService = propertyService;
 	}
 
+	@Secured("ROLE_ADMIN")
 	@GetMapping(path="/propertyForm.html")
-	public String showForm(Model model, @RequestParam(name="id", required = false, defaultValue = "-1") long id){
-		Property p;
+	public String showForm(Model model, Optional<Long> id){
 
-		if(id>0){
-			p = propertyService.getProperty(id);
-			//obsłużyć not found exception
-		}else{
-			p = new Property();
-		}
-		
-		model.addAttribute("property", p);
+		model.addAttribute("property",
+				id.isPresent()?
+						propertyService.getProperty(id.get()):
+						new Property());
+
 		return "propertyForm";
 	}
 
@@ -78,7 +75,8 @@ public class PropertyFormController {
     	
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
-        binder.registerCustomEditor(Date.class, "availableDate", new CustomDateEditor(dateFormat, false));
+		CustomDateEditor dateEditor = new CustomDateEditor(dateFormat, false);
+        binder.registerCustomEditor(Date.class, "availableDate", dateEditor);
 
 		DecimalFormat numberFormat = new DecimalFormat("#0.00");
 		numberFormat.setMaximumFractionDigits(2);
@@ -86,6 +84,7 @@ public class PropertyFormController {
 		numberFormat.setGroupingUsed(false);
         binder.registerCustomEditor(Float.class, "price", new CustomNumberEditor(Float.class, numberFormat, false));
 
+		binder.setDisallowedFields("creationDate");//ze względu na bezpieczeństwo aplikacji to pole nie może zostać przesłane w formularzu
     }
 
 

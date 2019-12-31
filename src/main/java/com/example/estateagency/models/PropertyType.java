@@ -1,9 +1,16 @@
 package com.example.estateagency.models;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
 
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "property_types")
 public class PropertyType implements Serializable{
@@ -15,22 +22,8 @@ public class PropertyType implements Serializable{
 
 	private String name;
 
-	public PropertyType(){}
-
 	public PropertyType(String name){
 		this.name = name;
 	}
 
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 }

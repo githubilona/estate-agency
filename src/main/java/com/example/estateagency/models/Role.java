@@ -1,11 +1,18 @@
 package com.example.estateagency.models;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Set;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "roles")
-
 public class Role {
 
     @Id
@@ -16,8 +23,6 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
-    public Role(){}
-
     public Role(Types type){
         this.type = type;
     }
@@ -27,27 +32,4 @@ public class Role {
         ROLE_USER
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Types getType() {
-        return type;
-    }
-
-    public void setType(Types type) {
-        this.type = type;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
 }

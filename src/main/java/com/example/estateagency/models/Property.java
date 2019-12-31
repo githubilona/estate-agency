@@ -1,6 +1,8 @@
 package com.example.estateagency.models;
 
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -11,6 +13,8 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "properties")
 @NamedQuery(name = "Property.findAllPropertiesUsingNamedQuery",
@@ -64,67 +68,4 @@ public class Property {
 		this.creationDate=creationDate;
 	}
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public float getPrice() {
-		return price;
-	}
-
-	public void setPrice(float price) {
-		this.price = price;
-	}
-
-	public Date getAvailableDate() {
-		return availableDate;
-	}
-
-	public void setAvailableDate(Date availableDate) {
-		this.availableDate = availableDate;
-	}
-
-	public boolean isExclusive() {
-		return exclusive;
-	}
-
-	public void setExclusive(boolean exclusive) {
-		this.exclusive = exclusive;
-	}
-
-	public PropertyType getPropertyType() {
-		return propertyType;
-	}
-
-	public void setPropertyType(PropertyType propertyType) {
-		this.propertyType = propertyType;
-	}
-
-	public Date getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
 }

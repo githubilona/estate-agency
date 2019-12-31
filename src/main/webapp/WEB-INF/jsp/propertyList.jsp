@@ -12,11 +12,11 @@
 </c:import>
 <html>
 <head>
-	<title>Lista pojazdów</title>
+	<title>Lista ogłoszeń</title>
 </head>
 <body class="card">
 <div id="main">
-	<H1>LISTA POJAZDÓW</H1>
+	<H1>LISTA OGŁOSZEŃ</H1>
 	<H3>Implementacja widoku z tagów JSTL(JSP Standard Tags Library)</H3>
 
 	<form:form id="searchForm" modelAttribute="searchCommand">
@@ -57,7 +57,7 @@
 	</form:form>
 
 	<c:if test="${empty propertyListPage.content}">
-		${searchCommand.isEmpty() ? 'Lista pojazdów jest pusta':'Brak wyników wyszukiwania'}
+		${searchCommand.isEmpty() ? 'Lista ogłoszeń jest pusta':'Brak wyników wyszukiwania'}
 	</c:if>
 
 
@@ -67,10 +67,10 @@
 
 		<c:choose>
 			<c:when test="${searchCommand.isEmpty()}">
-				Lista zawiera ${propertyListPage.totalElements} pojazdów
+				Lista zawiera ${propertyListPage.totalElements} ogłoszeń
 			</c:when>
 			<c:otherwise>
-				Wynik wyszukiwania: ${propertyListPage.totalElements} pojazdów
+				Wynik wyszukiwania: ${propertyListPage.totalElements} ogłoszeń
 			</c:otherwise>
 		</c:choose>
 
@@ -80,12 +80,12 @@
 		<table class="table table-striped">
 			<thead>
 			<tr>
-				<th>Marka</th>
-				<th>Model</th>
-				<th>Data produkcji</th>
+				<th>Tytuł</th>
+				<th>Opis</th>
+				<th>Dostępne od</th>
 				<th>Cena</th>
 				<th>Opinia</th>
-				<th>Czy ekskluzywny?</th>
+				<th>Premium</th>
 				<security:authorize access="hasRole('ADMIN')">
 					<th>Opcje</th>
 				</security:authorize>
