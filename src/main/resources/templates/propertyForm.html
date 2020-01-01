@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="shared/header :: header-css"/>
+    <title>Rejestracja</title>
+</head>
+<body>
+<div th:replace="shared/header :: header('home')"/>
+
+<div id="main">
+            <form th:method="POST" th:object="${property}" th:action="@{/propertyForm.html}">
+                <fieldset>
+                    <h1>Dodawanie/Edycja</h1>
+
+                    <div class="form-group">
+                        <label for="name" class="bmd-label-floating">Tytuł:</label>
+                        <input id="name" type="text" name="name" th:value="*{name}"
+                               class="form-control" th:classappend="${#fields.hasErrors('name')}?'is-invalid'"
+                               required="true" autofocus="true"/>
+
+                        <div class="error text-danger" th:if="${#fields.hasErrors('name')}">
+                            <span th:each="err : ${#fields.errors('name')}" th:text="${err}"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description" class="bmd-label-floating">Opis:</label>
+                        <input id="description" type="text" th:field="*{description}"
+                               class="form-control" th:classappend="${#fields.hasErrors('description')}?'is-invalid'"
+                               required="true"/>
+
+                        <div class="error text-danger" th:if="${#fields.hasErrors('description')}">
+                            <p th:each="err : ${#fields.errors('description')}" th:text="${err}"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price" class="bmd-label-floating">Cena:</label>
+                        <input id="price" type="text" th:field="*{price}"
+                               class="form-control" th:classappend="${#fields.hasErrors('price')}?'is-invalid'"
+                               required="true"/>
+                        <div class="error text-danger" th:if="${#fields.hasErrors('price')}">
+                            <p th:each="err : ${#fields.errors('price')}" th:text="${err}"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="availableDate" class="bmd-label-floating">Dostępny od:</label>
+                        <input id="availableDate" type="date" th:field="*{availableDate}"
+                               class="form-control" th:classappend="${#fields.hasErrors('availableDate')}?'is-invalid'"
+                               required="true"/>
+                        <div class="error text-danger" th:if="${#fields.hasErrors('availableDate')}">
+                            <p th:each="err : ${#fields.errors('availableDate')}" th:text="${err}"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="bmd-label-floating">
+                            <input type="checkbox" th:field="*{exclusive}"/>
+                            Premium
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <select th:field="*{propertyType.id}" class="form-control"
+                                th:classappend="${#fields.hasErrors('propertyType.id')}?'is-invalid'">
+                            <option value="-1">--wybierz typ nieruchmości--</option>
+                            <option th:each="type : ${propertyTypes}"
+                                    th:value="${type.id}"
+                                    th:text=" ${type.name}"
+                            />
+                        </select>
+                        <div class="error text-danger" th:if="${#fields.hasErrors('propertyType.id')}">
+                            <p th:each="err : ${#fields.errors('propertyType.id')}" th:text="${err}"></p>
+                        </div>
+                    </div>
+
+<!--                    <div class="form-group">-->
+<!--                        <div th:each="acc : ${accessoryList}" class='checkbox' style="left:25px;">-->
+<!--                            <input th:id="${acc}" type="checkbox" th:field="*{accessories}"-->
+<!--                                   th:value="${acc.id}"/>-->
+<!--                            <label th:text="${acc.name}" th:for="${acc}"></label>-->
+<!--                        </div>-->
+
+<!--                        <div class="error text-danger" th:if="${#fields.hasErrors('accessories')}">-->
+<!--                            <p th:each="err : ${#fields.errors('accessories')}" th:text="${err}"></p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+
+                    <button type="submit" class="btn btn-primary btn-raised">Zapisz</button>
+                </fieldset>
+            </form>
+</div>
+<div th:replace="shared/footer :: footer"></div>
+</body>
+</html>

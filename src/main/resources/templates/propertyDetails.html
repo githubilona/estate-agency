@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="shared/header :: header-css"/>
+    <title>Strona domowa</title>
+</head>
+<body>
+<div th:replace="shared/header :: header('home')"/>
+
+<div id="main" class="container">
+    <H1>Dane pojazdu</H1>
+    Id: <b th:text="${property.id}"></b><br/>
+    Tytuł: <b th:text="${property.name}"></b><br/>
+    Opis: <b>[[${property.description}]]</b><br/>
+    Cena: <b>[[${#numbers.formatDecimal(property.price,3,2,'COMMA')}]]</b><br/>
+    Dostępny od: <b>[[${#dates.format(property.availableDate, 'dd-MM-yyyy')}]]</b><br/>
+    Typ: <b>[[${property.propertyType.name}]]</b><br/>
+<!--    Wyposażenie pojazdu:-->
+<!--    <span th:if="${property.accessories.isEmpty()}">Brak</span>-->
+
+<!--    <span th:unless="${property.accessories.isEmpty()}">-->
+<!--        <ul>-->
+<!--            <li th:each="acc : ${property.accessories}" th:text="${acc.name}"/>-->
+<!--        </ul>-->
+<!--    </span>-->
+<br/>
+    <a class="btn btn-success" href="/propertyList.html">Wstecz</a>
+</div>
+<div th:replace="shared/footer :: footer"></div>
+</body>
+</html>
