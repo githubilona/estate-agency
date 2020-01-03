@@ -14,6 +14,12 @@ public class WebMvcConfigurerImpl implements WebMvcConfigurer {
                 .addResourceLocations("/resources/");
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("/uploads/")
+                .setCachePeriod(60*24);
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("/images/")
+                .setCachePeriod(60*24);
         //Dodanie obsługi pozostałych zasobów
     }
 

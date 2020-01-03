@@ -53,6 +53,8 @@ public class Property {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
 
+	private String imageName;
+
 	public Property() {
 		this.creationDate = new Date();
 		this.propertyType = new PropertyType();
