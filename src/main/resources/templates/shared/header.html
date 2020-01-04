@@ -31,6 +31,9 @@
             <li class="nav-item" sec:authorize="isAnonymous()">
                 <a class="nav-link"  th:classappend="${pageName eq 'registration'}?'active'" href="/registrationForm.html">Rejestracja</a>
             </li>
+            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                <a class="nav-link" th:classappend="${pageName eq 'userList'}?'active'"  th:href="@{/userList.html}" style="color:yellow">Lista użytkowników</a>
+            </li>
         </ul>
     </div>
 

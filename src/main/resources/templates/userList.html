@@ -1,0 +1,71 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="shared/header :: header-css"/>
+    <title>Lista użytowników</title>
+</head>
+<body>
+<div th:replace="shared/header :: header('home')"/>
+
+<div id="main" class="container">
+
+    <H1>Lista Użytkowników</H1>
+
+    <div th:if="${userListPage.hasContent() eq false}">
+        <span>Brak użytkowników w bazie</span>
+    </div>
+    <div th:if="${userListPage.hasContent() eq true}">
+
+
+
+        <span th:inline="text">
+           Baza zawiera [[${userListPage.totalElements}]] użytkownik/ów
+        </span>
+
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Nazwa uzytkownika</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Role</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Aktywny</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Opcje</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${userListPage.content}">
+
+                <td>
+                    <!-- poprawic -->
+                    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/users/details(id=${user.id})}" th:inline="text">[[${user.username}]]</a>
+                </td>
+
+                <td sec:authorize="hasRole('ROLE_ADMIN')">
+                    <span  th:each="role: ${user.roles}">
+                        <span  th:text="${role.type}"/>
+                    </span>
+                </td>
+                <td th:if="${user.enabled}">Dostępny</td>
+                <td th:unless="${user.enabled}">Niedostępny</td>
+
+                <td sec:authorize="hasRole('ROLE_ADMIN')" >
+                    <a class="btn btn-danger" th:href="@{/delete(id=${user.id})}" th:text="Usuń"></a>
+                    <a class="btn btn-success" th:href="@{/active(id=${user.id})}">
+                        <span th:if="${user.enabled}">Dezaktywuj</span>
+                        <span th:unless="${user.enabled}">Aktywuj</span>
+                    </a>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+
+        <div th:replace="shared/pagination :: pager('/userList.html', ${userListPage})"></div>
+
+    </div>
+
+
+
+    <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-success" href="/registrationForm.html" >Dodaj nowego użytkownika</a>
+</div>
+</body>
+</html>

@@ -6,6 +6,8 @@ import com.example.estateagency.repositories.RoleRepository;
 import com.example.estateagency.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -75,4 +77,25 @@ public class UserServiceImpl implements UserService {
     public boolean isUniqueLogin(String username) {
         return userRepository.findByUsername(username) == null;
     }
+
+    @Override
+    public Page<com.example.estateagency.models.User> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+    @Override
+    public void delete(Long id){ userRepository.deleteById(id); }
+
+    @Override
+    public boolean exists(Long id){
+        return userRepository.existsById(id);
+    }
+
+    @Override
+    public com.example.estateagency.models.User getById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+
+
+
 }
