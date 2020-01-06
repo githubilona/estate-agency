@@ -3,6 +3,8 @@ package com.example.estateagency.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -55,12 +57,18 @@ public class Property {
 
 	private String imageName;
 
+	@JoinColumn(name="user_id", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private User user;
+
 	public Property() {
 		this.creationDate = new Date();
 		this.propertyType = new PropertyType();
 	}
 
-	public Property(String name, String description, float price, Date availableDate, boolean exclusive, PropertyType propertyType, Date creationDate) {
+	public Property(String name, String description, float price, Date availableDate, boolean exclusive,
+					PropertyType propertyType, Date creationDate, User user) {
 		this.name = name;
 		this.description = description;
 		this.price = price;
@@ -68,6 +76,7 @@ public class Property {
 		this.exclusive = exclusive;
 		this.propertyType=propertyType;
 		this.creationDate=creationDate;
+		this.user=user;
 	}
 
 }

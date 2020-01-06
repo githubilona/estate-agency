@@ -19,4 +19,6 @@ public interface PropertyService {
     void deleteProperty(Long id);
 
     void saveProperty(Property Property);
+
+    Page<Property> getAllPropertiesByUser(Pageable pageable);
 }

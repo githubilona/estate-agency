@@ -3,6 +3,7 @@ package com.example.estateagency.controllers;
 import com.example.estateagency.models.Property;
 import com.example.estateagency.models.PropertyType;
 import com.example.estateagency.services.PropertyService;
+import com.example.estateagency.services.UserService;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,13 +37,17 @@ import java.util.Optional;
 public class PropertyFormController {
 
 	private PropertyService propertyService;
+	private UserService userService;
+
 	@Autowired
 	ServletContext servletContext;
 
+
 	//Wstrzyknięcie zależności przez konstruktor. Od wersji 4.3 Springa nie trzeba używać adnontacji @Autowired, gdy mamy jeden konstruktor
 	//@Autowired
-	public PropertyFormController(PropertyService propertyService) {
+	public PropertyFormController(PropertyService propertyService, UserService userService) {
 		this.propertyService = propertyService;
+		this.userService=userService;
 	}
 
 	@Secured("ROLE_ADMIN")
@@ -83,10 +90,14 @@ public class PropertyFormController {
 
 			p.setImageName(uploadsDir + file.getOriginalFilename());
 		}
+		if(p.getUser() == null){
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String userName = authentication.getName();
+			p.setUser(userService.getUserByUsername(userName));
+		}
 		if(errors.hasErrors()){
 			return "propertyForm";
 		}
-
 		log.info("Data utworzenia komponentu "+p.getCreationDate());
 		log.info("Data edycji komponentu "+new Date());
 
