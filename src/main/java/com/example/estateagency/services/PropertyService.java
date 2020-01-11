@@ -21,4 +21,6 @@ public interface PropertyService {
     void saveProperty(Property Property);
 
     Page<Property> getAllPropertiesByUser(Pageable pageable);
+    Page<Property> getAllPropertiesByUserId(Pageable pageable, long id);
+
 }

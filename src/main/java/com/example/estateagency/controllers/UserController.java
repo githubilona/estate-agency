@@ -42,11 +42,4 @@ public class UserController {
         userService.save(user);
         return "redirect:/userList.html";
     }
-    @GetMapping(value="/userDetails.html", params = "id")
-    public String showUserDetails(Model model, long id){
-        User u = userService.getById(id);
-        //obłużyć not found exception
-        model.addAttribute("user", u);
-        return "userDetails";
-    }
 }

@@ -35,8 +35,7 @@
             <tr th:each="user : ${userListPage.content}">
 
                 <td>
-                    <!-- poprawic -->
-                    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/users/details(id=${user.id})}" th:inline="text">[[${user.username}]]</a>
+                    <a th:href="@{/userDetails.html(id=${user.id})}">[[${user.username}]]</a>
                 </td>
 
                 <td sec:authorize="hasRole('ROLE_ADMIN')">

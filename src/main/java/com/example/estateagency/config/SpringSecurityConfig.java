@@ -75,7 +75,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/statics/**", "/webjars/**", "/", "/propertyList.html", "/registrationForm.html",
                         "/userDetails.html", "/uploads/**", "/images/**" )
                 .permitAll()//do powyższych zasobów ma mieć każdy
-          //      .antMatchers( "/propertyForm.html").hasRole("ADMIN")//do tych zasobów ma dostęp tylko ADMIN
+                .antMatchers( "/userList.html").hasRole("ADMIN")//do tych zasobów ma dostęp tylko ADMIN
                 .anyRequest().authenticated();//pozostałe żądania mają być uwierzytelnione
 
         http

@@ -2,8 +2,10 @@ package com.example.estateagency.controllers;
 
 import com.example.estateagency.controllers.commands.PropertyFilter;
 import com.example.estateagency.models.Property;
+import com.example.estateagency.models.User;
 import com.example.estateagency.repositories.PropertyRepository;
 import com.example.estateagency.services.PropertyService;
+import com.example.estateagency.services.UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,11 +63,18 @@ public class PropertiesListController {
 		return "propertyList";
 	}
 
-	@RequestMapping(value="/myPropertyList.html", method = {RequestMethod.GET})
+
+	@RequestMapping(value="/myPropertyList.html")
 	public String showUserPropertyList(Model model, Pageable pageable){
 		model.addAttribute("propertyListPage", propertyService.getAllPropertiesByUser(pageable));
 		return "myPropertyList";
 	}
+	@GetMapping(value="/userDetails.html", params = "id")
+	public String showUserPropertyList(Model model, Pageable pageable, long id){
+		model.addAttribute("propertyListPage", propertyService.getAllPropertiesByUserId(pageable, id));
+		return "userDetails";
+	}
+
 
 	@Secured("ROLE_ADMIN")
 	@GetMapping(path="/propertyList.html", params={"did"})

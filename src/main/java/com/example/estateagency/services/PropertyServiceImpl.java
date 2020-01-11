@@ -3,6 +3,7 @@ package com.example.estateagency.services;
 import com.example.estateagency.controllers.commands.PropertyFilter;
 import com.example.estateagency.models.Property;
 import com.example.estateagency.models.PropertyType;
+import com.example.estateagency.models.User;
 import com.example.estateagency.repositories.PropertyRepository;
 import com.example.estateagency.repositories.PropertyTypeRepository;
 import com.example.estateagency.repositories.UserRepository;
@@ -48,6 +49,11 @@ public class PropertyServiceImpl implements PropertyService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         Page page = propertyRepository.findAllByUserId(userRepository.findByUsername(userName).getId(), pageable);
+        return page;
+    }
+    @Override
+    public Page<Property> getAllPropertiesByUserId(Pageable pageable, long id) {
+        Page page = propertyRepository.findAllByUserId(id, pageable);
         return page;
     }
 
