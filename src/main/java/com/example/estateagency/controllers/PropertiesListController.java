@@ -43,7 +43,7 @@ public class PropertiesListController {
 		model.addAttribute("property", p);
 		return "propertyDetails";
 	}
-	
+
 	@ModelAttribute("searchCommand")
 	public PropertyFilter getSimpleSearch(){
 		return new PropertyFilter();

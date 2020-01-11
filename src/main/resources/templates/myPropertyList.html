@@ -92,6 +92,7 @@
                     <th>Cena</th>
                     <!--                    <th>Opinia</th>-->
                     <th>Ogłoszenie premium</th>
+                    <th>Data dodania</th>
                     <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">Opcje</th>
 
                 </tr>
@@ -109,7 +110,7 @@
                         <a th:href="@{/propertyList.html(id=${property.id})}">[[${property.name}]]</a>
                     </td>
 
-                    <td><span th:text="${property.description}"/></td>
+                    <td ><span style="width: 300px;" th:text="${property.description}"/></td>
                     <td><span th:text="${property.propertyType.name}"/></td>
                     <td><span th:text="${#dates.format(property.availableDate, 'dd-MM-yyyy')}"/></td>
                     <td><span th:text="${#numbers.formatDecimal(property.price,2,2)}"/></td>
@@ -119,6 +120,7 @@
                     <!--                        <span th:unless="${property.price lt boundMax}">SREDNI</span>-->
                     <!--                    </td>-->
                     <td><span th:text="${property.exclusive?'Tak': 'Nie'}"/></td>
+                    <td><span th:text="${property.creationDate}"/></td>
                     <td sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                         <a class="btn btn-danger" th:href="@{/propertyList.html(did=${property.id})}">Usuń</a>
                         <a class="btn btn-success" th:href="@{/propertyForm.html(id=${property.id})}">Edytuj</a>

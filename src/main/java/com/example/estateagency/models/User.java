@@ -29,6 +29,8 @@ public class User {
     private String passwordConfirm;
     private boolean enabled = false;
 
+
+
     @AssertTrue
     private boolean isPasswordsEquals(){
         return password == null || passwordConfirm == null || password.equals(passwordConfirm);

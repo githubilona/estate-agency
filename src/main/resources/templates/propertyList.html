@@ -92,6 +92,7 @@
                     <th>Cena</th>
 <!--                    <th>Opinia</th>-->
                     <th>Ogłoszenie premium</th>
+                    <th>Data dodania</th>
                     <th sec:authorize="hasRole('ADMIN')">Opcje</th>
 
                 </tr>
@@ -119,6 +120,7 @@
 <!--                        <span th:unless="${property.price lt boundMax}">SREDNI</span>-->
 <!--                    </td>-->
                     <td><span th:text="${property.exclusive?'Tak': 'Nie'}"/></td>
+                    <td><span th:text="${property.creationDate}"/></td>
                     <td sec:authorize="hasRole('ROLE_ADMIN')">
                         <a class="btn btn-danger" th:href="@{/propertyList.html(did=${property.id})}">Usuń</a>
                         <a class="btn btn-success" th:href="@{/propertyForm.html(id=${property.id})}">Edytuj</a>

@@ -13,11 +13,13 @@
         <img style="width: 100%; height: auto;" class="img-rounded" th:src="${property.imageName != null ? property.imageName : '/images/no_cover.png'}"/>
     </div>
     Id: <b th:text="${property.id}"></b><br/>
+    Data dodania: <b th:text="${property.creationDate}"></b><br/>
     Tytuł: <b th:text="${property.name}"></b><br/>
     Opis: <b>[[${property.description}]]</b><br/>
     Cena: <b>[[${#numbers.formatDecimal(property.price,3,2,'COMMA')}]]</b><br/>
     Dostępny od: <b>[[${#dates.format(property.availableDate, 'dd-MM-yyyy')}]]</b><br/>
     Typ: <b>[[${property.propertyType.name}]]</b><br/>
+    Dodane przez: <a th:href="@{/userDetails.html(id=${property.user.id})}">[[${property.user.username}]]</a>
 <!--    Wyposażenie pojazdu:-->
 <!--    <span th:if="${property.accessories.isEmpty()}">Brak</span>-->
 
