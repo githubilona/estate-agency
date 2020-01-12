@@ -134,10 +134,7 @@
                 </tbody>
             </table>
 
-            <div th:replace="shared/pagination :: pager('/propertyList.html', ${propertyListPage})" th:scope="#request"></div>
-            <!--            <c:set var="page" value="${propertyListPage}" scope="request"/>-->
-            <!--            <c:set var="mainUrl" value="propertyList.html" scope="request"/>-->
-            <!--            <jsp:include page="shared/pagination.jsp"/>-->
+            <div th:replace="shared/pagination :: pager('/myPropertyList.html', ${propertyListPage})" th:scope="#request"></div>
 
         </div>
 

@@ -14,7 +14,6 @@
 
     username: <b th:text="${propertyListPage.content.get(0).user.username}"></b><br/>
 
-
     <br/>
 
 
@@ -26,55 +25,6 @@
 
 
         <H2>Ogłoszenia użytkownika</H2>
-
-
-        <form th:method="POST" th:action="@{propertyList.html}" th:object="${searchCommand}">
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <input th:field="*{phrase}" placeholder="Fraza" class="form-control"
-                           th:classappend="${#fields.hasErrors('phrase')}?'is-invalid'"/>
-                    <div class="error text-danger" th:if="${#fields.hasErrors('phrase')}">
-                        <p th:each="err : ${#fields.errors('phrase')}" th:text="${err}"></p>
-                    </div>
-                </div>
-
-                <div class="form-group col-md-3">
-
-                    <input th:field="*{minPrice}" placeholder="Cena od" class="form-control"
-                           th:classappend="${#fields.hasErrors('minPrice')}?'is-invalid'"/>
-                    <div class="error text-danger" th:if="${#fields.hasErrors('minPrice')}">
-                        <p th:each="err : ${#fields.errors('minPrice')}" th:text="${err}"></p>
-                    </div>
-
-                </div>
-                <div class="form-group col-md-3">
-
-                    <input th:field="*{maxPrice}" placeholder="Cena do" class="form-control"
-                           th:classappend="${#fields.hasErrors('maxPrice')}?'is-invalid'"/>
-                    <div class="error text-danger" th:if="${#fields.hasErrors('maxPrice')}">
-                        <p th:each="err : ${#fields.errors('maxPrice')}" th:text="${err}"></p>
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="row">
-
-                <div class="form-group col-md-8"></div>
-
-                <div class="form-group col-md-2">
-                    <a th:if="${searchCommand.isEmpty() eq false or #fields.hasErrors('*')}" th:href="@{propertyList.html(all)}" class="btn btn-success">
-                        <span class="glyphicon glyphicon-refresh"></span> Pokaż wszystko
-                    </a>
-                </div>
-
-                <div class="form-group col-md-2">
-                    <button type="submit" class="btn btn-info">
-                        <span class="glyphicon glyphicon-search"></span> Wyszukaj
-                    </button>
-                </div>
-            </div>
-        </form>
 
 
         <div th:if="${propertyListPage.hasContent() eq false}">
@@ -143,11 +93,8 @@
                 </tbody>
             </table>
 
-            <div th:replace="shared/pagination :: pager('/propertyList.html', ${propertyListPage})" th:scope="#request"></div>
-            <!--            <c:set var="page" value="${propertyListPage}" scope="request"/>-->
-            <!--            <c:set var="mainUrl" value="propertyList.html" scope="request"/>-->
-            <!--            <jsp:include page="shared/pagination.jsp"/>-->
-
+            <div th:replace="shared/pagitationUserDetails :: pager('userDetails.html?id='+ ${propertyListPage.content.get(0).user.id},
+             ${propertyListPage})"></div>
         </div>
 
         <a>Dodaj Nowy</a>
