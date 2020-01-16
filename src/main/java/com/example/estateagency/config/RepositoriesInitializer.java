@@ -37,6 +37,36 @@ public class RepositoriesInitializer {
     InitializingBean init() {
 
         return () -> {
+            if (roleRepository.findAll().isEmpty() == true) {
+                try {
+                    Role roleUser = roleRepository.save(new Role(Role.Types.ROLE_USER));
+                    Role roleAdmin = roleRepository.save(new Role(Role.Types.ROLE_ADMIN));
+                    Role roleAgent = roleRepository.save(new Role(Role.Types.ROLE_AGENT));
+
+                    User user = new User("user", true);
+                    user.setRoles(new HashSet<>(Arrays.asList(roleUser)));
+                    user.setPassword(passwordEncoder.encode("user"));
+
+                    User admin = new User("admin", true);
+                    admin.setRoles(new HashSet<>(Arrays.asList(roleAdmin)));
+                    admin.setPassword(passwordEncoder.encode("admin"));
+
+                    User test = new User("useradmin", true);
+                    test.setRoles(new HashSet<>(Arrays.asList(roleAdmin, roleUser)));
+                    test.setPassword(passwordEncoder.encode("useradmin"));
+
+                    User agent = new User("agent", true);
+                    agent.setRoles(new HashSet<>(Arrays.asList(roleAgent, roleUser)));
+                    agent.setPassword(passwordEncoder.encode("agent"));
+
+                    userRepository.save(user);
+                    userRepository.save(admin);
+                    userRepository.save(test);
+                    userRepository.save(agent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 
             if (propertyTypeRepository.findAll().isEmpty()) {//przyjmijmy, że jeśli repozytorium typów jest puste, to trzeba zainicjalizować bazę danych
 
@@ -53,7 +83,7 @@ public class RepositoriesInitializer {
                                 469000f,
                                 new Date(110, 6, 1),
                                 true,
-                                pt, new Date(117, 7, 22, 4, 32, 34));
+                                pt, new Date(117, 7, 22, 4, 32, 34), userRepository.findByUsername("agent"));
                 propertyRepository.saveAndFlush(p1);
 
                 Property p2 = new Property();
@@ -63,6 +93,7 @@ public class RepositoriesInitializer {
                 p2.setPrice(700f);
                 p2.setPropertyType(pt);
                 p2.setCreationDate(new Date());
+                p2.setUser(userRepository.findByUsername("admin"));
                 propertyRepository.saveAndFlush(p2);
 
                 Property p3 = new Property();
@@ -72,6 +103,7 @@ public class RepositoriesInitializer {
                 p3.setPrice(404000f);
                 p3.setPropertyType(pt);
                 p3.setCreationDate(new Date());
+                p3.setUser(userRepository.findByUsername("user"));
                 propertyRepository.saveAndFlush(p3);
 
                 Property p4 = new Property();
@@ -89,33 +121,11 @@ public class RepositoriesInitializer {
                 p4.setPrice(395000f);
                 p4.setPropertyType(pt);
                 p4.setCreationDate(new Date());
+                p4.setUser(userRepository.findByUsername("admin"));
                 propertyRepository.saveAndFlush(p4);
             }
 
-            if (roleRepository.findAll().isEmpty() == true) {
-                try {
-                    Role roleUser = roleRepository.save(new Role(Role.Types.ROLE_USER));
-                    Role roleAdmin = roleRepository.save(new Role(Role.Types.ROLE_ADMIN));
 
-                    User user = new User("user", true);
-                    user.setRoles(new HashSet<>(Arrays.asList(roleUser)));
-                    user.setPassword(passwordEncoder.encode("user"));
-
-                    User admin = new User("admin", true);
-                    admin.setRoles(new HashSet<>(Arrays.asList(roleAdmin)));
-                    admin.setPassword(passwordEncoder.encode("admin"));
-
-                    User test = new User("useradmin", true);
-                    test.setRoles(new HashSet<>(Arrays.asList(roleAdmin, roleUser)));
-                    test.setPassword(passwordEncoder.encode("useradmin"));
-
-                    userRepository.save(user);
-                    userRepository.save(admin);
-                    userRepository.save(test);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
         };
     }
 

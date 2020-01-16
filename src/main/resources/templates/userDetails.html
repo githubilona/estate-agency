@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="shared/header :: header-css"/>
+    <title>Strona domowa</title>
+</head>
+<body>
+<div th:replace="shared/header :: header('home')"/>
+
+<div id="main" class="container">
+    <H1>Dane użytkownika</H1>
+
+    <div class="col-lg-5 col-md-5">
+        <img style="width: 15%; height: auto;" class="img-rounded" th:src="${propertyListPage.content.get(0).user.imageName != null ?
+        propertyListPage.content.get(0).user.imageName : '/images/no-image2.jpg'}"/>
+    </div>
+
+    Id: <b th:text="${propertyListPage.content.get(0).user.id}"></b><br/>
+
+    username: <b th:text="${propertyListPage.content.get(0).user.username}"></b><br/>
+
+    <br/>
+
+
+<div th:with="boundMin=${20000},boundMax=${40000}">
+
+    <div>
+
+
+        <H2>Ogłoszenia użytkownika</H2>
+
+
+        <div th:if="${propertyListPage.hasContent() eq false}">
+            <span th:if="${searchCommand.isEmpty()}">Brak ogłoszeń w bazie</span>
+            <span th:unless="${searchCommand.isEmpty()}">Brak wyników wyszukiwania</span>
+        </div>
+        <div th:if="${propertyListPage.hasContent() eq true}">
+
+
+
+            <span th:if="${searchCommand.isEmpty()}">
+                Masz [[${propertyListPage.totalElements}]] ogłoszeń
+            </span>
+            <span th:unless="${searchCommand.isEmpty()}">
+                Wynik wyszukiwania: [[${propertyListPage.totalElements}]] ogłoszeń
+            </span>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Zdjęcie</th>
+                    <th>Tytuł</th>
+                    <th>Opis</th>
+                    <th>Typ</th>
+
+                    <th>Dostępny od:</th>
+                    <th>Cena</th>
+                    <!--                    <th>Opinia</th>-->
+                    <th>Ogłoszenie premium</th>
+                    <th>Data dodania</th>
+                    <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">Opcje</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="property : ${propertyListPage.content}">
+
+                    <td>
+                        <div class="col-lg-5 col-md-5">
+                            <img style="width: 170px; height: 170px;" class="img-rounded" th:src="${property.imageName != null ? property.imageName : '/uploads/2.jpg'}"/>
+                        </div>
+                    </td>
+
+                    <td>
+                        <a th:href="@{/propertyList.html(id=${property.id})}">[[${property.name}]]</a>
+                    </td>
+
+                    <td ><span style="width: 300px;" th:text="${property.description}"/></td>
+                    <td><span th:text="${property.propertyType.name}"/></td>
+                    <td><span th:text="${#dates.format(property.availableDate, 'dd-MM-yyyy')}"/></td>
+                    <td><span th:text="${#numbers.formatDecimal(property.price,2,2)}"/></td>
+                    <!--                    <td>-->
+                    <!--                        <span th:if="${property.price lt boundMin}">TANI</span>-->
+                    <!--                        <span th:if="${property.price lt boundMax}">DROGI</span>-->
+                    <!--                        <span th:unless="${property.price lt boundMax}">SREDNI</span>-->
+                    <!--                    </td>-->
+                    <td><span th:text="${property.exclusive?'Tak': 'Nie'}"/></td>
+                    <td><span th:text="${property.creationDate}"/></td>
+                    <td sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+                        <a class="btn btn-danger" th:href="@{/propertyList.html(did=${property.id})}">Usuń</a>
+                        <a class="btn btn-success" th:href="@{/propertyForm.html(id=${property.id})}">Edytuj</a>
+                    </td>
+
+                </tr>
+
+                </tbody>
+            </table>
+
+            <div th:replace="shared/pagitationUserDetails :: pager('userDetails.html?id='+ ${propertyListPage.content.get(0).user.id},
+             ${propertyListPage})"></div>
+        </div>
+
+        <a>Dodaj Nowy</a>
+
+
+    </div>
+</div>
+</div>
+<div th:replace="shared/footer :: footer"></div>
+</body>
+</html>

@@ -2,8 +2,10 @@ package com.example.estateagency.controllers;
 
 import com.example.estateagency.controllers.commands.PropertyFilter;
 import com.example.estateagency.models.Property;
+import com.example.estateagency.models.User;
 import com.example.estateagency.repositories.PropertyRepository;
 import com.example.estateagency.services.PropertyService;
+import com.example.estateagency.services.UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,7 +45,7 @@ public class PropertiesListController {
 		model.addAttribute("property", p);
 		return "propertyDetails";
 	}
-	
+
 	@ModelAttribute("searchCommand")
 	public PropertyFilter getSimpleSearch(){
 		return new PropertyFilter();
@@ -58,6 +62,20 @@ public class PropertiesListController {
 		model.addAttribute("propertyListPage", propertyService.getAllProperties(search, pageable));
 		return "propertyList";
 	}
+
+
+	@RequestMapping(value="/myPropertyList.html")
+	public String showUserPropertyList(Model model, Pageable pageable){
+		model.addAttribute("propertyListPage", propertyService.getAllPropertiesByUser(pageable));
+		return "myPropertyList";
+	}
+	@GetMapping(value="/userDetails.html", params = "id")
+	public String showUserPropertyList(Model model, Pageable pageable, long id){
+		model.addAttribute("propertyListPage", propertyService.getAllPropertiesByUserId(pageable, id));
+		return "userDetails";
+	}
+
+
 	@Secured("ROLE_ADMIN")
 	@GetMapping(path="/propertyList.html", params={"did"})
 	public String deleteProperty(long did, HttpServletRequest request){
@@ -70,6 +88,7 @@ public class PropertiesListController {
 	private String prepareQueryString(String queryString) {//np., did=20&page=2&size=20
 		return queryString.substring(queryString.indexOf("&")+1);//obcinamy parametr did, bo inaczej znowu będzie wywołana metoda deleteProperty
 	}
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {//Rejestrujemy edytory właściwości
 		DecimalFormat numberFormat = new DecimalFormat("#0.00");

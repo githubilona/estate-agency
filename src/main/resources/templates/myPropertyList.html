@@ -6,15 +6,18 @@
     <title>Strona domowa</title>
 </head>
 <body class="card">
-<div th:replace="shared/header :: header('propertyList')"/>
+<div th:replace="shared/header :: header('myPropertyList')"/>
 
 <div th:with="boundMin=${20000},boundMax=${40000}">
 
     <div id="main" class="card-body">
 
 
-        <H1>LISTA OGŁOSZEŃ</H1>
-        <H3>Implementacja widoku z wykorzystaniem technologii szablonów Thymeleaf</H3>
+        <H2>Moje ogłoszenia</H2>
+        <h5 th:text="${propertyListPage.content.get(0).user.username}"/></h5>
+
+
+
 
         <form th:method="POST" th:action="@{propertyList.html}" th:object="${searchCommand}">
             <div class="row">
@@ -74,7 +77,7 @@
 
 
             <span th:if="${searchCommand.isEmpty()}">
-                Baza zawiera [[${propertyListPage.totalElements}]] ogłoszeń
+                Masz [[${propertyListPage.totalElements}]] ogłoszeń
             </span>
             <span th:unless="${searchCommand.isEmpty()}">
                 Wynik wyszukiwania: [[${propertyListPage.totalElements}]] ogłoszeń
@@ -90,10 +93,10 @@
 
                     <th>Dostępny od:</th>
                     <th>Cena</th>
-<!--                    <th>Opinia</th>-->
+                    <!--                    <th>Opinia</th>-->
                     <th>Ogłoszenie premium</th>
                     <th>Data dodania</th>
-                    <th sec:authorize="hasRole('ADMIN')">Opcje</th>
+                    <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">Opcje</th>
 
                 </tr>
                 </thead>
@@ -101,27 +104,27 @@
                 <tr th:each="property : ${propertyListPage.content}">
 
                     <td>
-                    <div class="col-lg-5 col-md-5">
-                        <img style="width: 170px; height: 170px;" class="img-rounded" th:src="${property.imageName != null ? property.imageName : '/images/no_cover.png'}"/>
-                    </div>
+                        <div class="col-lg-5 col-md-5">
+                            <img style="width: 170px; height: 170px;" class="img-rounded" th:src="${property.imageName != null ? property.imageName : '/uploads/2.jpg'}"/>
+                        </div>
                     </td>
 
                     <td>
                         <a th:href="@{/propertyList.html(id=${property.id})}">[[${property.name}]]</a>
                     </td>
 
-                    <td><span th:text="${property.description}"/></td>
+                    <td ><span style="width: 300px;" th:text="${property.description}"/></td>
                     <td><span th:text="${property.propertyType.name}"/></td>
                     <td><span th:text="${#dates.format(property.availableDate, 'dd-MM-yyyy')}"/></td>
                     <td><span th:text="${#numbers.formatDecimal(property.price,2,2)}"/></td>
-<!--                    <td>-->
-<!--                        <span th:if="${property.price lt boundMin}">TANI</span>-->
-<!--                        <span th:if="${property.price lt boundMax}">DROGI</span>-->
-<!--                        <span th:unless="${property.price lt boundMax}">SREDNI</span>-->
-<!--                    </td>-->
+                    <!--                    <td>-->
+                    <!--                        <span th:if="${property.price lt boundMin}">TANI</span>-->
+                    <!--                        <span th:if="${property.price lt boundMax}">DROGI</span>-->
+                    <!--                        <span th:unless="${property.price lt boundMax}">SREDNI</span>-->
+                    <!--                    </td>-->
                     <td><span th:text="${property.exclusive?'Tak': 'Nie'}"/></td>
                     <td><span th:text="${property.creationDate}"/></td>
-                    <td sec:authorize="hasRole('ROLE_ADMIN')">
+                    <td sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                         <a class="btn btn-danger" th:href="@{/propertyList.html(did=${property.id})}">Usuń</a>
                         <a class="btn btn-success" th:href="@{/propertyForm.html(id=${property.id})}">Edytuj</a>
                     </td>
@@ -131,10 +134,7 @@
                 </tbody>
             </table>
 
-            <div th:replace="shared/pagination :: pager('/propertyList.html', ${propertyListPage})" th:scope="#request"></div>
-<!--            <c:set var="page" value="${propertyListPage}" scope="request"/>-->
-<!--            <c:set var="mainUrl" value="propertyList.html" scope="request"/>-->
-<!--            <jsp:include page="shared/pagination.jsp"/>-->
+            <div th:replace="shared/pagination :: pager('/myPropertyList.html', ${propertyListPage})" th:scope="#request"></div>
 
         </div>
 

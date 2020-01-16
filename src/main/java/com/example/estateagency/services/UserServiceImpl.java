@@ -95,6 +95,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id).orElse(null);
     }
 
+    @Override
+    public com.example.estateagency.models.User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+
 
 
 

@@ -27,5 +27,7 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
             "AND (:max is null OR :max >= p.price)")
     Page<Property> findAllPropertiesUsingFilter(@Param("phrase") String p, @Param("min") Float priceMin, @Param("max") Float priceMax, Pageable pageable);
 
+    @Query("SELECT p FROM Property p WHERE p.user.id = :id")
+    Page<Property> findAllByUserId(@Param("id") Long id, Pageable pageable);
 
 }
