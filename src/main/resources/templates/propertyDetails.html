@@ -18,8 +18,13 @@
     Opis: <b>[[${property.description}]]</b><br/>
     Cena: <b>[[${#numbers.formatDecimal(property.price,3,2,'COMMA')}]]</b><br/>
     Dostępny od: <b>[[${#dates.format(property.availableDate, 'dd-MM-yyyy')}]]</b><br/>
-    Typ: <b>[[${property.propertyType.name}]]</b><br/>
+    Typ: <b>[[${property.propertyType.name}]]</b><br/><br><br>
     Dodane przez: <a th:href="@{/userDetails.html(id=${property.user.id})}">[[${property.user.username}]]</a>
+
+    <div class="col-lg-5 col-md-5">
+        <img style="width: 10%; height: auto;" class="img-rounded" th:src="${property.user.imageName != null ?
+            property.user.imageName : '/images/no-image2.jpg'}"/>
+    </div>
 <!--    Wyposażenie pojazdu:-->
 <!--    <span th:if="${property.accessories.isEmpty()}">Brak</span>-->
 

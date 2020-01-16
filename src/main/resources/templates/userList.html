@@ -25,6 +25,7 @@
         <table class="table table-striped">
             <thead class="thead-dark">
             <tr>
+                <th>Avatar</th>
                 <th>Nazwa uzytkownika</th>
                 <th sec:authorize="hasRole('ROLE_ADMIN')">Role</th>
                 <th sec:authorize="hasRole('ROLE_ADMIN')">Aktywny</th>
@@ -34,6 +35,9 @@
             <tbody>
             <tr th:each="user : ${userListPage.content}">
 
+                <td>
+                        <img style="width: 15%; height: auto;" class="img-rounded" th:src="${user.imageName != null ? user.imageName : '/images/no-image2.jpg'}"/>
+                </td>
                 <td>
                     <a th:href="@{/userDetails.html(id=${user.id})}">[[${user.username}]]</a>
                 </td>
