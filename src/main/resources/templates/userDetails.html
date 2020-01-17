@@ -9,16 +9,7 @@
 
 <div id="main" class="container">
     <H1>Dane użytkownika</H1>
-
-    <div class="col-lg-5 col-md-5">
-        <img style="width: 15%; height: auto;" class="img-rounded" th:src="${propertyListPage.content.get(0).user.imageName != null ?
-        propertyListPage.content.get(0).user.imageName : '/images/no-image2.jpg'}"/>
-    </div>
-
-    Id: <b th:text="${propertyListPage.content.get(0).user.id}"></b><br/>
-
-    username: <b th:text="${propertyListPage.content.get(0).user.username}"></b><br/>
-
+        <div th:replace="fragments/userAccount.html :: userInfo(${propertyListPage.content.get(0).user})"></div>
     <br/>
 
 

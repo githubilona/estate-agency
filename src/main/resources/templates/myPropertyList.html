@@ -12,11 +12,10 @@
 
     <div id="main" class="card-body">
 
+            <div th:replace="fragments/userAccount.html :: userInfo(${propertyListPage.content.get(0).user})"></div> 
 
         <H2>Moje ogłoszenia</H2>
         <h5 th:text="${propertyListPage.content.get(0).user.username}"/></h5>
-
-
 
 
         <form th:method="POST" th:action="@{propertyList.html}" th:object="${searchCommand}">
