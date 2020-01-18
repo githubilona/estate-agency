@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 
-<div th:fragment="userInfo(user)">
+<div th:fragment="userAccount(user)">
 
 
     <div class="col-lg-5 col-md-5">
-        <b th:text="${user.username}"></b> <br>
+        <!--        th:href="@{/userForm}"-->
+        <!--         <div th:replace="fragments/userForm.html :: userForm(${user})"></div> -->
 
+        <b th:text="${user.username}"></b>
         <img style="width: 15%; height: auto;" class="img-rounded"
              th:src="${user.imageName != null ? user.imageName : '/images/no-image2.jpg'}"/> <br>
 
@@ -28,4 +30,7 @@
 
     <br/>
 </div>
+
+</div>
+
 </html>
