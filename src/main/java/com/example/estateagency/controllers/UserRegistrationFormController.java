@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Optional;
 
 
 @Controller
@@ -59,6 +60,35 @@ public class UserRegistrationFormController {
         }
         userService.save(userForm);
         return "registrationSuccess";
+    }
+
+
+    @PostMapping("/myPropertyList.html")
+    public String updateUserData(@Valid @ModelAttribute("user") User userForm, BindingResult bindingResult,
+                               @RequestParam("file") MultipartFile file) throws IOException {
+
+        if(!file.isEmpty()) {
+
+            String uploadsDir = "/uploads/user-images/";
+            String realPathToUploads = servletContext.getRealPath(uploadsDir);
+
+            if (!new File(realPathToUploads).exists()) {
+                new File(realPathToUploads).mkdir();
+            }
+
+            String orgName = file.getOriginalFilename();
+            String filePath = realPathToUploads + orgName;
+            File dest = new File(filePath);
+            file.transferTo(dest);
+
+            userForm.setImageName(uploadsDir + file.getOriginalFilename());
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "myPropertyList";
+        }
+        userService.save(userForm);
+        return "myPropertyList";
     }
 
     @InitBinder
