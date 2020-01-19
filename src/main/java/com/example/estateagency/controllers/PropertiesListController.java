@@ -1,9 +1,12 @@
 package com.example.estateagency.controllers;
 
 import com.example.estateagency.controllers.commands.PropertyFilter;
+import com.example.estateagency.models.Message;
 import com.example.estateagency.models.Property;
 import com.example.estateagency.models.User;
+import com.example.estateagency.repositories.MessageRepository;
 import com.example.estateagency.repositories.PropertyRepository;
+import com.example.estateagency.services.MessageService;
 import com.example.estateagency.services.PropertyService;
 import com.example.estateagency.services.UserService;
 import org.apache.commons.logging.Log;
@@ -31,18 +34,28 @@ import java.text.DecimalFormat;
 public class PropertiesListController {
 
 	protected final Log log = LogFactory.getLog(getClass());//Dodatkowy komponent do logowania
-	
+
 	@Autowired
 	PropertyService propertyService;
 
 	@Secured("IS_AUTHENTICATED_FULLY")
-	@GetMapping(value="/propertyList.html", params = "id")
+	@GetMapping(value="/propertyDetails.html", params = "id")
 	public String showPropertyDetails(Model model, long id){
 		System.out.println("Pokayzwanie szczegółów");
 
 		Property p = propertyService.getProperty(id);
 		//obłużyć not found exception
 		model.addAttribute("property", p);
+		Message message = new Message();
+//		message.setProperty(p);
+//		message.setUserReceiver(p.getUser());
+////
+//		if(message.getUserSender() == null){
+//			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//			String userName = authentication.getName();
+//			message.setUserSender(userService.getUserByUsername(userName));
+//		}
+		model.addAttribute("message",message);
 		return "propertyDetails";
 	}
 
