@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<div th:fragment="userAccount(user)">
+
+
+    <div class="col-lg-5 col-md-5">
+        <!--        th:href="@{/userForm}"-->
+        <!--         <div th:replace="fragments/userForm.html :: userForm(${user})"></div> -->
+
+        <b th:text="${user.username}"></b>
+        <img style="width: 15%; height: auto;" class="img-rounded"
+             th:src="${user.imageName != null ? user.imageName : '/images/no-image2.jpg'}"/> <br>
+
+        Imie:
+        <b th:text="${user.firstName != null ? user.firstName : '-'}"/> <br>
+        Nazwisko:
+        <b th:text="${user.lastName != null ? user.lastName : '-'}"/> <br>
+        Miasto:
+        <b th:text="${user.city != null ? user.city : '-'}"/> <br><br>
+        Telefon:
+        <b th:text="${user.phone != null ? user.phone : '-'}"/> <br>
+        Email:
+        <b th:text="${user.email != null ? user.email : '-'}"/> <br>
+
+
+    </div>
+
+
+    <br/>
+</div>
+
+</div>
+
+</html>

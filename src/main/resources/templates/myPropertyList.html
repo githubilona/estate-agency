@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
+    <!-- Edit user data form -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
     <div th:replace="shared/header :: header-css"/>
 
     <title>Strona domowa</title>
@@ -11,12 +16,11 @@
 <div th:with="boundMin=${20000},boundMax=${40000}">
 
     <div id="main" class="card-body">
-
+         <div th:replace="fragments/editUser.html :: editUser(${propertyListPage.content.get(0).user})"></div> 
+            <div th:replace="fragments/userAccount.html :: userAccount(${propertyListPage.content.get(0).user})"></div> 
 
         <H2>Moje ogłoszenia</H2>
         <h5 th:text="${propertyListPage.content.get(0).user.username}"/></h5>
-
-
 
 
         <form th:method="POST" th:action="@{propertyList.html}" th:object="${searchCommand}">
@@ -110,7 +114,7 @@
                     </td>
 
                     <td>
-                        <a th:href="@{/propertyList.html(id=${property.id})}">[[${property.name}]]</a>
+                        <a th:href="@{/propertyDetails.html(id=${property.id})}">[[${property.name}]]</a>
                     </td>
 
                     <td ><span style="width: 300px;" th:text="${property.description}"/></td>

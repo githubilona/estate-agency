@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
+
     <div th:replace="shared/header :: header-css"/>
     <title>Strona domowa</title>
 </head>
@@ -25,14 +26,11 @@
         <img style="width: 10%; height: auto;" class="img-rounded" th:src="${property.user.imageName != null ?
             property.user.imageName : '/images/no-image2.jpg'}"/>
     </div>
-<!--    Wyposażenie pojazdu:-->
-<!--    <span th:if="${property.accessories.isEmpty()}">Brak</span>-->
 
-<!--    <span th:unless="${property.accessories.isEmpty()}">-->
-<!--        <ul>-->
-<!--            <li th:each="acc : ${property.accessories}" th:text="${acc.name}"/>-->
-<!--        </ul>-->
-<!--    </span>-->
+    <!-- Formularz kontaktowy -->
+    <div th:replace="fragments/contactForm.html :: contactForm(${message}, ${property})"/>
+
+
 <br/>
     <a class="btn btn-success" href="/propertyList.html">Wstecz</a>
 </div>

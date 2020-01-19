@@ -29,6 +29,12 @@ public class User {
     private String passwordConfirm;
     private boolean enabled = false;
     private String imageName;
+    private String firstName;
+    private String lastName;
+    private String city;
+    private String phone;
+    private String email;
+
 
 
     @AssertTrue
