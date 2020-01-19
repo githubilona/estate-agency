@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="shared/header :: header-css"/>
+    <title>Strona domowa</title>
+</head>
+<body>
+<div th:replace="shared/header :: header('home')"/>
+
+<div id="main" class="container">
+
+
+    <h1>Formularz kontaktowy</h1>
+    <form th:method="POST" th:object="${message}" th:action="@{/propertyDetails.html}">
+
+
+        <div sec:authorize="!isAuthenticated()">
+            <input id="email" type="text" name="email" th:value="*{email}"
+                   class="form-control" required="true"  placeholder="Email..."/>
+        </div>
+
+
+
+        <input id="messageText" type="text" name="messageText" th:value="*{messageText}"
+               class="form-control" required="true" placeholder="Wpisz wiadomosć..."/>
+
+
+        <input id="property" type="hidden" name="property" th:value="${message.property.id}"/>
+        <input id="userReceiver" type="hidden" name="userReceiver" th:value="${user.id}"/>
+
+        <br><br>
+        <button type="submit" class="btn btn-primary btn-raised">Wyślij</button>
+    </form>
+
+
+
+</div>
+<div th:replace="shared/footer :: footer"></div>
+</body>
+</html>

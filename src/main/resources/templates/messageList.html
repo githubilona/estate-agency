@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="shared/header :: header-css"/>
+    <title>Wysłane wiadomości</title>
+</head>
+<body>
+<div th:replace="shared/header :: header('home')"/>
+
+<div id="main" class="container">
+
+    <H1>Lista Wiadomości</H1>
+
+    <div th:if="${messageListPage.hasContent() eq false}">
+        <span>Brak użytkowników w bazie</span>
+    </div>
+    <div th:if="${messageListPage.hasContent() eq true}">
+
+
+
+        <span th:inline="text">
+           Liczba elemntów: [[${messageListPage.totalElements}]]
+        </span>
+
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Odpowiedz</th>
+                <th>Avatar</th>
+                <th>Ogłoszenie</th>
+                <th>Treść</th>
+                <th>Do</th>
+                <th>Wysłano:</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="message : ${messageListPage.content}" >
+
+                <td>
+                    <a th:href="@{/messageDetails(messageId=${message.id},userReceiverId=${message.userSender.id} )}">Odpowiedz...</a>
+                </td>
+                <td>
+                        <img style="width: 15%; height: auto;" class="img-rounded" th:src="${message.property.imageName != null ?
+                         message.property.imageName  : '/images/no-image2.jpg'}"/>
+                </td>
+                <td>
+                    <p>[[${message.property.name}]]</p>
+                </td>
+                <td>
+                    <p>[[${message.messageText}]]</p>
+                </td>
+                <td>
+                    <p>[[${message.userReceiver.username}]]</p>
+                </td>
+                <td>
+                    <p>[[${message.creationDate}]]</p>
+                </td>
+
+            </tr>
+
+            </tbody>
+        </table>
+
+        <div th:replace="shared/paginationWithParam :: pager('/messageList.html?id='+ ${messageListPage.content.get(0).userSender.id},
+         ${messageListPage})"></div>
+
+    </div>
+
+
+</div>
+</body>
+</html>

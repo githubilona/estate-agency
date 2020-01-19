@@ -87,7 +87,7 @@
                 </tbody>
             </table>
 
-            <div th:replace="shared/pagitationUserDetails :: pager('userDetails.html?id='+ ${propertyListPage.content.get(0).user.id},
+            <div th:replace="shared/paginationWithParam :: pager('userDetails.html?id='+ ${propertyListPage.content.get(0).user.id},
              ${propertyListPage})"></div>
         </div>
 
