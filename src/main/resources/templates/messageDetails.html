@@ -14,12 +14,6 @@
     <form th:method="POST" th:object="${message}" th:action="@{/propertyDetails.html}">
 
 
-        <div sec:authorize="!isAuthenticated()">
-            <input id="email" type="text" name="email" th:value="*{email}"
-                   class="form-control" required="true"  placeholder="Email..."/>
-        </div>
-
-
 
         <input id="messageText" type="text" name="messageText" th:value="*{messageText}"
                class="form-control" required="true" placeholder="Wpisz wiadomosć..."/>

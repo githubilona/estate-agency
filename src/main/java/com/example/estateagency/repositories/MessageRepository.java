@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface MessageRepository extends JpaRepository<Message, Long> {
     // Select messages
     @Query("SELECT m FROM Message m WHERE m.userSender.id != :id AND m.userSender.id != m.userReceiver.id")
@@ -21,4 +23,5 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
 //    @Query("SELECT DISTINCT m.property_id, m.user_receiver_id, p.name, p.image_name FROM messages m INNER JOIN properties p ON m.property_id=p.id")
 
+    List<Message> findAllByUserSenderIdAndUserReceiverIdAndPropertyId(Long userSenderId, Long userReceiverId, Long propertyId);
 }

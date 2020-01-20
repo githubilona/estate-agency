@@ -52,6 +52,12 @@ public class Message {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User userReceiver;
 
+
+    @JoinColumn(name="conversation_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Conversation conversation;
+
     public Message() {
         this.creationDate = new Date();
     }

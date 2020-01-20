@@ -10,6 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MessageServiceImpl implements MessageService {
 
@@ -35,6 +37,11 @@ public class MessageServiceImpl implements MessageService {
         String userName = authentication.getName();
         Page page = messageRepository.findAllReceivedByUserSenderId(userRepository.findByUsername(userName).getId(), pageable);
         return page;
+    }
+
+    @Override
+    public List<Message> findAllByUserSenderIdAndUserReceiverIdAndPropertyId(Long userSenderId, Long userReceiverId, Long propertyId) {
+        return messageRepository.findAllByUserSenderIdAndUserReceiverIdAndPropertyId(userSenderId, userReceiverId, propertyId);
     }
 
 }
