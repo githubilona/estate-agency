@@ -53,7 +53,7 @@ public class Message {
     private User userReceiver;
 
 
-    @JoinColumn(name="conversation_id", nullable = false)
+    @JoinColumn(name="conversation_id", nullable = true)
     @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Conversation conversation;

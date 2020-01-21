@@ -5,7 +5,7 @@
     <title>Wysłane wiadomości</title>
 </head>
 <body>
-<div th:replace="shared/header :: header('home')"/>
+<div th:replace="shared/header :: header('messageList')"/>
 
 <div id="main" class="container">
 
@@ -61,8 +61,7 @@
             </tbody>
         </table>
 
-        <div th:replace="shared/paginationWithParam :: pager('/messageList.html?id='+ ${messageListPage.content.get(0).userSender.id},
-         ${messageListPage})"></div>
+        <div th:replace="shared/paginationWithParam :: pager('/messageList.html', ${messageListPage})"></div>
 
     </div>
 

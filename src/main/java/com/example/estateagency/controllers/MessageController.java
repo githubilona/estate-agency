@@ -4,6 +4,7 @@ import com.example.estateagency.models.Conversation;
 import com.example.estateagency.models.Message;
 import com.example.estateagency.models.User;
 import com.example.estateagency.repositories.ConversationRepository;
+import com.example.estateagency.repositories.MessageRepository;
 import com.example.estateagency.services.ConversationService;
 import com.example.estateagency.services.MessageService;
 import com.example.estateagency.services.UserService;
@@ -22,13 +23,14 @@ public class MessageController {
 
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private MessageRepository messageRepository;
 
     @Autowired
     private UserService userService;
 
     @Autowired
     private ConversationService conversationService;
-
 
 
     @PostMapping(value="/propertyDetails.html")
@@ -54,10 +56,18 @@ public class MessageController {
                 System.out.println("create new conversation ");
             }else if(sentMessagesList.isEmpty()){
                 Conversation c = replyMessageList.get(0).getConversation();
+                System.out.println(" 2 - " + c.getId());
                 message.setConversation(c);
             }else if(replyMessageList.isEmpty()){
                 Conversation c = sentMessagesList.get(0).getConversation();
+                System.out.println(" 3 - " + c.getId());
                 message.setConversation(c);
+            }else{
+                System.out.println( "5- sent " +sentMessagesList.isEmpty());
+                System.out.println("4 rep "+ replyMessageList.isEmpty());
+                Conversation c = replyMessageList.get(0).getConversation();
+                message.setConversation(c);
+
             }
             messageService.save(message);
         }
@@ -65,9 +75,11 @@ public class MessageController {
         return "messageSentSuccess"; // TODO redirect propertyDetails?id=70 or conversation
     }
 
-    @GetMapping(value = "/messageList.html", params = "id")
-    public String showMessageList(Model model, Pageable pageable, long id) {
+    @GetMapping(value = "/messageList.html")
+    public String showMessageList(Model model, Pageable pageable) {
         model.addAttribute("messageListPage", messageService.getAllReceivedMessagesBySenderUsername(pageable));
+    //   model.addAttribute("messageListPage", messageService.findDistinctByConversation(pageable));
+//        model.addAttribute("messageListPage", messageRepository.selectAllConversations(pageable));
         return "messageList";
     }
     @GetMapping("/messageDetails")
@@ -77,6 +89,9 @@ public class MessageController {
         Message message = messageService.getById(messageId);
         model.addAttribute("user", user);
         model.addAttribute("message", message);
+        List<Message> messagesList = messageService.findAllByConversationId(3L);
+        model.addAttribute("messagesList", messagesList);
+
         return "messageDetails";
     }
 }

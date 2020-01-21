@@ -13,4 +13,6 @@ public interface MessageService {
     Page<Message> getAllReceivedMessagesBySenderUsername(Pageable pageable);
 
     List<Message> findAllByUserSenderIdAndUserReceiverIdAndPropertyId(Long userSenderId, Long userReceiverId, Long propertyId);
+    List<Message> findAllByConversationId(Long id);
+
 }

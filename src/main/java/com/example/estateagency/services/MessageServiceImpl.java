@@ -44,4 +44,11 @@ public class MessageServiceImpl implements MessageService {
         return messageRepository.findAllByUserSenderIdAndUserReceiverIdAndPropertyId(userSenderId, userReceiverId, propertyId);
     }
 
+    @Override
+    public List<Message> findAllByConversationId(Long id) {
+        return messageRepository.findAllByConversationId(id);
+    }
+
+
+
 }
