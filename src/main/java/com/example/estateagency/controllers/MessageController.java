@@ -23,8 +23,6 @@ public class MessageController {
 
     @Autowired
     private MessageService messageService;
-    @Autowired
-    private MessageRepository messageRepository;
 
     @Autowired
     private UserService userService;
@@ -44,6 +42,7 @@ public class MessageController {
             System.out.println("Message property   " + message.getProperty());
             System.out.println("id S "+userSender.getId()+"id R " +message.getUserReceiver().getId());
 
+            // TODO use conversationService
             List<Message> sentMessagesList = messageService.findAllByUserSenderIdAndUserReceiverIdAndPropertyId(
                     userSender.getId(),message.getUserReceiver().getId(), message.getProperty().getId());
             List<Message> replyMessageList = messageService.findAllByUserSenderIdAndUserReceiverIdAndPropertyId(
@@ -51,7 +50,12 @@ public class MessageController {
 
             if(sentMessagesList.isEmpty() && replyMessageList.isEmpty()){
                 // create new conversation
-                Conversation c = conversationService.save(new Conversation());
+                Conversation newConversation = new Conversation();
+                newConversation.setUserSender(userSender);
+                newConversation.setUserReceiver(message.getUserReceiver());
+                newConversation.setProperty(message.getProperty());
+
+                Conversation c = conversationService.save(newConversation);
                 message.setConversation(c);
                 System.out.println("create new conversation ");
             }else if(sentMessagesList.isEmpty()){
@@ -74,23 +78,42 @@ public class MessageController {
 
         return "messageSentSuccess"; // TODO redirect propertyDetails?id=70 or conversation
     }
+    @PostMapping(value="/sendReply")
+    public String sendReply(@ModelAttribute Message message){
+        if(message.getUserSender() == null){
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // * delete
+            String userName = authentication.getName();
+            User userSender =userService.getUserByUsername(userName);
+            message.setUserSender(userService.getUserByUsername(userName));                       // *
+
+
+            System.out.println("id S "+userSender.getId()+"id R " +message.getUserReceiver().getId() + "prop. "+message.getProperty());
+            System.out.println(message.getConversation().getId() + " conv id ");
+
+            messageService.save(message);
+        }
+
+        return "messageSentSuccess"; // TODO redirect propertyDetails?id=70 or conversation
+    }
 
     @GetMapping(value = "/messageList.html")
     public String showMessageList(Model model, Pageable pageable) {
-        model.addAttribute("messageListPage", messageService.getAllReceivedMessagesBySenderUsername(pageable));
-    //   model.addAttribute("messageListPage", messageService.findDistinctByConversation(pageable));
-//        model.addAttribute("messageListPage", messageRepository.selectAllConversations(pageable));
+        model.addAttribute("conversationListPage", conversationService.getAllConversationsForActiveUser(pageable));
         return "messageList";
     }
     @GetMapping("/messageDetails")
-    public String showMessageDetails(Model model, long messageId, long userReceiverId) {
-        // get all messages for id and clicked converstaion
-        User user = userService.getById(userReceiverId);
-        Message message = messageService.getById(messageId);
-        model.addAttribute("user", user);
-        model.addAttribute("message", message);
-        List<Message> messagesList = messageService.findAllByConversationId(3L);
+    public String showMessageDetails(Model model,Long conversationId) {
+        Conversation c = conversationService.getById(conversationId);
+        System.out.println("conversation id assigned to a new msg " + c.getId());
+        Message message = new Message();
+        message.setConversation(c);
+        message.setUserReceiver(c.getUserSender());
+        message.setUserSender(c.getUserReceiver());
+        message.setProperty(c.getProperty());
+
+        List<Message> messagesList = messageService.findAllByConversationId(conversationId);
         model.addAttribute("messagesList", messagesList);
+        model.addAttribute("message", message);
 
         return "messageDetails";
     }

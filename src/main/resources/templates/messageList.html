@@ -11,15 +11,21 @@
 
     <H1>Lista Wiadomości</H1>
 
-    <div th:if="${messageListPage.hasContent() eq false}">
-        <span>Brak użytkowników w bazie</span>
+<!--    <tr th:each="conversation : ${conversationListPage.content}" >-->
+<!--        <td th:text="${conversation.id}"></td>-->
+<!--        <a th:href="@{/messageDetails(conversationId=${conversation.id})}" th:text="${conversation.property.name}  ">link</a>-->
+<!--    </tr>-->
+
+
+    <div th:if="${conversationListPage.hasContent() eq false}">
+        <span>Brak wiadomości </span>
     </div>
-    <div th:if="${messageListPage.hasContent() eq true}">
+    <div th:if="${conversationListPage.hasContent() eq true}">
 
 
 
         <span th:inline="text">
-           Liczba elemntów: [[${messageListPage.totalElements}]]
+           Liczba elemntów: [[${conversationListPage.totalElements}]]
         </span>
 
         <table class="table table-striped">
@@ -28,40 +34,37 @@
                 <th>Odpowiedz</th>
                 <th>Avatar</th>
                 <th>Ogłoszenie</th>
-                <th>Treść</th>
+<!--                <th>Treść</th>-->
                 <th>Do</th>
-                <th>Wysłano:</th>
+<!--                <th>Wysłano:</th>-->
             </tr>
             </thead>
             <tbody>
-            <tr th:each="message : ${messageListPage.content}" >
+            <tr th:each="conversation : ${conversationListPage.content}" >
 
                 <td>
-                    <a th:href="@{/messageDetails(messageId=${message.id},userReceiverId=${message.userSender.id} )}">Odpowiedz...</a>
+
+                    <a th:href="@{/messageDetails(conversationId=${conversation.id})}" th:text="${conversation.property.name}  ">link</a>
                 </td>
                 <td>
-                        <img style="width: 15%; height: auto;" class="img-rounded" th:src="${message.property.imageName != null ?
-                         message.property.imageName  : '/images/no-image2.jpg'}"/>
+                        <img style="width: 15%; height: auto;" class="img-rounded" th:src="${conversation.property.imageName != null ?
+                         conversation.property.imageName  : '/images/no-image2.jpg'}"/>
                 </td>
                 <td>
-                    <p>[[${message.property.name}]]</p>
+                    <p>[[${conversation.property.name}]]</p>
                 </td>
+
                 <td>
-                    <p>[[${message.messageText}]]</p>
+                    <p>[[${conversation.userSender.username}]]</p>
                 </td>
-                <td>
-                    <p>[[${message.userReceiver.username}]]</p>
-                </td>
-                <td>
-                    <p>[[${message.creationDate}]]</p>
-                </td>
+
 
             </tr>
 
             </tbody>
         </table>
 
-        <div th:replace="shared/paginationWithParam :: pager('/messageList.html', ${messageListPage})"></div>
+        <div th:replace="shared/pagination :: pager('/messageList.html', ${conversationListPage})"></div>
 
     </div>
 

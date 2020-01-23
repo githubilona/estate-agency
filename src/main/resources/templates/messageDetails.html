@@ -99,7 +99,9 @@
                         <ul class="chat" th:each="message: ${messagesList}">
 
 
-                            <div sec:authorize="!isAuthenticated()">
+<!--                                <div th:if="${#authentication.getName() == 'admin'}">-->
+
+<!--&lt;!&ndash;                            <div sec:authorize="sec:authentication">&ndash;&gt;-->
 
                             <li class="left clearfix"><span class="chat-img pull-left">
                             <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
@@ -116,25 +118,23 @@
                                 </div>
                             </li>
 
-                            </div>
-                            <div sec:authorize="isAuthenticated()">
-<!--                                <span sec:authentication="name"/>-->
 
-                            <li class="right clearfix"><span class="chat-img pull-right">
-                            <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" />
-                        </span>
-                                <div class="chat-body clearfix">
-                                    <div class="header">
-                                        <small class=" text-muted"><span class="glyphicon glyphicon-time"  th:text="${message.creationDate}"></span></small>
-                                        <strong class="pull-right primary-font" th:text="${message.userSender.username}">Bhaumik Patel</strong>
-                                    </div>
-                                    <p th:text="${message.messageText}">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                        dolor, quis ullamcorper ligula sodales.
-                                    </p>
-                                </div>
-                            </li>
-                            </div>
+
+<!--                            <li class="right clearfix"><span class="chat-img pull-right">-->
+<!--                            <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" />-->
+<!--                        </span>-->
+<!--                                <div class="chat-body clearfix">-->
+<!--                                    <div class="header">-->
+<!--                                        <small class=" text-muted"><span class="glyphicon glyphicon-time"  th:text="${message.creationDate}"></span></small>-->
+<!--                                        <strong class="pull-right primary-font" th:text="${message.userSender.username}">Bhaumik Patel</strong>-->
+<!--                                    </div>-->
+<!--                                    <p th:text="${message.messageText}">-->
+<!--                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare-->
+<!--                                        dolor, quis ullamcorper ligula sodales.-->
+<!--                                    </p>-->
+<!--                                </div>-->
+<!--                            </li>-->
+
 <!--                            -->
 <!--                            <li class="left clearfix"><span class="chat-img pull-left">-->
 <!--                            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />-->
@@ -223,14 +223,15 @@
 
 
     <h1>Formularz kontaktowy</h1>
-    <form th:method="POST" th:object="${message}" th:action="@{/propertyDetails.html}">
+    <form th:method="POST" th:object="${message}" th:action="@{/sendReply}">
 
         <input id="messageText" type="text" name="messageText" th:value="*{messageText}"
                class="form-control" required="true" placeholder="Wpisz wiadomosć..."/>
 
 
         <input id="property" type="hidden" name="property" th:value="${message.property.id}"/>
-        <input id="userReceiver" type="hidden" name="userReceiver" th:value="${user.id}"/>
+        <input id="userReceiver" type="hidden" name="userReceiver" th:value="${message.userReceiver.id}"/>
+        <input id="conversation" type="hidden" name="conversation" th:value="${message.conversation.id}"/>
 
         <br><br>
         <button type="submit" class="btn btn-primary btn-raised">Wyślij</button>
