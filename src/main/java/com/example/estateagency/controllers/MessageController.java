@@ -76,7 +76,7 @@ public class MessageController {
             messageService.save(message);
         }
 
-        return "messageSentSuccess"; // TODO redirect propertyDetails?id=70 or conversation
+        return "redirect:/messageDetails?conversationId="+message.getConversation().getId();
     }
     @PostMapping(value="/sendReply")
     public String sendReply(@ModelAttribute Message message){
@@ -93,7 +93,7 @@ public class MessageController {
             messageService.save(message);
         }
 
-        return "messageSentSuccess"; // TODO redirect propertyDetails?id=70 or conversation
+        return "redirect:/messageDetails?conversationId="+message.getConversation().getId();
     }
 
     @GetMapping(value = "/messageList.html")
