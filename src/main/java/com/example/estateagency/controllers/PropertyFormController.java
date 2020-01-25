@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,12 @@ import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -70,26 +75,55 @@ public class PropertyFormController {
 		return types;
 	}
 
-	@RequestMapping(value="/propertyForm.html", method=RequestMethod.POST)
+//	@RequestMapping(value="/propertyForm.html", method=RequestMethod.POST)
+//	public String processForm(@Valid @ModelAttribute("property") Property p, BindingResult errors,
+//							  @RequestParam("file") MultipartFile file) throws IOException {
+//
+//		if(!file.isEmpty()) {
+//
+//			String uploadsDir = "/uploads/";
+//			String realPathToUploads = servletContext.getRealPath(uploadsDir);
+//
+//			if (!new File(realPathToUploads).exists()) {
+//				new File(realPathToUploads).mkdir();
+//			}
+//
+//			String orgName = file.getOriginalFilename();
+//			String filePath = realPathToUploads + orgName;
+//			File dest = new File(filePath);
+//			file.transferTo(dest);
+//
+//			p.setImageName(uploadsDir + file.getOriginalFilename());
+//		}
+//		if(p.getUser() == null){
+//			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//			String userName = authentication.getName();
+//			p.setUser(userService.getUserByUsername(userName));
+//		}
+//		if(errors.hasErrors()){
+//			return "propertyForm";
+//		}
+//		log.info("Data utworzenia komponentu "+p.getCreationDate());
+//		log.info("Data edycji komponentu "+new Date());
+//
+//		propertyService.saveProperty(p);
+//
+//		return "redirect:propertyList.html";//po udanym dodaniu/edycji przekierowujemy na listę
+//	}
+
+
+	@RequestMapping(value= "/saveProperty", method=RequestMethod.POST)
 	public String processForm(@Valid @ModelAttribute("property") Property p, BindingResult errors,
-							  @RequestParam("file") MultipartFile file) throws IOException {
+							   @RequestParam(value = "files") MultipartFile[] files, ModelMap modelMap) throws IOException {
 
-		if(!file.isEmpty()) {
-
-			String uploadsDir = "/uploads/";
-			String realPathToUploads = servletContext.getRealPath(uploadsDir);
-
-			if (!new File(realPathToUploads).exists()) {
-				new File(realPathToUploads).mkdir();
-			}
-
-			String orgName = file.getOriginalFilename();
-			String filePath = realPathToUploads + orgName;
-			File dest = new File(filePath);
-			file.transferTo(dest);
-
-			p.setImageName(uploadsDir + file.getOriginalFilename());
+		List<String> photos = new ArrayList<String>();
+		for (MultipartFile file : files) {
+			String fileName = saveImage(file);
+			photos.add(fileName);
 		}
+		p.setPhotos(photos);
+		modelMap.put("property", p);
+
 		if(p.getUser() == null){
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			String userName = authentication.getName();
@@ -104,6 +138,23 @@ public class PropertyFormController {
 		propertyService.saveProperty(p);
 
 		return "redirect:propertyList.html";//po udanym dodaniu/edycji przekierowujemy na listę
+	}
+
+	private String saveImage(MultipartFile multipartFile) {
+		try {
+			byte[] bytes = multipartFile.getBytes();
+
+			String uploadsDir = "/uploads/";
+			String realPathToUploads = servletContext.getRealPath(uploadsDir);
+
+			String orgName = multipartFile.getOriginalFilename();
+			String filePathString = realPathToUploads + orgName;
+			Path path = Paths.get(filePathString);
+			Files.write(path, bytes);
+			return multipartFile.getOriginalFilename();
+		} catch (IOException e) {
+			return null;
+		}
 	}
     @InitBinder
     public void initBinder(WebDataBinder binder) {//Rejestrujemy edytory właściwości
@@ -121,8 +172,6 @@ public class PropertyFormController {
 
 		binder.setDisallowedFields("creationDate");//ze względu na bezpieczeństwo aplikacji to pole nie może zostać przesłane w formularzu
     }
-
-
 }
 
 

@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <div th:replace="shared/header :: header-css"/>
     <title>Rejestracja</title>
+
+    <style>
+        img{
+            width: 20%;
+            height: 20%;
+        }
+    </style>
+
 </head>
 <body>
 <div th:replace="shared/header :: header('home')"/>
 
 <div id="main">
-            <form th:method="POST" th:object="${property}" th:action="@{/propertyForm.html}"  enctype="multipart/form-data">
+            <form th:method="POST" th:object="${property}" th:action="@{/saveProperty}"  enctype="multipart/form-data">
                 <fieldset>
                     <h1>Dodawanie/Edycja</h1>
 
@@ -74,9 +83,18 @@
                             <p th:each="err : ${#fields.errors('propertyType.id')}" th:text="${err}"></p>
                         </div>
                     </div>
+<!--                    <div class="form-group">-->
+<!--                        <input type="file" name="file" id="file" accept="image/*" class="form-control"/>-->
+<!--                    </div>-->
+
+<!--                    -->
                     <div class="form-group">
-                        <input type="file" name="file" id="file" accept="image/*" class="form-control"/>
+                        <input type="file" name="files" id="files" accept="image/*" class="form-control"  multiple="multiple"/>
                     </div>
+
+
+                    <hr>
+                    <div class="gallery"></div>
 
 <!--                    <div class="form-group">-->
 <!--                        <div th:each="acc : ${accessoryList}" class='checkbox' style="left:25px;">-->
@@ -90,11 +108,53 @@
 <!--                        </div>-->
 <!--                    </div>-->
 
+<!--                    <ul>-->
+<!--                        <li th:each="file : ${files}">-->
+<!--                            <a th:href="${file}" target="_blank" th:text="${file}"></a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+
 
                     <button type="submit" class="btn btn-primary btn-raised">Zapisz</button>
                 </fieldset>
             </form>
+
+
+<!--    <h4>Upload Multiple Files:</h4>-->
+<!--    <form method="POST" enctype="multipart/form-data" th:action="@{/upload-multiple-files}">-->
+<!--        <input type="file" name="files" multiple> <br/><br/>-->
+<!--        <button type="submit">Submit</button>-->
+<!--    </form>-->
+
+
 </div>
 <div th:replace="shared/footer :: footer"></div>
+
+<script>
+    $(function() {
+        // Multiple images preview in browser
+        var imagesPreview = function(input, placeToInsertImagePreview) {
+
+            if (input.files) {
+                var filesAmount = input.files.length;
+
+                for (i = 0; i < filesAmount; i++) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(event) {
+                        $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+                    }
+
+                    reader.readAsDataURL(input.files[i]);
+                }
+            }
+
+        };
+
+        $('#files').on('change', function() {
+            imagesPreview(this, 'div.gallery');
+        });
+    });
+</script>
 </body>
 </html>

@@ -11,8 +11,14 @@
 <div id="main" class="container">
     <H1>Dane ogłoszenia</H1>
     <div class="col-lg-5 col-md-5">
-        <img style="width: 100%; height: auto;" class="img-rounded" th:src="${property.imageName != null ? property.imageName : '/images/no_cover.png'}"/>
+        <img style="width: 100%; height: auto;" class="img-rounded" th:src="${property.imageName != null ? property.imageName : '/images/no-image-property.png'}"/>
     </div>
+    <ul>
+        <li th:each="photo : ${property.photos}">
+            <!--                            <a th:href="${photo}" target="_blank" th:text="${photo}"></a>-->
+            <img th:src="'/uploads/'+${photo}" style="width: 15%; height: auto;">
+        </li>
+    </ul>
     Id: <b th:text="${property.id}"></b><br/>
     Data dodania: <b th:text="${property.creationDate}"></b><br/>
     Tytuł: <b th:text="${property.name}"></b><br/>

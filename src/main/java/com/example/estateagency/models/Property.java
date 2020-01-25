@@ -14,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -62,9 +63,16 @@ public class Property {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 
+	@Column (name = "photos")
+	@ElementCollection
+	@CollectionTable (name = "Photos", joinColumns = @JoinColumn (name = "item_id"))
+	private List<String> photos;
+
+
 	public Property() {
 		this.creationDate = new Date();
 		this.propertyType = new PropertyType();
+		this.imageName="/images/no-image-property.png";
 	}
 
 	public Property(String name, String description, float price, Date availableDate, boolean exclusive,
@@ -79,4 +87,13 @@ public class Property {
 		this.user=user;
 	}
 
+	public void setPhotos(List<String> photos) {
+		this.photos = photos;
+		if(photos.get(0)==null){
+			this.imageName="/images/no-image-property.png";
+		}else{
+			this.imageName="/uploads/" +photos.get(0);
+		}
+
+	}
 }
