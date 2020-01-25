@@ -82,6 +82,7 @@ public class PropertiesListController {
 		model.addAttribute("propertyListPage", propertyService.getAllPropertiesByUser(pageable));
 		return "myPropertyList";
 	}
+
 	@GetMapping(value="/userDetails.html", params = "id")
 	public String showUserPropertyList(Model model, Pageable pageable, long id){
 		model.addAttribute("propertyListPage", propertyService.getAllPropertiesByUserId(pageable, id));

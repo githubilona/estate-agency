@@ -15,59 +15,99 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 
 @Configuration
 public class RepositoriesInitializer {
 
-    @Autowired
     private PropertyRepository propertyRepository;
-    @Autowired
     private PropertyTypeRepository propertyTypeRepository;
-
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
     private RoleRepository roleRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public RepositoriesInitializer(PropertyRepository propertyRepository, PropertyTypeRepository propertyTypeRepository,
+                                   UserRepository userRepository, RoleRepository roleRepository) {
+        this.propertyRepository=propertyRepository;
+        this.propertyTypeRepository=propertyTypeRepository;
+        this.userRepository=userRepository;
+        this.roleRepository=roleRepository;
+    }
+
     @Bean
-    InitializingBean init() {
+    public InitializingBean init() {
 
         return () -> {
-            if (roleRepository.findAll().isEmpty() == true) {
-                try {
-                    Role roleUser = roleRepository.save(new Role(Role.Types.ROLE_USER));
-                    Role roleAdmin = roleRepository.save(new Role(Role.Types.ROLE_ADMIN));
-                    Role roleAgent = roleRepository.save(new Role(Role.Types.ROLE_AGENT));
-
-                    User user = new User("user", true);
-                    user.setRoles(new HashSet<>(Arrays.asList(roleUser)));
-                    user.setPassword(passwordEncoder.encode("user"));
-
-                    User admin = new User("admin", true);
-                    admin.setRoles(new HashSet<>(Arrays.asList(roleAdmin)));
-                    admin.setPassword(passwordEncoder.encode("admin"));
-
-                    User test = new User("useradmin", true);
-                    test.setRoles(new HashSet<>(Arrays.asList(roleAdmin, roleUser)));
-                    test.setPassword(passwordEncoder.encode("useradmin"));
-
-                    User agent = new User("agent", true);
-                    agent.setRoles(new HashSet<>(Arrays.asList(roleAgent, roleUser)));
-                    agent.setPassword(passwordEncoder.encode("agent"));
-
-                    userRepository.save(user);
-                    userRepository.save(admin);
-                    userRepository.save(test);
-                    userRepository.save(agent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            if ( roleRepository.findAll().isEmpty() )
+            {
+                roleRepository.save( new Role( Role.Types.ROLE_ADMIN ) );
+                roleRepository.save( new Role( Role.Types.ROLE_USER ) );
             }
+            if ( userRepository.findAll().isEmpty() )
+            {
+                User admin = new User();
+                admin.setUsername( "admin" );
+                admin.setPassword( passwordEncoder.encode( "admin" ) );
+                admin.setPasswordConfirm( admin.getPassword() );
+                admin.setEmail( "admin@admin.pl" );
+                admin.setEnabled( true );
+                admin.setRoles( new HashSet<>( Arrays.asList( roleRepository.findRoleByType( Role.Types.ROLE_ADMIN ), roleRepository.findRoleByType( Role.Types.ROLE_USER ) ) ) );
+                userRepository.save( admin );
 
+
+                User user = new User();
+                user.setUsername( "user" );
+                user.setEnabled( true );
+                user.setPassword( passwordEncoder.encode( "user" ) );
+                user.setPasswordConfirm( user.getPassword() );
+                user.setEmail( "user@user.pl" );
+                user.setRoles( new HashSet<>( Collections.singletonList( roleRepository.findRoleByType( Role.Types.ROLE_USER ) ) ) );
+                userRepository.save( user );
+
+                User user2 = new User();
+                user2.setUsername( "user2" );
+                user2.setEnabled( true );
+                user2.setPassword( passwordEncoder.encode( "user2" ) );
+                user2.setPasswordConfirm( user2.getPassword() );
+                user2.setEmail( "user2@user2.pl" );
+                user2.setRoles( new HashSet<>( Collections.singletonList( roleRepository.findRoleByType( Role.Types.ROLE_USER ) ) ) );
+                userRepository.save( user2 );
+            }
+//            if (roleRepository.findAll().isEmpty() == true) {
+//                try {
+//                    Role roleUser = roleRepository.save(new Role(Role.Types.ROLE_USER));
+//                    Role roleAdmin = roleRepository.save(new Role(Role.Types.ROLE_ADMIN));
+//                    Role roleAgent = roleRepository.save(new Role(Role.Types.ROLE_AGENT));
+//
+//                    User user = new User("user", true);
+//                    user.setRoles(new HashSet<>(Arrays.asList(roleUser)));
+//                    user.setPassword(passwordEncoder.encode("user"));
+//
+//                    User admin = new User("admin", true);
+//                    admin.setRoles(new HashSet<>(Arrays.asList(roleAdmin)));
+//                    admin.setPassword(passwordEncoder.encode("admin"));
+//
+//                    User test = new User("useradmin", true);
+//                    test.setRoles(new HashSet<>(Arrays.asList(roleAdmin, roleUser)));
+//                    test.setPassword(passwordEncoder.encode("useradmin"));
+//
+//                    User agent = new User("agent", true);
+//                    agent.setRoles(new HashSet<>(Arrays.asList(roleAgent, roleUser)));
+//                    agent.setPassword(passwordEncoder.encode("agent"));
+//
+//                    userRepository.save(user);
+//                    userRepository.save(admin);
+//                    userRepository.save(test);
+//                    userRepository.save(agent);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
             if (propertyTypeRepository.findAll().isEmpty()) {//przyjmijmy, że jeśli repozytorium typów jest puste, to trzeba zainicjalizować bazę danych
 
                 PropertyType pt = new PropertyType("Dom");
@@ -76,15 +116,16 @@ public class RepositoriesInitializer {
                 propertyTypeRepository.saveAndFlush(new PropertyType("Pokój"));
                 propertyTypeRepository.saveAndFlush(new PropertyType("Inne"));
 
-                Property p1 =
-                        new Property(
-                                "Dom Jednorodzinny",
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ut ligula non est scelerisque dapibus. Pellentesque aliquam vel augue ut fermentum. Sed sollicitudin mauris diam. Sed mattis convallis nisl congue interdum. ",
-                                469000f,
-                                new Date(110, 6, 1),
-                                true,
-                                pt, new Date(117, 7, 22, 4, 32, 34), userRepository.findByUsername("agent"));
-                propertyRepository.saveAndFlush(p1);
+//
+//                Property p1 =
+//                        new Property(
+//                                "Dom Jednorodzinny",
+//                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ut ligula non est scelerisque dapibus. Pellentesque aliquam vel augue ut fermentum. Sed sollicitudin mauris diam. Sed mattis convallis nisl congue interdum. ",
+//                                469000f,
+//                                new Date(110, 6, 1),
+//                                true,
+//                                pt, new Date(117, 7, 22, 4, 32, 34), userRepository.findByUsername("agent"));
+//                propertyRepository.saveAndFlush(p1);
 
                 Property p2 = new Property();
                 p2.setName("Wolny od zaraz pokój 10m2");

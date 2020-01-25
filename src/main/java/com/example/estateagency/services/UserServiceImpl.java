@@ -27,14 +27,20 @@ import java.util.stream.Collectors;
 @Profile(ProfileNames.DATABASE)
 public class UserServiceImpl implements UserService {
 
-    @Autowired
+
     private UserRepository userRepository;
 
-    @Autowired
     private RoleRepository roleRepository;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserServiceImpl ( UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder )
+    {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     //bez adnotacji @Transactional sesja jest zamykana po wywołaniu findByUsername, co uniemożliwia dociągnięcie ról, mimo fetch=EAGER, bo ManyToMany.
@@ -67,10 +73,11 @@ public class UserServiceImpl implements UserService {
     public void save(com.example.estateagency.models.User user) {
         Role userRole = roleRepository.findRoleByType(Role.Types.ROLE_USER);
         List roles = Arrays.asList(userRole);
+        user.setEnabled( true );
         user.setRoles(new HashSet<>(roles));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setPasswordConfirm(null);//wyzerowanie jest potrzebne ze względu na walidację
-        userRepository.saveAndFlush(user);
+        userRepository.save(user);
     }
 
     @Override
@@ -100,8 +107,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username);
     }
 
-
-
+    @Override
+    public void editUser(com.example.estateagency.models.User user) {
+        Role userRole = roleRepository.findRoleByType(Role.Types.ROLE_USER);
+        List roles = Arrays.asList(userRole);
+        user.setRoles(new HashSet<>(roles));
+        userRepository.save(user);
+    }
 
 
 }

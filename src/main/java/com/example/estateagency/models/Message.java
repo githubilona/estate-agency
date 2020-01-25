@@ -26,7 +26,7 @@ public class Message {
     private Long id;
 
     @NotBlank
-    @Size(min = 2, max = 100000)
+    @Size(min = 1, max = 100000)
     private String messageText;
 
 

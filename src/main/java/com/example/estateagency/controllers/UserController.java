@@ -1,20 +1,36 @@
 package com.example.estateagency.controllers;
 
+import com.example.estateagency.models.Property;
 import com.example.estateagency.models.User;
 import com.example.estateagency.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.ServletContext;
+import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 
 @Controller
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ServletContext servletContext;
 
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/userList.html", method = {RequestMethod.GET, RequestMethod.POST})
@@ -39,6 +55,37 @@ public class UserController {
         user.setEnabled(!user.isEnabled());
         userService.save(user);
         return "redirect:/userList.html";
+    }
+
+    @RequestMapping(value="/edit", method=RequestMethod.POST)
+    public String processForm(@ModelAttribute("user") User u, BindingResult errors,
+                              @RequestParam("file") MultipartFile file) throws IOException {
+
+        if(!file.isEmpty()) {
+
+            String uploadsDir = "/uploads/user-images";
+            String realPathToUploads = servletContext.getRealPath(uploadsDir);
+
+            if (!new File(realPathToUploads).exists()) {
+                new File(realPathToUploads).mkdir();
+            }
+
+            String orgName = file.getOriginalFilename();
+            String filePath = realPathToUploads + orgName;
+            File dest = new File(filePath);
+            file.transferTo(dest);
+
+            u.setImageName(uploadsDir + file.getOriginalFilename());
+        }
+        if(errors.hasErrors()){
+            System.out.println("Errors");
+            return "myPropertyList.html";
+        }
+
+
+        userService.editUser(u);
+
+        return "redirect:myPropertyList.html";//po udanym dodaniu/edycji przekierowujemy na listę
     }
 
 
