@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="statics/css/image-gallery.css" />
     <div th:replace="shared/header :: header-css"/>
     <title>Strona domowa</title>
 </head>
@@ -10,15 +11,27 @@
 
 <div id="main" class="container">
     <H1>Dane ogłoszenia</H1>
-    <div class="col-lg-5 col-md-5">
-        <img style="width: 100%; height: auto;" class="img-rounded" th:src="${property.imageName != null ? property.imageName : '/images/no-image-property.png'}"/>
+
+
+    <div th:unless="${property.photos.isEmpty()}">
+    <div class="slideshow-container">
+
+        <div th:each="photo : ${property.photos}" class="mySlides">
+            <div class="numbertext" th:text="${property.photos.indexOf(photo)}+1 + '/'+ ${property.photos.size()} ">1 / 3</div>
+            <img th:src="'/uploads/'+ ${photo}" style="width:1000px; height:600px">
+        </div>
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
     </div>
-    <ul>
-        <li th:each="photo : ${property.photos}">
-            <!--                            <a th:href="${photo}" target="_blank" th:text="${photo}"></a>-->
-            <img th:src="'/uploads/'+${photo}" style="width: 15%; height: auto;">
-        </li>
-    </ul>
+    <br>
+
+    <div style="text-align:center">
+        <span  th:each="photo : ${property.photos}" class="dot" th:onclick="currentSlide(${property.photos.indexOf(photo)}+1)"></span>
+    </div>
+    </div>
+
     Id: <b th:text="${property.id}"></b><br/>
     Data dodania: <b th:text="${property.creationDate}"></b><br/>
     Tytuł: <b th:text="${property.name}"></b><br/>
@@ -41,5 +54,34 @@
     <a class="btn btn-success" href="/propertyList.html">Wstecz</a>
 </div>
 <div th:replace="shared/footer :: footer"></div>
+
+<script>
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        if (n > slides.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex-1].style.display = "block";
+        dots[slideIndex-1].className += " active";
+    }
+</script>
 </body>
 </html>
