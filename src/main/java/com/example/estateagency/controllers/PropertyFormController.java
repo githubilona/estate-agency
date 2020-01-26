@@ -1,8 +1,7 @@
 package com.example.estateagency.controllers;
 
-import com.example.estateagency.models.OfferType;
-import com.example.estateagency.models.Property;
-import com.example.estateagency.models.PropertyType;
+import com.example.estateagency.models.*;
+import com.example.estateagency.services.AddressService;
 import com.example.estateagency.services.PropertyService;
 import com.example.estateagency.services.UserService;
 import lombok.extern.log4j.Log4j2;
@@ -44,6 +43,7 @@ public class PropertyFormController {
 
 	private PropertyService propertyService;
 	private UserService userService;
+	private AddressService addressService;
 
 	@Autowired
 	ServletContext servletContext;
@@ -51,9 +51,10 @@ public class PropertyFormController {
 
 	//Wstrzyknięcie zależności przez konstruktor. Od wersji 4.3 Springa nie trzeba używać adnontacji @Autowired, gdy mamy jeden konstruktor
 	//@Autowired
-	public PropertyFormController(PropertyService propertyService, UserService userService) {
+	public PropertyFormController(PropertyService propertyService, UserService userService, AddressService addressService) {
 		this.propertyService = propertyService;
 		this.userService=userService;
+		this.addressService=addressService;
 	}
 
 	@Secured("ROLE_ADMIN")
@@ -78,6 +79,12 @@ public class PropertyFormController {
 	@ModelAttribute("offerTypes")
 	public List<OfferType> loadOfferTypes(){
 		List<OfferType> types = propertyService.getAllOfferTypes();
+		log.info("Ładowanie listy "+types.size()+" typów ofert ");
+		return types;
+	}
+	@ModelAttribute("provinces")
+	public List<Province> loadProvinces(){
+		List<Province> types = addressService.getAllProvinces();
 		log.info("Ładowanie listy "+types.size()+" typów ofert ");
 		return types;
 	}
@@ -143,9 +150,10 @@ public class PropertyFormController {
 		log.info("Data utworzenia komponentu "+p.getCreationDate());
 		log.info("Data edycji komponentu "+new Date());
 
+		addressService.saveAddress(p.getAddress());
 		propertyService.saveProperty(p);
 
-		return "redirect:propertyList.html";//po udanym dodaniu/edycji przekierowujemy na listę
+		return "redirect:propertyList.html";
 	}
 
 	private String saveImage(MultipartFile multipartFile) {

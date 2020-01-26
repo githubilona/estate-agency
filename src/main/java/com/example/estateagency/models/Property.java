@@ -82,11 +82,17 @@ public class Property {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Address address;
 
+	@Positive
+	private float area;
+
+	private boolean furnished;
+
 
 	public Property() {
 		this.creationDate = new Date();
 		this.propertyType = new PropertyType();
 		this.offerType = new OfferType();
+		this.address = new Address();
 		this.imageName="/images/no-image-property.png";
 	}
 
@@ -113,4 +119,32 @@ public class Property {
 		}
 
 	}
+
+	// Do formlarza propertyForm potrzebane (nie wkrywa lomboka)
+	public Address getAddress() {
+		return address;
+	}
+	public String getCity(){
+		return getAddress().getCity();
+	}
+	public String getStreet(){
+		return getAddress().getStreet();
+	}
+	public String getLocalNumber(){
+		return getAddress().getLocalNumber();
+	}
+
+	public void setAddress(Address address) {
+		this.address=address;
+	}
+	public void setCity(String city){
+		getAddress().setCity(city);
+	}
+	public void setStreet(String street){
+		getAddress().setStreet(street);
+	}
+	public void setLocalNumber(String localNumber){
+		getAddress().setLocalNumber(localNumber);
+	}
+
 }

@@ -171,6 +171,8 @@ public class RepositoriesInitializer {
                 p2.setOfferType(ot2);
                 p2.setNumberOfRooms(1);
                 p2.setAddress(a1);
+                p2.setFurnished(true);
+                p2.setArea(78f);
                 p2.setCreationDate(new Date());
                 p2.setUser(userRepository.findByUsername("admin"));
                 propertyRepository.saveAndFlush(p2);
@@ -184,6 +186,8 @@ public class RepositoriesInitializer {
                 p3.setOfferType(ot1);
                 p3.setNumberOfRooms(3);
                 p3.setAddress(a2);
+                p3.setFurnished(true);
+                p3.setArea(54f);
                 p3.setCreationDate(new Date());
                 p3.setUser(userRepository.findByUsername("user"));
                 propertyRepository.saveAndFlush(p3);
@@ -205,6 +209,8 @@ public class RepositoriesInitializer {
                 p4.setOfferType(ot1);
                 p4.setNumberOfRooms(4);
                 p4.setAddress(a3);
+                p4.setFurnished(true);
+                p4.setArea(320f);
                 p4.setCreationDate(new Date());
                 p4.setUser(userRepository.findByUsername("admin"));
                 propertyRepository.saveAndFlush(p4);
