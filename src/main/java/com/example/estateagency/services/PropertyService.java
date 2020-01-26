@@ -1,6 +1,7 @@
 package com.example.estateagency.services;
 
 import com.example.estateagency.controllers.commands.PropertyFilter;
+import com.example.estateagency.models.OfferType;
 import com.example.estateagency.models.Property;
 import com.example.estateagency.models.PropertyType;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import java.util.List;
 public interface PropertyService {
 
     List<PropertyType> getAllTypes();
+    List<OfferType> getAllOfferTypes();
 
     Page<Property> getAllProperties(PropertyFilter filter, Pageable pageable);
 

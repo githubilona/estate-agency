@@ -1,9 +1,11 @@
 package com.example.estateagency.services;
 
 import com.example.estateagency.controllers.commands.PropertyFilter;
+import com.example.estateagency.models.OfferType;
 import com.example.estateagency.models.Property;
 import com.example.estateagency.models.PropertyType;
 import com.example.estateagency.models.User;
+import com.example.estateagency.repositories.OfferTypeRepository;
 import com.example.estateagency.repositories.PropertyRepository;
 import com.example.estateagency.repositories.PropertyTypeRepository;
 import com.example.estateagency.repositories.UserRepository;
@@ -23,6 +25,8 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Autowired
     private PropertyTypeRepository propertyTypeRepository;
+    @Autowired
+    private OfferTypeRepository offerTypeRepository;
 
     @Autowired
     private PropertyRepository propertyRepository;
@@ -33,6 +37,10 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public List<PropertyType> getAllTypes() {
         return propertyTypeRepository.findAll();
+    }
+    @Override
+    public List<OfferType> getAllOfferTypes() {
+        return offerTypeRepository.findAll();
     }
 
     @Override

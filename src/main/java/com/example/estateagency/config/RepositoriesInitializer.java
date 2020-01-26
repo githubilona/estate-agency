@@ -1,13 +1,7 @@
 package com.example.estateagency.config;
 
-import com.example.estateagency.models.Property;
-import com.example.estateagency.models.PropertyType;
-import com.example.estateagency.models.Role;
-import com.example.estateagency.models.User;
-import com.example.estateagency.repositories.PropertyRepository;
-import com.example.estateagency.repositories.PropertyTypeRepository;
-import com.example.estateagency.repositories.RoleRepository;
-import com.example.estateagency.repositories.UserRepository;
+import com.example.estateagency.models.*;
+import com.example.estateagency.repositories.*;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,18 +18,25 @@ public class RepositoriesInitializer {
 
     private PropertyRepository propertyRepository;
     private PropertyTypeRepository propertyTypeRepository;
+    private OfferTypeRepository offerTypeRepository;
     private UserRepository userRepository;
     private RoleRepository roleRepository;
+    private ProvinceRepository provinceRepository;
+    private AddressRepository addressRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     public RepositoriesInitializer(PropertyRepository propertyRepository, PropertyTypeRepository propertyTypeRepository,
-                                   UserRepository userRepository, RoleRepository roleRepository) {
+                                   OfferTypeRepository offerTypeRepository, UserRepository userRepository,
+                                   RoleRepository roleRepository, ProvinceRepository provinceRepository, AddressRepository addressRepository) {
         this.propertyRepository=propertyRepository;
         this.propertyTypeRepository=propertyTypeRepository;
+        this.offerTypeRepository=offerTypeRepository;
         this.userRepository=userRepository;
         this.roleRepository=roleRepository;
+        this.provinceRepository=provinceRepository;
+        this.addressRepository=addressRepository;
     }
 
     @Bean
@@ -116,6 +117,40 @@ public class RepositoriesInitializer {
                 propertyTypeRepository.saveAndFlush(new PropertyType("Pokój"));
                 propertyTypeRepository.saveAndFlush(new PropertyType("Inne"));
 
+
+                OfferType ot1=new OfferType("Sprzedaż");
+                OfferType ot2=new OfferType("Wynajem");
+                offerTypeRepository.saveAndFlush(ot1);
+                offerTypeRepository.saveAndFlush(ot2);
+
+                // TODO sql script
+                Province p1 =new Province("Wielkopolskie");
+                provinceRepository.saveAndFlush(p1);
+                provinceRepository.saveAndFlush(new Province("Kujawsko-pomorskie"));
+                provinceRepository.saveAndFlush(new Province("Małopolskie"));
+                provinceRepository.saveAndFlush(new Province("Dolnośląskie"));
+                provinceRepository.saveAndFlush(new Province("Lubelskie"));
+                provinceRepository.saveAndFlush(new Province("Lubuskie"));
+                provinceRepository.saveAndFlush(new Province("Mazowieckie"));
+                provinceRepository.saveAndFlush(new Province("Opolskie"));
+                provinceRepository.saveAndFlush(new Province("Podlaskie"));
+                provinceRepository.saveAndFlush(new Province("Pomorskie"));
+                provinceRepository.saveAndFlush(new Province("Śląskie"));
+                provinceRepository.saveAndFlush(new Province("Podkarpackie"));
+                provinceRepository.saveAndFlush(new Province("Świętokrzyskie"));
+                provinceRepository.saveAndFlush(new Province("Warmińsko-Mazurskie"));
+                provinceRepository.saveAndFlush(new Province("Zachodniopomorskie"));
+
+                Address a1 = new Address("Warszawa", p1, "Nowa", "12");
+                Address a2 = new Address("Kraków", p1, "Słoneczna", "60a");
+                Address a3 = new Address("Wrocława", p1, "Długa", "89");
+                addressRepository.saveAndFlush(a1);
+                addressRepository.saveAndFlush(a2);
+                addressRepository.saveAndFlush(a3);
+
+
+
+
 //
 //                Property p1 =
 //                        new Property(
@@ -133,6 +168,9 @@ public class RepositoriesInitializer {
                 p2.setAvailableDate(new Date(107, 3, 21));
                 p2.setPrice(700f);
                 p2.setPropertyType(pt);
+                p2.setOfferType(ot2);
+                p2.setNumberOfRooms(1);
+                p2.setAddress(a1);
                 p2.setCreationDate(new Date());
                 p2.setUser(userRepository.findByUsername("admin"));
                 propertyRepository.saveAndFlush(p2);
@@ -143,6 +181,9 @@ public class RepositoriesInitializer {
                 p3.setAvailableDate(new Date(104, 8, 16));
                 p3.setPrice(404000f);
                 p3.setPropertyType(pt);
+                p3.setOfferType(ot1);
+                p3.setNumberOfRooms(3);
+                p3.setAddress(a2);
                 p3.setCreationDate(new Date());
                 p3.setUser(userRepository.findByUsername("user"));
                 propertyRepository.saveAndFlush(p3);
@@ -161,6 +202,9 @@ public class RepositoriesInitializer {
                 p4.setAvailableDate(new Date(110, 3, 26));
                 p4.setPrice(395000f);
                 p4.setPropertyType(pt);
+                p4.setOfferType(ot1);
+                p4.setNumberOfRooms(4);
+                p4.setAddress(a3);
                 p4.setCreationDate(new Date());
                 p4.setUser(userRepository.findByUsername("admin"));
                 propertyRepository.saveAndFlush(p4);

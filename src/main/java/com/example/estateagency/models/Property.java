@@ -48,9 +48,14 @@ public class Property {
 	private boolean exclusive;
 
 	@Valid
-	@ManyToOne(fetch = FetchType.EAGER)//EAGER powoduje pobranie obiektu VehicleType wraz z obiektem Vehicle.
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="type_id", nullable = false)
 	private PropertyType  propertyType;
+
+	@Valid
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="offer_type_id", nullable = false)
+	private OfferType  offerType;
 
 	@Column(name="created_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -68,23 +73,35 @@ public class Property {
 	@CollectionTable (name = "Photos", joinColumns = @JoinColumn (name = "item_id"))
 	private List<String> photos;
 
+	@Positive
+	@Max(30)
+	private int numberOfRooms;
+
+	@JoinColumn(name="address_id", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Address address;
+
 
 	public Property() {
 		this.creationDate = new Date();
 		this.propertyType = new PropertyType();
+		this.offerType = new OfferType();
 		this.imageName="/images/no-image-property.png";
 	}
 
 	public Property(String name, String description, float price, Date availableDate, boolean exclusive,
-					PropertyType propertyType, Date creationDate, User user) {
+					PropertyType propertyType, OfferType offerType, Date creationDate, User user, int numberOfRooms) {
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.availableDate = availableDate;
 		this.exclusive = exclusive;
 		this.propertyType=propertyType;
+		this.offerType=offerType;
 		this.creationDate=creationDate;
 		this.user=user;
+		this.numberOfRooms=numberOfRooms;
 	}
 
 	public void setPhotos(List<String> photos) {

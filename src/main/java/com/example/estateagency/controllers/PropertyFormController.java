@@ -1,5 +1,6 @@
 package com.example.estateagency.controllers;
 
+import com.example.estateagency.models.OfferType;
 import com.example.estateagency.models.Property;
 import com.example.estateagency.models.PropertyType;
 import com.example.estateagency.services.PropertyService;
@@ -74,6 +75,13 @@ public class PropertyFormController {
 		log.info("Ładowanie listy "+types.size()+" typów ");
 		return types;
 	}
+	@ModelAttribute("offerTypes")
+	public List<OfferType> loadOfferTypes(){
+		List<OfferType> types = propertyService.getAllOfferTypes();
+		log.info("Ładowanie listy "+types.size()+" typów ofert ");
+		return types;
+	}
+
 
 //	@RequestMapping(value="/propertyForm.html", method=RequestMethod.POST)
 //	public String processForm(@Valid @ModelAttribute("property") Property p, BindingResult errors,

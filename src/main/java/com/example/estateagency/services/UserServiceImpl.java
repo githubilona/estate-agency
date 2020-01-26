@@ -109,10 +109,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void editUser(com.example.estateagency.models.User user) {
-        Role userRole = roleRepository.findRoleByType(Role.Types.ROLE_USER);
-        List roles = Arrays.asList(userRole);
-        user.setRoles(new HashSet<>(roles));
-        userRepository.save(user);
+        if (user.getUsername().equals("admin")){
+            Role adminRole = roleRepository.findRoleByType(Role.Types.ROLE_ADMIN);
+            List roles = Arrays.asList(adminRole);
+            user.setRoles(new HashSet<>(roles));
+            userRepository.save(user);
+        }else{
+            Role userRole = roleRepository.findRoleByType(Role.Types.ROLE_USER);
+            List roles = Arrays.asList(userRole);
+            user.setRoles(new HashSet<>(roles));
+            userRepository.save(user);
+        }
+
     }
 
 

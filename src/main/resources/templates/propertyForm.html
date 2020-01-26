@@ -54,6 +54,17 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="numberOfRooms" class="bmd-label-floating">Liczba pokoi:</label>
+                        <input id="numberOfRooms" type="text" th:field="*{numberOfRooms}"
+                               class="form-control" th:classappend="${#fields.hasErrors('numberOfRooms')}?'is-invalid'"
+                               required="true"/>
+
+                        <div class="error text-danger" th:if="${#fields.hasErrors('numberOfRooms')}">
+                            <p th:each="err : ${#fields.errors('numberOfRooms')}" th:text="${err}"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label for="availableDate" class="bmd-label-floating">Dostępny od:</label>
                         <input id="availableDate" type="date" th:field="*{availableDate}"
                                class="form-control" th:classappend="${#fields.hasErrors('availableDate')}?'is-invalid'"
@@ -81,6 +92,20 @@
                         </select>
                         <div class="error text-danger" th:if="${#fields.hasErrors('propertyType.id')}">
                             <p th:each="err : ${#fields.errors('propertyType.id')}" th:text="${err}"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <select th:field="*{offerType.id}" class="form-control"
+                                th:classappend="${#fields.hasErrors('offerType.id')}?'is-invalid'">
+                            <option value="-1">--wybierz typ oferty--</option>
+                            <option th:each="type : ${offerTypes}"
+                                    th:value="${type.id}"
+                                    th:text=" ${type.name}"
+                            />
+                        </select>
+                        <div class="error text-danger" th:if="${#fields.hasErrors('offerType.id')}">
+                            <p th:each="err : ${#fields.errors('offerType.id')}" th:text="${err}"></p>
                         </div>
                     </div>
 <!--                    <div class="form-group">-->
