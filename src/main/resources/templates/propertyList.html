@@ -18,6 +18,47 @@
 
         <form th:method="POST" th:action="@{propertyList.html}" th:object="${searchCommand}">
             <div class="row">
+
+                <div class="form-group">
+
+                <select th:field="*{offerType}" class="form-control" >
+                    <option value="">--wybierz typ oferty--</option>
+                    <option th:each="type : ${offerTypes}"
+                            th:value="${type.name}"
+                            th:text=" ${type.name}"
+                    />
+                </select>
+                </div>
+
+                <div class="form-group">
+                <select th:field="*{propertyType}" class="form-control">
+                    <option value="">--wybierz typ nieruchomości--</option>
+                    <option th:each="type : ${propertyTypes}"
+                            th:value="${type.name}"
+                            th:text=" ${type.name}"
+                    />
+                </select>
+                </div>
+
+
+                <div class="form-group">
+                    <select th:field="*{province}" class="form-control">
+                        <option value="">--wybierz województwo--</option>
+                        <option th:each="province : ${provinces}"
+                                th:value="${province.name}"
+                                th:text=" ${province.name}"
+                        />
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <input th:field="*{city}" placeholder="Miejscowość" class="form-control"
+                           th:classappend="${#fields.hasErrors('city')}?'is-invalid'"/>
+                    <div class="error text-danger" th:if="${#fields.hasErrors('city')}">
+                        <p th:each="err : ${#fields.errors('city')}" th:text="${err}"></p>
+                    </div>
+                </div>
+
                 <div class="form-group col-md-6">
                     <input th:field="*{phrase}" placeholder="Fraza" class="form-control"
                            th:classappend="${#fields.hasErrors('phrase')}?'is-invalid'"/>

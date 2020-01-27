@@ -48,7 +48,9 @@ public class PropertyServiceImpl implements PropertyService {
         if(search.isEmpty()){
             return propertyRepository.findAll(pageable);
         }else{
-            return propertyRepository.findAllPropertiesUsingFilter(search.getPhraseLIKE(), search.getMinPrice(), search.getMaxPrice(), pageable);
+            return propertyRepository.findAllPropertiesUsingFilter(search.getPhraseLIKE(), search.getMinPrice(), search.getMaxPrice(),
+                  search.getOfferType(), search.getPropertyType(), search.getProvince(), search.getCity(),
+                  pageable);
         }
     }
 

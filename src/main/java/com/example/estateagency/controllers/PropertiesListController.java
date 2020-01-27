@@ -1,11 +1,10 @@
 package com.example.estateagency.controllers;
 
 import com.example.estateagency.controllers.commands.PropertyFilter;
-import com.example.estateagency.models.Message;
-import com.example.estateagency.models.Property;
-import com.example.estateagency.models.User;
+import com.example.estateagency.models.*;
 import com.example.estateagency.repositories.MessageRepository;
 import com.example.estateagency.repositories.PropertyRepository;
+import com.example.estateagency.services.AddressService;
 import com.example.estateagency.services.MessageService;
 import com.example.estateagency.services.PropertyService;
 import com.example.estateagency.services.UserService;
@@ -28,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.text.DecimalFormat;
+import java.util.List;
 
 @Controller
 @SessionAttributes("searchCommand")
@@ -36,7 +36,9 @@ public class PropertiesListController {
 	protected final Log log = LogFactory.getLog(getClass());//Dodatkowy komponent do logowania
 
 	@Autowired
-	PropertyService propertyService;
+	private PropertyService propertyService;
+	@Autowired
+	private AddressService addressService;
 
 	@Secured("IS_AUTHENTICATED_FULLY")
 	@GetMapping(value="/propertyDetails.html", params = "id")
@@ -76,7 +78,6 @@ public class PropertiesListController {
 		return "propertyList";
 	}
 
-
 	@RequestMapping(value="/myPropertyList.html")
 	public String showUserPropertyList(Model model, Pageable pageable){
 		model.addAttribute("propertyListPage", propertyService.getAllPropertiesByUser(pageable));
@@ -103,6 +104,25 @@ public class PropertiesListController {
 		return queryString.substring(queryString.indexOf("&")+1);//obcinamy parametr did, bo inaczej znowu będzie wywołana metoda deleteProperty
 	}
 
+
+	@ModelAttribute("propertyTypes")
+	public List<PropertyType> loadTypes(){
+		List<PropertyType> types = propertyService.getAllTypes();
+		log.info("Ładowanie listy "+types.size()+" typów ");
+		return types;
+	}
+	@ModelAttribute("offerTypes")
+	public List<OfferType> loadOfferTypes(){
+		List<OfferType> types = propertyService.getAllOfferTypes();
+		log.info("Ładowanie listy "+types.size()+" typów ofert ");
+		return types;
+	}
+	@ModelAttribute("provinces")
+	public List<Province> loadProvinces(){
+		List<Province> types = addressService.getAllProvinces();
+		log.info("Ładowanie listy "+types.size()+" typów ofert ");
+		return types;
+	}
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {//Rejestrujemy edytory właściwości
 		DecimalFormat numberFormat = new DecimalFormat("#0.00");

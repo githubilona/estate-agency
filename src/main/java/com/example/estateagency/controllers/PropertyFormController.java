@@ -37,7 +37,7 @@ import java.util.Optional;
 
 
 @Controller
-@SessionAttributes(names={"propertyTypes", "property"})
+@SessionAttributes(names={"propertyTypes", "offerTypes","provinces","property"})
 @Log4j2
 public class PropertyFormController {
 
