@@ -101,6 +101,11 @@ public class MessageController {
         model.addAttribute("conversationListPage", conversationService.getAllConversationsForActiveUser(pageable));
         return "messageList";
     }
+    @GetMapping(value = "/contactList.html")
+    public String showContactList(Model model, Pageable pageable) {
+        model.addAttribute("conversationListPage", conversationService.getAllConversationsForActiveUser(pageable));
+        return "contactList";
+    }
     @GetMapping("/messageDetails")
     public String showMessageDetails(Model model,Long conversationId) {
         Conversation c = conversationService.getById(conversationId);

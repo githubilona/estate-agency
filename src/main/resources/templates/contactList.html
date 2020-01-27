@@ -1,0 +1,76 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <script src="https://kit.fontawesome.com/e0d1596b92.js" crossorigin="anonymous"></script>
+
+    <div th:replace="shared/header :: header-css"/>
+    <title>Kontakty</title>
+</head>
+<body>
+<div th:replace="shared/header :: header('contactList')"/>
+
+<div id="main" class="container">
+
+    <H1>Kontakty</H1>
+
+    <!--    <tr th:each="conversation : ${conversationListPage.content}" >-->
+    <!--        <td th:text="${conversation.id}"></td>-->
+    <!--        <a th:href="@{/messageDetails(conversationId=${conversation.id})}" th:text="${conversation.property.name}  ">link</a>-->
+    <!--    </tr>-->
+
+
+    <div th:if="${conversationListPage.hasContent() eq false}">
+        <span>Brak kontaktów </span>
+    </div>
+    <div th:if="${conversationListPage.hasContent() eq true}">
+
+
+
+        <span th:inline="text">
+           Liczba elemntów: [[${conversationListPage.totalElements}]]
+        </span>
+
+        <table class="table table-responsive">
+            <thead class="thead-dark">
+            <tr>
+                <th>Użytkownik</th>
+                <th>Ogłoszenie</th>
+                <th>Chat</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="conversation : ${conversationListPage.content}" >
+
+
+
+                <td>
+                    <img style="width: 50%; height: auto;" class="img-circle"  th:src="${conversation.userReceiver.imageName != null
+                    ? conversation.userReceiver.imageName : '/images/no-image2.jpg'}"/> <br>
+
+
+                    <a th:href="@{/userDetails.html(id=${conversation.userReceiver.id})}" th:text="${conversation.userReceiver.username}"></a> <br><br>
+                    <p th:text="${conversation.userReceiver.firstName} + ' '+ ${conversation.userReceiver.lastName}"></p> <br>
+                </td>
+                <td>
+                    <img style="width: 15%; height: auto;" class="img-rounded" th:src="${conversation.property.imageName != null ?
+                         conversation.property.imageName  : '/images/no-image2.jpg'}"/> <br>
+                    <a th:href="@{/messageDetails(conversationId=${conversation.id})}" th:text="${conversation.property.name}  ">link</a>
+                </td>
+               <td>
+                   <a class="fas fa-comment-dots" th:href="@{/messageDetails(conversationId=${conversation.id})}" style="font-size:48px; text-decoration: none"></a>
+               </td>
+
+            </tr>
+
+            </tbody>
+        </table>
+
+        <div th:replace="shared/pagination :: pager('/messageList.html', ${conversationListPage})"></div>
+
+    </div>
+
+
+</div>
+</body>
+</html>
