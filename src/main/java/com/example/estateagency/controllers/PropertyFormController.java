@@ -2,6 +2,7 @@ package com.example.estateagency.controllers;
 
 import com.example.estateagency.models.*;
 import com.example.estateagency.services.AddressService;
+import com.example.estateagency.services.PremiumOfferService;
 import com.example.estateagency.services.PropertyService;
 import com.example.estateagency.services.UserService;
 import lombok.extern.log4j.Log4j2;
@@ -44,6 +45,7 @@ public class PropertyFormController {
 	private PropertyService propertyService;
 	private UserService userService;
 	private AddressService addressService;
+	private PremiumOfferService premiumOfferService;
 
 	@Autowired
 	ServletContext servletContext;
@@ -51,10 +53,12 @@ public class PropertyFormController {
 
 	//Wstrzyknięcie zależności przez konstruktor. Od wersji 4.3 Springa nie trzeba używać adnontacji @Autowired, gdy mamy jeden konstruktor
 	//@Autowired
-	public PropertyFormController(PropertyService propertyService, UserService userService, AddressService addressService) {
+	public PropertyFormController(PropertyService propertyService, UserService userService, AddressService addressService,
+								  PremiumOfferService premiumOfferService) {
 		this.propertyService = propertyService;
 		this.userService=userService;
 		this.addressService=addressService;
+		this.premiumOfferService=premiumOfferService;
 	}
 
 	@Secured("ROLE_ADMIN")
@@ -85,7 +89,13 @@ public class PropertyFormController {
 	@ModelAttribute("provinces")
 	public List<Province> loadProvinces(){
 		List<Province> types = addressService.getAllProvinces();
-		log.info("Ładowanie listy "+types.size()+" typów ofert ");
+		log.info("Ładowanie listy "+types.size()+" wojewodztw ");
+		return types;
+	}
+	@ModelAttribute("premiumOffer")
+	public List<PremiumOffer> loadPremiumOffer(){
+		List<PremiumOffer> types = premiumOfferService.getAllPremiumOffer();
+		log.info("Ładowanie listy "+types.size()+" oferty premium ");
 		return types;
 	}
 

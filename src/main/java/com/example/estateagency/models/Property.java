@@ -87,6 +87,11 @@ public class Property {
 
 	private boolean furnished;
 
+	@JoinColumn(name="premium_offer_id", nullable = true)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private PremiumOffer premiumOffer;
+
 
 	public Property() {
 		this.creationDate = new Date();

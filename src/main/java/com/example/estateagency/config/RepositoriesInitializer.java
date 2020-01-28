@@ -23,13 +23,15 @@ public class RepositoriesInitializer {
     private RoleRepository roleRepository;
     private ProvinceRepository provinceRepository;
     private AddressRepository addressRepository;
+    private PremiumOfferRepository premiumOfferRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     public RepositoriesInitializer(PropertyRepository propertyRepository, PropertyTypeRepository propertyTypeRepository,
                                    OfferTypeRepository offerTypeRepository, UserRepository userRepository,
-                                   RoleRepository roleRepository, ProvinceRepository provinceRepository, AddressRepository addressRepository) {
+                                   RoleRepository roleRepository, ProvinceRepository provinceRepository, AddressRepository addressRepository,
+                                   PremiumOfferRepository premiumOfferRepository) {
         this.propertyRepository=propertyRepository;
         this.propertyTypeRepository=propertyTypeRepository;
         this.offerTypeRepository=offerTypeRepository;
@@ -37,6 +39,7 @@ public class RepositoriesInitializer {
         this.roleRepository=roleRepository;
         this.provinceRepository=provinceRepository;
         this.addressRepository=addressRepository;
+        this.premiumOfferRepository=premiumOfferRepository;
     }
 
     @Bean
@@ -77,6 +80,36 @@ public class RepositoriesInitializer {
                 user2.setEmail( "user2@user2.pl" );
                 user2.setRoles( new HashSet<>( Collections.singletonList( roleRepository.findRoleByType( Role.Types.ROLE_USER ) ) ) );
                 userRepository.save( user2 );
+            }
+            if ( premiumOfferRepository.findAll().isEmpty() )
+            {
+                PremiumOffer po1 = new PremiumOffer();
+                po1.setName("Mini 5");
+                po1.setDescription("- podświetlenie na liście ogłoszeń,\n" +
+                        "- 7 dni promowania na górze listy ogłoszeń.");
+                po1.setDays(7);
+                po1.setPrice(4.99f);
+                premiumOfferRepository.save(po1);
+
+                PremiumOffer po2 = new PremiumOffer();
+                po2.setName("Midi 30");
+                po2.setDescription("- podświetlenie na liście ogłoszeń,\n" +
+                        "- 30 dni promowania na górze listy ogłoszeń,\n" +
+                        "- 3 odświeżenia (2,4 i 6 dni po aktywacji).");
+                po2.setDays(30);
+                po2.setPrice(9.99f);
+                premiumOfferRepository.save(po2);
+
+                PremiumOffer po3 = new PremiumOffer();
+                po3.setName("All");
+                po3.setDescription("- podświetlenie na liście ogłoszeń,\n" +
+                        "- rok promowania na górze listy ogłoszeń,\n" +
+                        "- 9 odświeżeń (co 3 dni),\n" +
+                        "- rok promowania na stronie głównej.");
+                po3.setDays(365);
+                po3.setPrice(29.99f);
+                premiumOfferRepository.save(po3);
+
             }
 //            if (roleRepository.findAll().isEmpty() == true) {
 //                try {

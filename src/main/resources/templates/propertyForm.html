@@ -114,13 +114,6 @@
 
                     <div class="form-group">
                         <label class="bmd-label-floating">
-                            <input type="checkbox" th:field="*{exclusive}"/>
-                            Premium
-                        </label>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="bmd-label-floating">
                             <input type="checkbox" th:field="*{furnished}"/>
                             Umeblowany
                         </label>
@@ -166,6 +159,53 @@
                     <hr>
                     <div class="gallery"></div>
 
+
+                    <div class="form-group">
+                        <label class="bmd-label-floating">
+                            <input type="checkbox" th:field="*{exclusive}"/>
+                            Premium
+                        </label>
+                    </div>
+
+                    <div class="form-group" style="background: #e0da85">
+
+
+                        <table class="table">
+                            <thead class="thead-light">
+                            </thead>
+                            <tbody>
+                            <tr  th:each="offer : ${premiumOffer}">
+                                <td>
+                                    <input type="radio" th:field="*{premiumOffer.id}" th:value="${offer.id}" />
+                                </td>
+                                <td>
+                                    <label th:for="${offer.id}" th:text="${offer.name}" style="font-weight: bold"></label>
+                                </td>
+                                <td>
+                                     <p th:text="${offer.price}" style="font-size: 18px; color: #a80446 "></p>
+                                </td>
+                                <td>
+                                    <p th:text="${offer.description}"></p>
+                                </td>
+<!--                                <th scope="row">1</th>-->
+<!--                                <td>Mark</td>-->
+<!--                                <td>Otto</td>-->
+<!--                                <td>@mdo</td>-->
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+
+<!--                        -->
+<!--                        <ul>-->
+<!--                            <li th:each="offer : ${premiumOffer}">-->
+<!--                                <input type="radio" th:field="*{premiumOffer.id}" th:value="${offer.id}" />-->
+<!--                                <label th:for="${offer.id}" th:text="${offer.name}" style="font-weight: bold"></label>-->
+<!--                                <p th:text="${offer.description}"></p>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+                    </div>
 <!--                    <div class="form-group">-->
 <!--                        <div th:each="acc : ${accessoryList}" class='checkbox' style="left:25px;">-->
 <!--                            <input th:id="${acc}" type="checkbox" th:field="*{accessories}"-->
