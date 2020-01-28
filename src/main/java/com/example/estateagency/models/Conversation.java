@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Setter
 @Getter
@@ -35,5 +36,9 @@ public class Conversation {
     @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User userReceiver;
+
+    @Column(name="meeting_date", nullable = true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date meetingDate;
 
 }
