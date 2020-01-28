@@ -1,26 +1,30 @@
 
 <div th:fragment="contactForm(message, property)">
 
-    <h1>Formularz kontaktowy</h1>
+    <h3>Formularz kontaktowy</h3>
     <form th:method="POST" th:object="${message}" th:action="@{/propertyDetails.html}">
 
-
         <div sec:authorize="!isAuthenticated()">
-        <input id="email" type="text" name="email" th:value="*{email}"
-               class="form-control" required="true"  placeholder="Email..."/>
+        <div class="form-group">
+            <label for="email"></label>
+            <input type="email" id="email"  name="email" th:value="*{email}" class="form-control" placeholder="name@example.com">
+        </div>
         </div>
 
+        <br><br>
 
-
-        <input id="messageText" type="text" name="messageText" th:value="*{messageText}"
-               class="form-control" required="true" placeholder="Wpisz wiadomosć..."/>
-
+        <div class="form-group">
+            <label for="messageText"></label>
+            <textarea class="form-control" id="messageText"  name="messageText" th:value="*{messageText}"
+                      rows="5" placeholder="Wpisz wiadomosć..."></textarea>
+        </div>
 
         <input id="property" type="hidden" name="property" th:value="${property.id}"/>
         <input id="userReceiver" type="hidden" name="userReceiver" th:value="${property.user.id}"/>
 
         <br><br>
         <button type="submit" class="btn btn-primary btn-raised">Wyślij</button>
+
     </form>
 
 </div>

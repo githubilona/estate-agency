@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/propertyList.css" />
     <div th:replace="shared/header :: header-css"/>
 
     <title>Strona domowa</title>
@@ -15,11 +17,11 @@
 
         <H1>LISTA OGŁOSZEŃ</H1>
 
+        <div class="w3-panel w3-card-2">
         <form th:method="POST" th:action="@{propertyList.html}" th:object="${searchCommand}">
             <div class="row">
 
-                <div class="form-group">
-
+                <div class="form-group col-md-6">
                 <select th:field="*{offerType}" class="form-control" >
                     <option value="">--wybierz typ oferty--</option>
                     <option th:each="type : ${offerTypes}"
@@ -29,7 +31,7 @@
                 </select>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                 <select th:field="*{propertyType}" class="form-control">
                     <option value="">--wybierz typ nieruchomości--</option>
                     <option th:each="type : ${propertyTypes}"
@@ -40,7 +42,7 @@
                 </div>
 
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <select th:field="*{province}" class="form-control">
                         <option value="">--wybierz województwo--</option>
                         <option th:each="province : ${provinces}"
@@ -96,14 +98,14 @@
                     </a>
                 </div>
 
-                <div class="form-group col-md-2">
-                    <button type="submit" class="btn btn-info">
+                <div class="form-group col-md-2" >
+                    <button type="submit" class="btn btn-dark">
                         <span class="glyphicon glyphicon-search"></span> Wyszukaj
                     </button>
                 </div>
             </div>
         </form>
-
+        </div>
 
         <div th:if="${propertyListPage.hasContent() eq false}">
             <span th:if="${searchCommand.isEmpty()}">Brak ogłoszeń w bazie</span>
@@ -120,68 +122,36 @@
                 Wynik wyszukiwania: [[${propertyListPage.totalElements}]] ogłoszeń
             </span>
 
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Zdjęcie</th>
-                    <th>Tytuł</th>
-                    <th>Opis</th>
-                    <th>Typ</th>
+            <br><br>
+            <div  th:each="property : ${propertyListPage.content}" class="card mb-3" style="width: 700px; height:200px; float: left; margin-left: 10px">
+                <div class="row no-gutters" >
+                    <div class="col-md-4">
+                        <img style="width: 200px; height: 200px;" class="card-img" th:src="${property.imageName != null ? property.imageName : '/images/no-image-property.png'}"/>
 
-                    <th>Dostępny od:</th>
-                    <th>Cena</th>
-<!--                    <th>Opinia</th>-->
-                    <th>Ogłoszenie premium</th>
-                    <th>Data dodania</th>
-                    <th sec:authorize="hasRole('ADMIN')">Opcje</th>
-
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="property : ${propertyListPage.content}">
-
-                    <td>
-                    <div class="col-lg-5 col-md-5">
-                        <img style="width: 170px; height: 170px;" class="img-rounded" th:src="${property.imageName != null ? property.imageName : '/images/no-image-property.png'}"/>
                     </div>
-                    </td>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"> <a th:href="@{/propertyDetails.html(id=${property.id})}">[[${property.name}]]</a></h5>
 
-                    <td>
-                        <a th:href="@{/propertyDetails.html(id=${property.id})}">[[${property.name}]]</a>
-                    </td>
+                            <p class="card-text"><span th:text="${property.address.city} + ', '+${property.address.province.name}"/></p>
 
-                    <td><span th:text="${property.description}"/></td>
-                    <td><span th:text="${property.propertyType.name}"/></td>
-                    <td><span th:text="${#dates.format(property.availableDate, 'dd-MM-yyyy')}"/></td>
-                    <td><span th:text="${#numbers.formatDecimal(property.price,2,2)}"/></td>
-<!--                    <td>-->
-<!--                        <span th:if="${property.price lt boundMin}">TANI</span>-->
-<!--                        <span th:if="${property.price lt boundMax}">DROGI</span>-->
-<!--                        <span th:unless="${property.price lt boundMax}">SREDNI</span>-->
-<!--                    </td>-->
-                    <td><span th:text="${property.exclusive?'Tak': 'Nie'}"/></td>
-                    <td><span th:text="${property.creationDate}"/></td>
-                    <td sec:authorize="hasRole('ROLE_ADMIN')">
-                        <a class="btn btn-danger" th:href="@{/propertyList.html(did=${property.id})}">Usuń</a>
-                        <a class="btn btn-success" th:href="@{/propertyForm.html(id=${property.id})}">Edytuj</a>
-                    </td>
+                            <h5 class="card-text"><span th:text="${#numbers.formatDecimal(property.price,2,2)} + ' zł.'"/></h5>
 
-                </tr>
-
-                </tbody>
-            </table>
-
-            <div th:replace="shared/pagination :: pager('/propertyList.html', ${propertyListPage})" th:scope="#request"></div>
-<!--            <c:set var="page" value="${propertyListPage}" scope="request"/>-->
-<!--            <c:set var="mainUrl" value="propertyList.html" scope="request"/>-->
-<!--            <jsp:include page="shared/pagination.jsp"/>-->
-
+                            <p class="card-text"><small class="text-muted"><span th:text="'Data dodatnia: '+${property.creationDate}"/></small></p>
+                            <div>
+                    <span sec:authorize="hasRole('ROLE_ADMIN')" style="float: left">
+                                <a class="btn btn-danger" th:href="@{/propertyList.html(did=${property.id})}">Usuń</a>
+                                <a class="btn btn-success" th:href="@{/propertyForm.html(id=${property.id})}">Edytuj</a>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="clear:both;"></div>
         </div>
-
-        <a>Dodaj Nowy</a>
-
-
-    </div>
+        <br><br><br>
+        <div th:replace="shared/pagination :: pager('/propertyList.html', ${propertyListPage})" th:scope="#request"></div>
 </div>
 <div th:replace="shared/footer :: footer"></div>
 </body>
