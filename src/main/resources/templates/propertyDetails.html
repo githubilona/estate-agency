@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="statics/css/image-gallery.css" />
+    <link rel="stylesheet" type="text/css" href="statics/css/propertyDetails.css" />
+    <link rel="stylesheet" type="text/css" href="statics/css/main.css" />
     <div th:replace="shared/header :: header-css"/>
     <title>Strona domowa</title>
 </head>
 <body>
 <div th:replace="shared/header :: header('home')"/>
 
-<div id="main" class="container">
-    <H1>Dane ogłoszenia</H1>
+<div id="main">
+    <div class="container">
+    <h1 th:text="${property.name}"></h1><br/>
+    <h5 th:text="${property.address.city} + ', ' + ${property.address.province.name}"></h5>
 
 
     <div th:unless="${property.photos.isEmpty()}">
@@ -32,13 +37,52 @@
     </div>
     </div>
 
-    Id: <b th:text="${property.id}"></b><br/>
-    Data dodania: <b th:text="${property.creationDate}"></b><br/>
-    Tytuł: <b th:text="${property.name}"></b><br/>
-    Opis: <b>[[${property.description}]]</b><br/>
-    Cena: <b>[[${#numbers.formatDecimal(property.price,3,2,'COMMA')}]]</b><br/>
-    Dostępny od: <b>[[${#dates.format(property.availableDate, 'dd-MM-yyyy')}]]</b><br/>
-    Typ: <b>[[${property.propertyType.name}]]</b><br/><br><br>
+
+    <br><br>
+    <table class="table table-sm">
+        <tbody>
+        <tr>
+            <td>Typ:</td>
+            <td><b>[[${property.propertyType.name}]]</b></td>
+        </tr>
+        <tr>
+            <td>Rodzaj oferty:</td>
+            <td><b th:text="${property.offerType.name}"></b></td>
+        </tr>
+        <tr>
+            <td>Data dodania:</td>
+            <td><b th:text="${property.creationDate}"></b></td>
+        </tr>
+        <tr>
+            <td>Dostępny od:</td>
+            <td><b th:text="${property.availableDate}"></b></td>
+        </tr>
+    </table>
+
+    <br><br>
+    <h5>Szczegóły nieruchomości</h5> <br>
+
+    <table class="table table-sm">
+        <tbody>
+        <tr>
+            <td>Powierzchnia (m2):</td>
+            <td><b th:text="${property.area}"></b></td>
+        </tr>
+        <tr>
+            <td>Liczba pokoi:</td>
+            <td><b th:text="${property.numberOfRooms}"></b></td>
+        </tr>
+        <tr>
+            <td>Umeblowany:</td>
+            <td><b th:text="${property.furnished} ? 'Tak' : 'Nie'"></b></td>
+        </tr>
+    </tbody>
+    </table>
+
+    <br><br>
+    <h5>Opis</h5> <br>
+    <p th:text="${property.description}"></p>
+
     Dodane przez: <a th:href="@{/userDetails.html(id=${property.user.id})}">[[${property.user.username}]]</a>
 
     <div class="col-lg-5 col-md-5">
@@ -47,11 +91,16 @@
     </div>
 
     <!-- Formularz kontaktowy -->
-    <div th:replace="fragments/contactForm.html :: contactForm(${message}, ${property})"/>
+    <center>
+    <div class="w3-panel w3-card-2">
+        <div th:replace="fragments/contactForm.html :: contactForm(${message}, ${property})"/>
+    </div>
+    </center>
 
 
 <br/>
     <a class="btn btn-success" href="/propertyList.html">Wstecz</a>
+</div>
 </div>
 <div th:replace="shared/footer :: footer"></div>
 

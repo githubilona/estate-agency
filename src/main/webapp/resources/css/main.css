@@ -1,5 +1,13 @@
 #main{
     min-height: 500px;
-    background-color: #d2ffe0;
+    /*min-width: 1400px;*/
+    background-color: #dbe9e3;
     margin: 0 20px;
+    /*background: rgb(225,222,170);*/
+    /*background: radial-gradient(circle, rgba(225,222,170,1) 37%, rgba(208,184,117,1) 100%);*/
+}
+#grad1 {
+    height: 200px;
+    background-color: red; /* For browsers that do not support gradients */
+    background-image: linear-gradient(to bottom right, blue, pink); /* Standard syntax (must be last) */
 }

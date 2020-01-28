@@ -1,14 +1,15 @@
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <div th:replace="shared/header :: header-css"/>
     <title>Wysłane wiadomości</title>
 </head>
-<body>
+<body class="card">
 <div th:replace="shared/header :: header('messageList')"/>
 
-<div id="main" class="container">
-
+<div id="main">
+    <div class="container">
     <H1>Lista Wiadomości</H1>
 
 <!--    <tr th:each="conversation : ${conversationListPage.content}" >-->
@@ -27,35 +28,35 @@
         <span th:inline="text">
            Liczba elemntów: [[${conversationListPage.totalElements}]]
         </span>
+        <br><br>
 
-        <table class="table table-responsive">
+        <table class="table table-light" style="border-radius: 10px ">
             <thead class="thead-dark">
             <tr>
-                <th>Odpowiedz</th>
                 <th>Avatar</th>
+                <th>Odpowiedz</th>
                 <th>Ogłoszenie</th>
 <!--                <th>Treść</th>-->
-                <th>Do</th>
-<!--                <th>Wysłano:</th>-->
+                <th>Od</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="conversation : ${conversationListPage.content}" >
 
                 <td>
-
-                    <a th:href="@{/messageDetails(conversationId=${conversation.id})}" th:text="${conversation.property.name}  ">link</a>
+                        <img style="width: 50px; height: 50px;" class="img-rounded" th:src="${conversation.property.imageName != null ?
+                         conversation.property.imageName  : '/images/no-image2.jpg'}"/>
                 </td>
                 <td>
-                        <img style="width: 15%; height: auto;" class="img-rounded" th:src="${conversation.property.imageName != null ?
-                         conversation.property.imageName  : '/images/no-image2.jpg'}"/>
+
+                    <a th:href="@{/messageDetails(conversationId=${conversation.id})}" th:text="${conversation.property.name}  ">link</a>
                 </td>
                 <td>
                     <p>[[${conversation.property.name}]]</p>
                 </td>
 
                 <td>
-                    <p>[[${conversation.userSender.username}]]</p>
+                    <p>[[${conversation.userReceiver.username}]]</p>
                 </td>
 
 
@@ -69,6 +70,7 @@
     </div>
 
 
+    </div>
 </div>
 </body>
 </html>

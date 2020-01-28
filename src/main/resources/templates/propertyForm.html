@@ -42,10 +42,11 @@
 <body>
 <div th:replace="shared/header :: header('home')"/>
 
-<div id="main">
+<div class="container">
+<div id="main" style="padding: 50px">
             <form th:method="POST" th:object="${property}" th:action="@{/saveProperty}"  enctype="multipart/form-data">
                 <fieldset>
-                    <h1>Dodawanie/Edycja</h1>
+                    <h4>Dodaj ogłoszenie</h4>
 
                     <div class="form-group">
                         <label for="name" class="bmd-label-floating">Tytuł:</label>
@@ -248,6 +249,7 @@
             </form>
 
 
+</div>
 </div>
 <div th:replace="shared/footer :: footer"></div>
 

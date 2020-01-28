@@ -9,8 +9,9 @@
 <body>
 <div th:replace="shared/header :: header('contactList')"/>
 
-<div id="main" class="container">
+<div id="main">
 
+    <div class="container">
     <H1>Kontakty</H1>
 
     <!--    <tr th:each="conversation : ${conversationListPage.content}" >-->
@@ -29,11 +30,14 @@
         <span th:inline="text">
            Liczba elemntów: [[${conversationListPage.totalElements}]]
         </span>
+        <br><br>
 
-        <table class="table table-responsive">
+        <table class="table table-striped" style="text-align: center">
             <thead class="thead-dark">
             <tr>
+                <th scope="col">#</th>
                 <th>Użytkownik</th>
+                <th>Imię i Nazwisko</th>
                 <th>Ogłoszenie</th>
                 <th>Chat</th>
 
@@ -44,21 +48,29 @@
 
 
 
+                <td><b th:text="${conversationListPage.content.indexOf(conversation)}+1"></b> </td>
                 <td>
-                    <img style="width: 50%; height: auto;" class="img-circle"  th:src="${conversation.userReceiver.imageName != null
+                    <center>
+                    <img style="width: 50px; height: 50px;" class="img-circle"  th:src="${conversation.userReceiver.imageName != null
                     ? conversation.userReceiver.imageName : '/images/no-image2.jpg'}"/> <br>
 
-
-                    <a th:href="@{/userDetails.html(id=${conversation.userReceiver.id})}" th:text="${conversation.userReceiver.username}"></a> <br><br>
-                    <p th:text="${conversation.userReceiver.firstName} + ' '+ ${conversation.userReceiver.lastName}"></p> <br>
+                    <a th:href="@{/userDetails.html(id=${conversation.userReceiver.id})}" th:text="${conversation.userReceiver.username}"></a>
+                    </center>
                 </td>
                 <td>
-                    <img style="width: 15%; height: auto;" class="img-rounded" th:src="${conversation.property.imageName != null ?
+                    <p th:text="${conversation.userReceiver.firstName} + ' '+ ${conversation.userReceiver.lastName}"></p>
+                </td>
+                <td>
+                    <center>
+                    <img style="width: 50px; height: 50px;" class="img-rounded" th:src="${conversation.property.imageName != null ?
                          conversation.property.imageName  : '/images/no-image2.jpg'}"/> <br>
                     <a th:href="@{/messageDetails(conversationId=${conversation.id})}" th:text="${conversation.property.name}  ">link</a>
+                    </center>
                 </td>
                <td>
+                   <center>
                    <a class="fas fa-comment-dots" th:href="@{/messageDetails(conversationId=${conversation.id})}" style="font-size:48px; text-decoration: none"></a>
+                   </center>
                </td>
 
             </tr>
@@ -71,6 +83,7 @@
     </div>
 
 
+</div>
 </div>
 </body>
 </html>

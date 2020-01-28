@@ -10,12 +10,14 @@
 
     <title>Strona domowa</title>
 </head>
-<body class="card">
+<body>
 <div th:replace="shared/header :: header('myPropertyList')"/>
+
 
 <div th:with="boundMin=${20000},boundMax=${40000}">
 
     <div id="main" class="card-body">
+        <div class="container">
          <div th:replace="fragments/editUser.html :: editUser(${propertyListPage.content.get(0).user})"></div> 
             <div th:replace="fragments/userAccount.html :: userAccount(${propertyListPage.content.get(0).user})"></div> 
 
@@ -146,6 +148,7 @@
 
 
     </div>
+</div>
 </div>
 <div th:replace="shared/footer :: footer"></div>
 </body>
