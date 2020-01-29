@@ -37,8 +37,17 @@ public class Conversation {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User userReceiver;
 
+//    @JoinColumn(name="meeting_id", nullable = true)
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+//    private Meeting meeting;
+
+
     @Column(name="meeting_date", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date meetingDate;
+
+    private String description;
+
 
 }

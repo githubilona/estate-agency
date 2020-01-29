@@ -1,21 +1,29 @@
 package com.example.estateagency.controllers;
 
 import com.example.estateagency.models.Conversation;
+import com.example.estateagency.models.Meeting;
 import com.example.estateagency.models.Message;
 import com.example.estateagency.models.User;
 import com.example.estateagency.repositories.ConversationRepository;
 import com.example.estateagency.repositories.MessageRepository;
 import com.example.estateagency.services.ConversationService;
+import com.example.estateagency.services.MeetingService;
 import com.example.estateagency.services.MessageService;
 import com.example.estateagency.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -29,6 +37,9 @@ public class MessageController {
 
     @Autowired
     private ConversationService conversationService;
+
+    @Autowired
+    private MeetingService meetingService;
 
 
     @PostMapping(value="/propertyDetails.html")
@@ -104,6 +115,19 @@ public class MessageController {
     @GetMapping(value = "/contactList.html")
     public String showContactList(Model model, Pageable pageable) {
         model.addAttribute("conversationListPage", conversationService.getAllConversationsForActiveUser(pageable));
+        model.addAttribute("meeting", new Meeting());
+        return "contactList";
+    }
+
+    @PostMapping("/saveMeeting")
+    public String saveMeeting(@ModelAttribute Meeting meeting, @RequestParam("conversationId") Long conversationId, Model model, Pageable pageable){
+        System.out.println("save meeting ");
+        Conversation c = conversationService.getById(conversationId);
+        meeting.setConversation(conversationService.getById(conversationId));
+        meetingService.save(meeting);
+      //  conversationService.save(c);
+        model.addAttribute("conversationListPage", conversationService.getAllConversationsForActiveUser(pageable));
+//        model.addAttribute("meeting", new Meeting());
         return "contactList";
     }
     @GetMapping("/messageDetails")
@@ -121,5 +145,14 @@ public class MessageController {
         model.addAttribute("message", message);
 
         return "messageDetails";
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {//Rejestrujemy edytory właściwości
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        CustomDateEditor dateEditor = new CustomDateEditor(dateFormat, false);
+        binder.registerCustomEditor(Date.class, "meetingDate", dateEditor);
     }
 }
