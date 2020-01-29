@@ -40,10 +40,10 @@
                 <a class="nav-link"  th:classappend="${pageName eq 'registration'}?'active'" th:href="@{/registrationForm.html}">Rejestracja</a>
             </li>
             <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                <a class="nav-link" th:classappend="${pageName eq 'userList'}?'active'"  th:href="@{/userList.html}" style="color:yellow">Lista użytkowników</a>
+                <a class="nav-link" th:classappend="${pageName eq 'userList'}?'active'"  th:href="@{/userList.html}" >Lista użytkowników</a>
             </li>
             <li class="nav-item" sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
-                <a class="nav-link" th:classappend="${pageName eq 'agentPropertyList'}?'active'"  th:href="@{/myPropertyList.html}" style="color:deeppink">Moje ogłoszenia</a>
+                <a class="nav-link" th:classappend="${pageName eq 'agentPropertyList'}?'active'"  th:href="@{/myPropertyList.html}">Moje ogłoszenia</a>
             </li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <a class="nav-link" th:classappend="${pageName eq 'messageDetails'}?'active'"  th:href="@{/messageList.html}">Moje wiadomości</a>

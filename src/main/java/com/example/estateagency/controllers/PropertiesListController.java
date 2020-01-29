@@ -39,6 +39,8 @@ public class PropertiesListController {
 	private PropertyService propertyService;
 	@Autowired
 	private AddressService addressService;
+	@Autowired
+	private UserService userService;
 
 	@Secured("IS_AUTHENTICATED_FULLY")
 	@GetMapping(value="/propertyDetails.html", params = "id")
@@ -81,6 +83,9 @@ public class PropertiesListController {
 	@RequestMapping(value="/myPropertyList.html")
 	public String showUserPropertyList(Model model, Pageable pageable){
 		model.addAttribute("propertyListPage", propertyService.getAllPropertiesByUser(pageable));
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String userName = authentication.getName();
+		model.addAttribute("user", userService.getUserByUsername(userName));
 		return "myPropertyList";
 	}
 

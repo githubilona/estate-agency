@@ -1,7 +1,7 @@
 
 <div th:fragment="editUser(user)">
 
-<button onclick="document.getElementById('download').style.display='block'">Edytuj</button>
+<button onclick="document.getElementById('download').style.display='block'" class="btn-dark">Edytuj konto</button>
 <br>
 <div id="download" class="w3-modal w3-animate-opacity">
     <div class="w3-modal-content" style="padding:32px">
@@ -55,6 +55,13 @@
                     <div class="form-group">
                         <label for="file" class="bmd-label-floating">Moje zdjęcie:</label>
                         <input type="file" name="file" id="file" accept="image/*" class="form-control"/>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="bmd-label-floating">
+                            <input type="checkbox" th:field="*{agentAccount}"/>
+                            Jestem agentem nieruchomości
+                        </label>
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-raised">Zapisz</button>

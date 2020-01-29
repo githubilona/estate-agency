@@ -11,10 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
@@ -92,5 +89,14 @@ public class UserController {
     @RequestMapping(value = "/userForm")
     public String userForm() {
         return "userForm";
+    }
+
+    @GetMapping("/myAccount")
+    public String showMyAccount(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    String userName = authentication.getName();
+        model.addAttribute("user", userService.getUserByUsername(userName));
+        System.out.println("u : " + userName  + " " +userService.getUserByUsername(userName).getUsername() )  ;
+        return "fragments/userAccount";
     }
 }

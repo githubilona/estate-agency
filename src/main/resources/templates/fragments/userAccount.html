@@ -5,25 +5,41 @@
 <div th:fragment="userAccount(user)">
 
 
+    <div class="card" style="width: 20rem;">
+        <div class="card-head">
+        <img style="width: 300px; height: 300px;" class="card-img-top"
+             th:src="${user.imageName != null ? user.imageName : '/images/no-image2.jpg'}"/>
+        </div>
+        <div class="card-body">
+            <h5 th:text="${user.username}"  class="card-title" th:style="${user.agentAccount} ? 'color:red' : 'color:green'">Card title</h5>
+            <p class="card-subtitle" th:text="${user.agentAccount} ? 'Agent nieruchomości' : ''"></p>
+
+            <h5 th:text="${user.city != null ? user.city : '-'}"/> <hr>
+        </div>
+        <ul class="list-group list-group-flush" style="padding-left: 20px">
+            <li class="list-group-item"> Imie:
+                <b th:text="${user.firstName != null ? user.firstName : '-'}"/>
+            </li>
+            <li class="list-group-item"> Nazwisko:
+                <b th:text="${user.lastName != null ? user.lastName : '-'}"/>
+            </li>
+            <li class="list-group-item">
+                Telefon:
+                <b th:text="${user.phone != null ? user.phone : '-'}"/> <br>
+            </li>
+            <li class="list-group-item">
+                Email:
+                <b th:text="${user.email != null ? user.email : '-'}"/> <br>
+            </li>
+        </ul>
+        <div class="card-body">
+
+        </div>
+    </div>
+
+
+
     <div class="col-lg-5 col-md-5">
-        <!--        th:href="@{/userForm}"-->
-        <!--         <div th:replace="fragments/userForm.html :: userForm(${user})"></div> -->
-
-        <b th:text="${user.username}"></b>
-        <img style="width: 15%; height: auto;" class="img-rounded"
-             th:src="${user.imageName != null ? user.imageName : '/images/no-image2.jpg'}"/> <br>
-
-        Imie:
-        <b th:text="${user.firstName != null ? user.firstName : '-'}"/> <br>
-        Nazwisko:
-        <b th:text="${user.lastName != null ? user.lastName : '-'}"/> <br>
-        Miasto:
-        <b th:text="${user.city != null ? user.city : '-'}"/> <br><br>
-        Telefon:
-        <b th:text="${user.phone != null ? user.phone : '-'}"/> <br>
-        Email:
-        <b th:text="${user.email != null ? user.email : '-'}"/> <br>
-
 
     </div>
 

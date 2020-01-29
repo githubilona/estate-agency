@@ -13,138 +13,151 @@
 <body>
 <div th:replace="shared/header :: header('myPropertyList')"/>
 
-
 <div th:with="boundMin=${20000},boundMax=${40000}">
 
-    <div id="main" class="card-body">
-        <div class="container">
-         <div th:replace="fragments/editUser.html :: editUser(${propertyListPage.content.get(0).user})"></div> 
-            <div th:replace="fragments/userAccount.html :: userAccount(${propertyListPage.content.get(0).user})"></div> 
+    <div id="main" class="card-body" style="padding-left: 100px; ">
 
-        <H2>Moje ogłoszenia</H2>
-        <h5 th:text="${propertyListPage.content.get(0).user.username}"/></h5>
+        <!--    <div id="main">-->
+        <!--        <div class="container">-->
 
-
-        <form th:method="POST" th:action="@{propertyList.html}" th:object="${searchCommand}">
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <input th:field="*{phrase}" placeholder="Fraza" class="form-control"
-                           th:classappend="${#fields.hasErrors('phrase')}?'is-invalid'"/>
-                    <div class="error text-danger" th:if="${#fields.hasErrors('phrase')}">
-                        <p th:each="err : ${#fields.errors('phrase')}" th:text="${err}"></p>
-                    </div>
-                </div>
-
-                <div class="form-group col-md-3">
-
-                    <input th:field="*{minPrice}" placeholder="Cena od" class="form-control"
-                           th:classappend="${#fields.hasErrors('minPrice')}?'is-invalid'"/>
-                    <div class="error text-danger" th:if="${#fields.hasErrors('minPrice')}">
-                        <p th:each="err : ${#fields.errors('minPrice')}" th:text="${err}"></p>
-                    </div>
-
-                </div>
-                <div class="form-group col-md-3">
-
-                    <input th:field="*{maxPrice}" placeholder="Cena do" class="form-control"
-                           th:classappend="${#fields.hasErrors('maxPrice')}?'is-invalid'"/>
-                    <div class="error text-danger" th:if="${#fields.hasErrors('maxPrice')}">
-                        <p th:each="err : ${#fields.errors('maxPrice')}" th:text="${err}"></p>
-                    </div>
-                </div>
-
-
+        <div class="row">
+            <div class="col-xs-6">
+                    <div th:replace="fragments/userAccount.html :: userAccount(${user})"></div> 
             </div>
-            <div class="row">
+            <div class="col-sm-4">
+                 <div th:replace="fragments/editUser.html :: editUser(${user})"></div> 
+                <form th:method="POST" th:action="@{propertyList.html}" th:object="${searchCommand}">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <input th:field="*{phrase}" placeholder="Fraza" class="form-control"
+                                   th:classappend="${#fields.hasErrors('phrase')}?'is-invalid'"/>
+                            <div class="error text-danger" th:if="${#fields.hasErrors('phrase')}">
+                                <p th:each="err : ${#fields.errors('phrase')}" th:text="${err}"></p>
+                            </div>
+                        </div>
 
-                <div class="form-group col-md-8"></div>
+                        <div class="form-group col-md-3">
 
-                <div class="form-group col-md-2">
-                    <a th:if="${searchCommand.isEmpty() eq false or #fields.hasErrors('*')}" th:href="@{propertyList.html(all)}" class="btn btn-success">
-                        <span class="glyphicon glyphicon-refresh"></span> Pokaż wszystko
-                    </a>
+                            <input th:field="*{minPrice}" placeholder="Cena od" class="form-control"
+                                   th:classappend="${#fields.hasErrors('minPrice')}?'is-invalid'"/>
+                            <div class="error text-danger" th:if="${#fields.hasErrors('minPrice')}">
+                                <p th:each="err : ${#fields.errors('minPrice')}" th:text="${err}"></p>
+                            </div>
+
+                        </div>
+                        <div class="form-group col-md-3">
+
+                            <input th:field="*{maxPrice}" placeholder="Cena do" class="form-control"
+                                   th:classappend="${#fields.hasErrors('maxPrice')}?'is-invalid'"/>
+                            <div class="error text-danger" th:if="${#fields.hasErrors('maxPrice')}">
+                                <p th:each="err : ${#fields.errors('maxPrice')}" th:text="${err}"></p>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+
+                        <div class="form-group col-md-8"></div>
+
+                        <div class="form-group col-md-2">
+                            <a th:if="${searchCommand.isEmpty() eq false or #fields.hasErrors('*')}" th:href="@{propertyList.html(all)}" class="btn btn-success">
+                                <span class="glyphicon glyphicon-refresh"></span> Pokaż wszystko
+                            </a>
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <button type="submit" class="btn btn-info">
+                                <span class="glyphicon glyphicon-search"></span> Wyszukaj
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+
+
+                <H2>Moje ogłoszenia</H2>
+                <h5 th:text="${user.username}"/></h5>
+
+
+
+
+                <div th:if="${propertyListPage.hasContent() eq false}">
+                    <span th:if="${searchCommand.isEmpty()}">Brak ogłoszeń w bazie</span>
+                    <span th:unless="${searchCommand.isEmpty()}">Brak wyników wyszukiwania</span>
                 </div>
-
-                <div class="form-group col-md-2">
-                    <button type="submit" class="btn btn-info">
-                        <span class="glyphicon glyphicon-search"></span> Wyszukaj
-                    </button>
-                </div>
-            </div>
-        </form>
-
-
-        <div th:if="${propertyListPage.hasContent() eq false}">
-            <span th:if="${searchCommand.isEmpty()}">Brak ogłoszeń w bazie</span>
-            <span th:unless="${searchCommand.isEmpty()}">Brak wyników wyszukiwania</span>
-        </div>
-        <div th:if="${propertyListPage.hasContent() eq true}">
+                <div th:if="${propertyListPage.hasContent() eq true}">
 
 
 
             <span th:if="${searchCommand.isEmpty()}">
                 Masz [[${propertyListPage.totalElements}]] ogłoszeń
             </span>
-            <span th:unless="${searchCommand.isEmpty()}">
+                    <span th:unless="${searchCommand.isEmpty()}">
                 Wynik wyszukiwania: [[${propertyListPage.totalElements}]] ogłoszeń
             </span>
 
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Zdjęcie</th>
-                    <th>Tytuł</th>
-                    <th>Opis</th>
-                    <th>Typ</th>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Zdjęcie</th>
+                            <th>Tytuł</th>
+                            <th>Opis</th>
+                            <th>Typ</th>
 
-                    <th>Dostępny od:</th>
-                    <th>Cena</th>
-                    <!--                    <th>Opinia</th>-->
-                    <th>Ogłoszenie premium</th>
-                    <th>Data dodania</th>
-                    <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">Opcje</th>
+                            <th>Dostępny od:</th>
+                            <th>Cena</th>
+                            <!--                    <th>Opinia</th>-->
+                            <th>Ogłoszenie premium</th>
+                            <th>Data dodania</th>
+                            <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">Opcje</th>
 
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="property : ${propertyListPage.content}">
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="property : ${propertyListPage.content}">
 
-                    <td>
-                        <div class="col-lg-5 col-md-5">
-                            <img style="width: 170px; height: 170px;" class="img-rounded" th:src="${property.imageName != null ? property.imageName : '/images/no-image-property.png'}"/>
-                        </div>
-                    </td>
+                            <td>
+                                <div class="col-lg-5 col-md-5">
+                                    <img style="width: 170px; height: 170px;" class="img-rounded" th:src="${property.imageName != null ? property.imageName : '/images/no-image-property.png'}"/>
+                                </div>
+                            </td>
 
-                    <td>
-                        <a th:href="@{/propertyDetails.html(id=${property.id})}">[[${property.name}]]</a>
-                    </td>
+                            <td>
+                                <a th:href="@{/propertyDetails.html(id=${property.id})}">[[${property.name}]]</a>
+                            </td>
 
-                    <td ><span style="width: 300px;" th:text="${property.description}"/></td>
-                    <td><span th:text="${property.propertyType.name}"/></td>
-                    <td><span th:text="${#dates.format(property.availableDate, 'dd-MM-yyyy')}"/></td>
-                    <td><span th:text="${#numbers.formatDecimal(property.price,2,2)}"/></td>
-                    <!--                    <td>-->
-                    <!--                        <span th:if="${property.price lt boundMin}">TANI</span>-->
-                    <!--                        <span th:if="${property.price lt boundMax}">DROGI</span>-->
-                    <!--                        <span th:unless="${property.price lt boundMax}">SREDNI</span>-->
-                    <!--                    </td>-->
-                    <td><span th:text="${property.exclusive?'Tak': 'Nie'}"/></td>
-                    <td><span th:text="${property.creationDate}"/></td>
-                    <td sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
-                        <a class="btn btn-danger" th:href="@{/propertyList.html(did=${property.id})}">Usuń</a>
-                        <a class="btn btn-success" th:href="@{/propertyForm.html(id=${property.id})}">Edytuj</a>
-                    </td>
+                            <td ><span style="width: 300px;" th:text="${property.description}"/></td>
+                            <td><span th:text="${property.propertyType.name}"/></td>
+                            <td><span th:text="${#dates.format(property.availableDate, 'dd-MM-yyyy')}"/></td>
+                            <td><span th:text="${#numbers.formatDecimal(property.price,2,2)}"/></td>
+                            <!--                    <td>-->
+                            <!--                        <span th:if="${property.price lt boundMin}">TANI</span>-->
+                            <!--                        <span th:if="${property.price lt boundMax}">DROGI</span>-->
+                            <!--                        <span th:unless="${property.price lt boundMax}">SREDNI</span>-->
+                            <!--                    </td>-->
+                            <td><span th:text="${property.exclusive?'Tak': 'Nie'}"/></td>
+                            <td><span th:text="${property.creationDate}"/></td>
+                            <td sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+                                <a class="btn btn-danger" th:href="@{/propertyList.html(did=${property.id})}">Usuń</a>
+                                <a class="btn btn-success" th:href="@{/propertyForm.html(id=${property.id})}">Edytuj</a>
+                            </td>
 
-                </tr>
+                        </tr>
 
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
 
-            <div th:replace="shared/pagination :: pager('/myPropertyList.html', ${propertyListPage})" th:scope="#request"></div>
+                    <div th:replace="shared/pagination :: pager('/myPropertyList.html', ${propertyListPage})" th:scope="#request"></div>
 
+                </div>
+
+
+
+            </div>
         </div>
 
-        <a>Dodaj Nowy</a>
+
 
 
     </div>
