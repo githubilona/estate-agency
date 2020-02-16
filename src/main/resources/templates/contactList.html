@@ -5,10 +5,10 @@
 
     <div th:replace="shared/header :: header-css"/>
     <title>Kontakty</title>
-<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
-<!--    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>-->
-<!--    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>-->
-<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>-->
+    <!--        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
@@ -18,134 +18,137 @@
 <div id="main">
 
     <div class="container">
-    <H1>Kontakty</H1>
+        <H1>Kontakty</H1>
         <br>
         <a href="/calendar">Terminarz</a>
 
-    <!--    <tr th:each="conversation : ${conversationListPage.content}" >-->
-    <!--        <td th:text="${conversation.id}"></td>-->
-    <!--        <a th:href="@{/messageDetails(conversationId=${conversation.id})}" th:text="${conversation.property.name}  ">link</a>-->
-    <!--    </tr>-->
-
-
-    <div th:if="${conversationListPage.hasContent() eq false}">
-        <span>Brak kontaktów </span>
-    </div>
-    <div th:if="${conversationListPage.hasContent() eq true}">
+        <div th:if="${conversationListPage.hasContent() eq false}">
+            <span>Brak kontaktów </span>
+        </div>
+        <div th:if="${conversationListPage.hasContent() eq true}">
 
 
 
         <span th:inline="text">
            Liczba elemntów: [[${conversationListPage.totalElements}]]
         </span>
-        <br><br>
+            <br><br>
 
-        <table class="table table-striped" style="text-align: center">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th>Użytkownik</th>
-                <th>Imię i Nazwisko</th>
-                <th>Ogłoszenie</th>
-                <th>Chat</th>
-                <th>Spotkania</th>
+            <table class="table table-striped" style="text-align: center">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th>Użytkownik</th>
+                    <th>Imię i Nazwisko</th>
+                    <th>Ogłoszenie</th>
+                    <th>Chat</th>
+                    <th>Spotkania</th>
 
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="conversation : ${conversationListPage.content}" >
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="conversation : ${conversationListPage.content}" >
 
-
-
-                <td><b th:text="${conversationListPage.content.indexOf(conversation)}+1"></b> </td>
-                <td>
-                    <center>
-                    <img style="width: 50px; height: 50px;" class="img-circle"  th:src="${conversation.userReceiver.imageName != null
+                    <td><b th:text="${conversationListPage.content.indexOf(conversation)}+1"></b> </td>
+                    <td>
+                        <center>
+                            <img style="width: 50px; height: 50px;" class="img-circle"  th:src="${conversation.userReceiver.imageName != null
                     ? conversation.userReceiver.imageName : '/images/no-image2.jpg'}"/> <br>
 
-                    <a th:href="@{/userDetails.html(id=${conversation.userReceiver.id})}" th:text="${conversation.userReceiver.username}"></a>
-                    </center>
-                </td>
-                <td>
-                    <p th:text="${conversation.userReceiver.firstName} + ' '+ ${conversation.userReceiver.lastName}"></p>
-                </td>
-                <td>
-                    <center>
-                    <img style="width: 50px; height: 50px;" class="img-rounded" th:src="${conversation.property.imageName != null ?
+                            <a th:href="@{/userDetails.html(id=${conversation.userReceiver.id})}" th:text="${conversation.userReceiver.username}"></a>
+                        </center>
+                    </td>
+                    <td>
+                        <p th:text="${conversation.userReceiver.firstName} + ' '+ ${conversation.userReceiver.lastName}"></p>
+                    </td>
+                    <td>
+                        <center>
+                            <img style="width: 50px; height: 50px;" class="img-rounded" th:src="${conversation.property.imageName != null ?
                          conversation.property.imageName  : '/images/no-image2.jpg'}"/> <br>
-                    <a th:href="@{/messageDetails(conversationId=${conversation.id})}" th:text="${conversation.property.name}  ">link</a>
-                    </center>
-                </td>
-               <td>
-                   <center>
-                   <a class="fas fa-comment-dots" th:href="@{/messageDetails(conversationId=${conversation.id})}" style="font-size:40px; text-decoration: none"></a>
-                   </center>
-               </td>
-                <td>
-                    <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black ">Nowe spotkanie</button>
+                            <a th:href="@{/messageDetails(conversationId=${conversation.id})}" th:text="${conversation.property.name}  ">link</a>
+                        </center>
+                    </td>
+                    <td>
+                        <center>
+                            <a class="fas fa-comment-dots" th:href="@{/messageDetails(conversationId=${conversation.id})}" style="font-size:40px; text-decoration: none"></a>
+                        </center>
+                    </td>
+                    <td>
+                        <table class="table table-sm">
+                            <thead>
+                            <tr>
+                                <th scope="col">Data</th>
+                                <th scope="col">Notatki</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="meeting : ${meetings}">
+                                <span th:if="${meeting.conversation.id} == ${conversation.id} ">
+                                <td th:text="${meeting.meetingDate}">Data spotkania</td>
+                                <td th:text="${meeting.description}">Notatki</td>
+                                </span>
+                            </tr>
+                            </tbody>
+                        </table>
 
-                    <div id="id01" class="w3-modal">
-                        <div class="w3-modal-content">
-                            <div class="w3-container">
-                                <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" th:attr="data-whatever=@{/saveMeeting(conversationId=${conversation.id})},
+                        data-name='Nowe spotkanie z ' + ${conversation.userReceiver.firstName}+ ' ' + ${conversation.userReceiver.lastName}">Nowe spotkanie</button>
 
-                                <div style="padding: 50px">
-                                <form th:method="POST" th:object="${meeting}" th:action="@{/saveMeeting(conversationId=${conversation.id})}">
-
-                                    <div class="form-group">
-                                        <label for="meetingDate" class="bmd-label-floating">Data spotkania:</label><br>
-                                        <input th:field="${meeting.meetingDate}" id="meetingDate" type="date" th:text="*{meetingDate}"/>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h6 class="modal-title" id="exampleModalLabel">New message</h6>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     </div>
+                                    <div class="modal-body">
 
-                                    <div class="form-group">
-                                        <label for="description" class="col-form-label"></label>
-                                        <textarea type="text" id="description"
-                                               class="form-control" placeholder="Notatki"  th:field="${meeting.description}"  th:text="*{description}"/>
+                                        <div style="padding: 50px">
+                                            <form th:method="POST" id="modalForm" th:object="${meeting}" th:action="@{/saveMeeting(conversationId=${conversation.id})}">
+
+                                                <div class="form-group">
+                                                    <label for="meetingDate" class="bmd-label-floating">Data spotkania:</label><br>
+                                                    <input th:field="${meeting.meetingDate}" id="meetingDate" type="date"/>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="description" class="col-form-label"></label>
+                                                    <textarea type="text" id="description"
+                                                              class="form-control" placeholder="Notatki"  th:field="${meeting.description}"/>
+                                                </div>
+
+                                                <button type="submit"  class="btn btn-primary">Zapisz</button>
+
+                                            </form>
+                                        </div>
                                     </div>
+                                </div>
+                    <td>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
-                                    <button type="submit"  class="btn btn-primary">Zapisz</button>
+            <script>
+                $('#exampleModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var recipient = button.data('whatever') // Extract info from data-* attributes
+                    var name = button.data('name');
+                    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                    var modal = $(this)
+                     modal.find('.modal-title').text(name);
+                    // modal.find('.modal-body input').val(recipient)
+                    $("#modalForm").attr("action", recipient);
+                })
+            </script>
 
-                                </form>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div th:object="${meeting}">
-                        <p th:text="${meeting.meetingDate}"> <br></p>
-                        <p th:text="${meeting.description}"> <br></p>
-                    </div>
+            <div th:replace="shared/pagination :: pager('/messageList.html', ${conversationListPage})"></div>
 
+        </div>
 
-
-                </td>
-
-            </tr>
-
-            </tbody>
-        </table>
-
-
-
-
-
-        <script>
-            $('#exampleModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget) // Button that triggered the modal
-                var recipient = button.data('whatever') // Extract info from data-* attributes
-                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-                var modal = $(this)
-                modal.find('.modal-title').text('New message to ' + recipient)
-                modal.find('.modal-body input').val(recipient)
-            })
-        </script>
-
-        <div th:replace="shared/pagination :: pager('/messageList.html', ${conversationListPage})"></div>
 
     </div>
-
-
-</div>
 </div>
 </body>
 </html>

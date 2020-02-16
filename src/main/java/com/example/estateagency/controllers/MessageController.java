@@ -116,18 +116,17 @@ public class MessageController {
     public String showContactList(Model model, Pageable pageable) {
         model.addAttribute("conversationListPage", conversationService.getAllConversationsForActiveUser(pageable));
         model.addAttribute("meeting", new Meeting());
+        model.addAttribute("meetings",meetingService.getAllMeetings());
         return "contactList";
     }
 
     @PostMapping("/saveMeeting")
     public String saveMeeting(@ModelAttribute Meeting meeting, @RequestParam("conversationId") Long conversationId, Model model, Pageable pageable){
-        System.out.println("save meeting ");
         Conversation c = conversationService.getById(conversationId);
         meeting.setConversation(conversationService.getById(conversationId));
         meetingService.save(meeting);
-      //  conversationService.save(c);
         model.addAttribute("conversationListPage", conversationService.getAllConversationsForActiveUser(pageable));
-//        model.addAttribute("meeting", new Meeting());
+        model.addAttribute("meetings",meetingService.getAllMeetings());
         return "contactList";
     }
     @GetMapping("/messageDetails")
