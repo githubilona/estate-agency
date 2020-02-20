@@ -84,7 +84,8 @@
 
 
                                 <input id="property" type="hidden" name="property" th:value="${message.property.id}"/>
-                                <input id="userReceiver" type="hidden" name="userReceiver" th:value="${message.userReceiver.id}"/>
+                                <input id="userReceiver" type="hidden" name="userReceiver" th:value="${message.userSender.id}"/>
+                                <input id="userSender" type="hidden" name="userSender" th:value="${message.userReceiver.id}"/>
                                 <input id="conversation" type="hidden" name="conversation" th:value="${message.conversation.id}"/>
 
                                 <br><br>

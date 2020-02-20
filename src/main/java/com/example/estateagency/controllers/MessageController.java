@@ -91,19 +91,15 @@ public class MessageController {
     }
     @PostMapping(value="/sendReply")
     public String sendReply(@ModelAttribute Message message){
-        if(message.getUserSender() == null){
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // * delete
-            String userName = authentication.getName();
-            User userSender =userService.getUserByUsername(userName);
-            message.setUserSender(userService.getUserByUsername(userName));                       // *
-
-
-            System.out.println("id S "+userSender.getId()+"id R " +message.getUserReceiver().getId() + "prop. "+message.getProperty());
-            System.out.println(message.getConversation().getId() + " conv id ");
-
-            messageService.save(message);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        if(message.getUserReceiver().getUsername().equals(userName)){
+            User sender = message.getUserSender();
+            User receiver = message.getUserReceiver();
+            message.setUserSender(receiver);
+            message.setUserReceiver(sender);
         }
-
+        messageService.save(message);
         return "redirect:/messageDetails?conversationId="+message.getConversation().getId();
     }
 
