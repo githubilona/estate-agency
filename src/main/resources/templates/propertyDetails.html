@@ -90,12 +90,15 @@
             property.user.imageName : '/images/no-image2.jpg'}"/>
     </div>
 
-    <!-- Formularz kontaktowy -->
-    <center>
-    <div class="w3-panel w3-card-2">
-        <div th:replace="fragments/contactForm.html :: contactForm(${message}, ${property})"/>
+        <!-- Formularz kontaktowy -->
+    <div th:with="expr_result = ${property.user.username == #authentication.getName()}">
+    <div th:unless="${expr_result}">
+        <center>
+        <div class="w3-panel w3-card-2">
+            <div th:replace="fragments/contactForm.html :: contactForm(${message}, ${property})"/>
+        </div>
+        </center>
     </div>
-    </center>
 
 
 <br/>

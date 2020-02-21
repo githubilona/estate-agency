@@ -46,26 +46,26 @@
 
                 </tr>
                 </thead>
-                <tbody>
+                <div>
                 <tr th:each="conversation : ${conversationListPage.content}" >
+                    <div th:with="user = ${conversation.userReceiver.username == #authentication.getName() ? conversation.userSender : conversation.userReceiver} ">
 
-                    <td><b th:text="${conversationListPage.content.indexOf(conversation)}+1"></b> </td>
+                        <td><b th:text="${conversationListPage.content.indexOf(conversation)}+1"></b> </td>
                     <td>
                         <center>
-                            <img style="width: 50px; height: 50px;" class="img-circle"  th:src="${conversation.userReceiver.imageName != null
-                    ? conversation.userReceiver.imageName : '/images/no-image2.jpg'}"/> <br>
-
-                            <a th:href="@{/userDetails.html(id=${conversation.userReceiver.id})}" th:text="${conversation.userReceiver.username}"></a>
+                            <img style="width: 50px; height: 50px;" class="img-circle"  th:src="${user.imageName != null
+                               ? user.imageName : '/images/no-image2.jpg'}"/> <br>
+                            <a th:href="@{/userDetails.html(id=${user.id})}" th:text="${user.username}"></a>
                         </center>
                     </td>
                     <td>
-                        <p th:text="${conversation.userReceiver.firstName} + ' '+ ${conversation.userReceiver.lastName}"></p>
+                        <p th:text="${user.firstName} + ' '+ ${user.lastName}"></p>
                     </td>
                     <td>
                         <center>
                             <img style="width: 50px; height: 50px;" class="img-rounded" th:src="${conversation.property.imageName != null ?
                          conversation.property.imageName  : '/images/no-image2.jpg'}"/> <br>
-                            <a th:href="@{/messageDetails(conversationId=${conversation.id})}" th:text="${conversation.property.name}  ">link</a>
+                            <a th:href="@{/propertyDetails.html(id=${conversation.property.id})}" th:text="${conversation.property.name}  ">link</a>
                         </center>
                     </td>
                     <td>
@@ -92,7 +92,7 @@
                         </table>
 
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" th:attr="data-whatever=@{/saveMeeting(conversationId=${conversation.id})},
-                        data-name='Nowe spotkanie z ' + ${conversation.userReceiver.firstName}+ ' ' + ${conversation.userReceiver.lastName}">Nowe spotkanie</button>
+                        data-name='Nowe spotkanie z ' + ${user.firstName}+ ' ' + ${user.lastName}">Nowe spotkanie</button>
 
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
                             <div class="modal-dialog" role="document">
@@ -125,6 +125,7 @@
                                 </div>
                     <td>
                     </td>
+                    </div>
                 </tr>
                 </tbody>
             </table>
