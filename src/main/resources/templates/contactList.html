@@ -46,7 +46,7 @@
 
                 </tr>
                 </thead>
-                <div>
+
                 <tr th:each="conversation : ${conversationListPage.content}" >
                     <div th:with="user = ${conversation.userReceiver.username == #authentication.getName() ? conversation.userSender : conversation.userReceiver} ">
 
@@ -84,7 +84,7 @@
                             <tbody>
                             <tr th:each="meeting : ${meetings}">
                                 <span th:if="${meeting.conversation.id} == ${conversation.id} ">
-                                <td th:text="${meeting.meetingDate}">Data spotkania</td>
+                                <td th:text="${#dates.format(meeting.meetingDate, 'dd-MM-yyyy')}">Data spotkania</td>
                                 <td th:text="${meeting.description}">Notatki</td>
                                 </span>
                             </tr>

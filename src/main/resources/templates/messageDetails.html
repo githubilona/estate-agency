@@ -42,7 +42,7 @@
 
                                         <strong class="primary-font"  th:text="${message.userSender.username}" >Jack Sparrow</strong>
                                         <small class="pull-right text-muted">
-                                            <span class="glyphicon glyphicon-time" th:text="${message.creationDate}"></span>
+                                            <span class="glyphicon glyphicon-time" th:text="${#dates.format(message.creationDate, 'dd-MM-yyyy HH:mm:ss')}"></span>
                                         </small>
                                     </div>
                                     <p th:text="${message.messageText}">
@@ -61,7 +61,7 @@
                                     <div class="chat-body clearfix">
                                         <div class="header">
                                             <small class=" text-muted">
-                                                <span class="glyphicon glyphicon-time"  th:text="${message.creationDate}"></span>
+                                                <span class="glyphicon glyphicon-time"  th:text="${#dates.format(message.creationDate, 'dd-MM-yyyy HH:mm:ss')}"></span>
                                             </small>
                                             <strong class="pull-right primary-font" th:text="${message.userSender.username}">Bhaumik Patel</strong>
                                         </div>

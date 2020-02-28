@@ -123,7 +123,7 @@ public class MessageController {
         meetingService.save(meeting);
         model.addAttribute("conversationListPage", conversationService.getAllConversationsForActiveUser(pageable));
         model.addAttribute("meetings",meetingService.getAllMeetings());
-        return "contactList";
+        return "redirect:/contactList.html";
     }
     @GetMapping("/messageDetails")
     public String showMessageDetails(Model model,Long conversationId) {
@@ -144,7 +144,6 @@ public class MessageController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {//Rejestrujemy edytory właściwości
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
         CustomDateEditor dateEditor = new CustomDateEditor(dateFormat, false);

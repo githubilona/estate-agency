@@ -45,20 +45,11 @@ public class PropertiesListController {
 	@Secured("IS_AUTHENTICATED_FULLY")
 	@GetMapping(value="/propertyDetails.html", params = "id")
 	public String showPropertyDetails(Model model, long id){
-		System.out.println("Pokayzwanie szczegółów");
-
+		System.out.println("Pokazywanie szczegółów");
 		Property p = propertyService.getProperty(id);
 		//obłużyć not found exception
 		model.addAttribute("property", p);
 		Message message = new Message();
-//		message.setProperty(p);
-//		message.setUserReceiver(p.getUser());
-////
-//		if(message.getUserSender() == null){
-//			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//			String userName = authentication.getName();
-//			message.setUserSender(userService.getUserByUsername(userName));
-//		}
 		model.addAttribute("message",message);
 		return "propertyDetails";
 	}

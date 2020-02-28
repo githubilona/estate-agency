@@ -51,11 +51,11 @@
         </tr>
         <tr>
             <td>Data dodania:</td>
-            <td><b th:text="${property.creationDate}"></b></td>
+            <td><b th:text="${#dates.format(property.creationDate, 'dd-MM-yyyy HH:mm')}"></b></td>
         </tr>
         <tr>
             <td>Dostępny od:</td>
-            <td><b th:text="${property.availableDate}"></b></td>
+            <td><b th:text="${#dates.format(property.availableDate, 'dd-MM-yyyy')}"></b></td>
         </tr>
     </table>
 

@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <div th:replace="shared/header :: header-css"/>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Strona domowa</title>
 </head>
 <body>
@@ -15,7 +18,7 @@
                     <div th:replace="fragments/userAccount.html :: userAccount(${propertyListPage.content.get(0).user})"></div>
                 <br/>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-9">
 
 
                 <div th:with="boundMin=${20000},boundMax=${40000}">
@@ -40,72 +43,47 @@
                 Wynik wyszukiwania: [[${propertyListPage.totalElements}]] ogłoszeń
             </span>
 
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>Zdjęcie</th>
-                                    <th>Tytuł</th>
-                                    <th>Opis</th>
-                                    <th>Typ</th>
-
-                                    <th>Dostępny od:</th>
-                                    <th>Cena</th>
-                                    <!--                    <th>Opinia</th>-->
-                                    <th>Ogłoszenie premium</th>
-                                    <th>Data dodania</th>
-                                    <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">Opcje</th>
-
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="property : ${propertyListPage.content}">
-
-                                    <td>
-                                        <div class="col-lg-5 col-md-5">
-                                            <img style="width: 170px; height: 170px;" class="img-rounded" th:src="${property.imageName != null ? property.imageName : '/uploads/2.jpg'}"/>
-                                        </div>
-                                    </td>
-
-                                    <td>
-                                        <a th:href="@{/propertyDetails.html(id=${property.id})}">[[${property.name}]]</a>
-                                    </td>
-
-                                    <td ><span style="width: 300px;" th:text="${property.description}"/></td>
-                                    <td><span th:text="${property.propertyType.name}"/></td>
-                                    <td><span th:text="${#dates.format(property.availableDate, 'dd-MM-yyyy')}"/></td>
-                                    <td><span th:text="${#numbers.formatDecimal(property.price,2,2)}"/></td>
-                                    <!--                    <td>-->
-                                    <!--                        <span th:if="${property.price lt boundMin}">TANI</span>-->
-                                    <!--                        <span th:if="${property.price lt boundMax}">DROGI</span>-->
-                                    <!--                        <span th:unless="${property.price lt boundMax}">SREDNI</span>-->
-                                    <!--                    </td>-->
-                                    <td><span th:text="${property.exclusive?'Tak': 'Nie'}"/></td>
-                                    <td><span th:text="${property.creationDate}"/></td>
-                                    <td sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
-                                        <a class="btn btn-danger" th:href="@{/propertyList.html(did=${property.id})}">Usuń</a>
-                                        <a class="btn btn-success" th:href="@{/propertyForm.html(id=${property.id})}">Edytuj</a>
-                                    </td>
-
-                                </tr>
-
-                                </tbody>
-                            </table>
+            <div th:each="property : ${propertyListPage.content}" class="card mb-3" style="height: 150px">
+                <div th:style="${property.exclusive} ? 'background:radial-gradient(circle, rgba(225,222,170,1) 37%, rgba(208,184,117,1) 100%)' : ''" >
+                    <div class="row no-gutters" >
+                        <div class="col-md-2">
+                            <img style="width: 150px; height: 150px;" class="card-img" th:src="${property.imageName != null ? property.imageName : '/images/no-image-property.png'}"/>
                         </div>
+                        <div class="col-md-8">
+                            <div class="card-header-tabs">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"> <a th:href="@{/propertyDetails.html(id=${property.id})}">[[${property.name}]]</a></h5>
 
+                                <p class="card-subtitle"><span th:text="${property.address.city} + ', '+${property.address.province.name}"/></p><br>
+
+                                <h5 class="card-text"><span th:text="${#numbers.formatDecimal(property.price,2,2)} + ' zł.'"/></h5>
+
+                                <p class="card-text">
+                                    <small class="text-muted"><span th:text="'Data dodatnia: '+ ${#dates.format(property.creationDate, 'dd-MM-yyyy HH:mm')}"/></small>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-
+                </div>
             </div>
 
+                            <div th:replace="shared/paginationWithParam :: pager('userDetails.html?id='+ ${propertyListPage.content.get(0).user.id},
+             ${propertyListPage})"></div>
         </div>
 
+    </div>
+
+</div>
+
+</div>
+
 
 
 </div>
 </div>
 </div>
 
-<div th:replace="shared/paginationWithParam :: pager('userDetails.html?id='+ ${propertyListPage.content.get(0).user.id},
-             ${propertyListPage})"></div>
 <div th:replace="shared/footer :: footer"></div>
 </body>
 </html>

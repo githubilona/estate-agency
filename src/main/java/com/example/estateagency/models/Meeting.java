@@ -24,7 +24,7 @@ public class Meeting implements Serializable {
     private Long id;
 
     @Column(name="meeting_date", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date meetingDate;
 
     private String description;

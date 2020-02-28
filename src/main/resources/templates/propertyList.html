@@ -123,12 +123,11 @@
             </span>
 
             <br><br>
-                <div th:each="property : ${propertyListPage.content}" class="card mb-3" style="width: 700px; height:200px; float: left; margin-left: 10px">
-                    <div th:style="${property.exclusive} ? 'background:radial-gradient(circle, rgba(225,222,170,1) 37%, rgba(208,184,117,1) 100%)' : ''" >
+         <div th:each="property : ${propertyListPage.content}" class="card mb-3" style="width: 700px; height:200px; float: left; margin-left: 10px">
+            <div th:style="${property.exclusive} ? 'background:radial-gradient(circle, rgba(225,222,170,1) 37%, rgba(208,184,117,1) 100%)' : ''" >
                 <div class="row no-gutters" >
                     <div class="col-md-4">
                         <img style="width: 200px; height: 200px;" class="card-img" th:src="${property.imageName != null ? property.imageName : '/images/no-image-property.png'}"/>
-
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
@@ -138,18 +137,19 @@
 
                             <h5 class="card-text"><span th:text="${#numbers.formatDecimal(property.price,2,2)} + ' zł.'"/></h5>
 
-                            <p class="card-text"><small class="text-muted"><span th:text="'Data dodatnia: '+${property.creationDate}"/></small></p>
-                            <div>
-                    <span sec:authorize="hasRole('ROLE_ADMIN')" style="float: left">
-                                <a class="btn btn-danger" th:href="@{/propertyList.html(did=${property.id})}">Usuń</a>
-                                <a class="btn btn-success" th:href="@{/propertyForm.html(id=${property.id})}">Edytuj</a>
-                            </span>
-                            </div>
+                            <p class="card-text">
+                                <small class="text-muted"><span th:text="'Data dodatnia: '+ ${#dates.format(property.creationDate, 'dd-MM-yyyy HH:mm')}"/></small>
+                            </p>
+                         <span sec:authorize="hasRole('ROLE_ADMIN')" style="float: left">
+                            <a class="btn btn-danger" th:href="@{/propertyList.html(did=${property.id})}">Usuń</a>
+                            <a class="btn btn-success" th:href="@{/propertyForm.html(id=${property.id})}">Edytuj</a>
+                         </span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
             <div style="clear:both;"></div>
         </div>
