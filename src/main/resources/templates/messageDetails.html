@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <div th:replace="shared/header2 :: header-css"/>
     <title>Chat</title>
 
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <link rel="stylesheet" type="text/css"
-          href="statics/css/chat.css" />
+    <link rel="stylesheet" type="text/css" href="statics/css/chat.css" />
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" type="text/css" href="statics/css/main.css" />
+    <div th:replace="shared/header :: header-css"/>
 </head>
 <body>
-<div th:replace="shared/header2 :: header('home')"/>
+<div th:replace="shared/header :: header('messageDetails')"/>
 
 <div id="main">
     <div class="container">
@@ -42,7 +43,7 @@
 
                                         <strong class="primary-font"  th:text="${message.userSender.username}" >Jack Sparrow</strong>
                                         <small class="pull-right text-muted">
-                                            <span class="glyphicon glyphicon-time" th:text="${#dates.format(message.creationDate, 'dd-MM-yyyy HH:mm:ss')}"></span>
+                                            <span class="glyphicon glyphicon-time" th:text="' '+${#dates.format(message.creationDate, 'dd-MM-yyyy HH:mm:ss')}"></span>
                                         </small>
                                     </div>
                                     <p th:text="${message.messageText}">
@@ -61,7 +62,7 @@
                                     <div class="chat-body clearfix">
                                         <div class="header">
                                             <small class=" text-muted">
-                                                <span class="glyphicon glyphicon-time"  th:text="${#dates.format(message.creationDate, 'dd-MM-yyyy HH:mm:ss')}"></span>
+                                                <span class="glyphicon glyphicon-time"  th:text="' '+${#dates.format(message.creationDate, 'dd-MM-yyyy HH:mm:ss')}"></span>
                                             </small>
                                             <strong class="pull-right primary-font" th:text="${message.userSender.username}">Bhaumik Patel</strong>
                                         </div>

@@ -24,11 +24,13 @@
 .chat li.left .chat-body
 {
     margin-left: 60px;
+    font-size: 15px;
 }
 
 .chat li.right .chat-body
 {
     margin-right: 60px;
+    font-size: 15px;
 }
 
 
@@ -70,4 +72,7 @@ img{
     width: 50px;
     height: 50px;
 
+}
+input{
+    width: 400px !important;
 }

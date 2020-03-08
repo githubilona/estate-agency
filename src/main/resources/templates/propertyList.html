@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> <!-- todo DELETE -->
     <link rel="stylesheet" type="text/css" href="statics/css/propertyList.css" />
     <div th:replace="shared/header :: header-css"/>
-
     <title>Strona domowa</title>
 </head>
 <body class="card">
@@ -150,11 +149,11 @@
             </div>
         </div>
     </div>
-    </div>
-            <div style="clear:both;"></div>
-        </div>
         <br><br><br>
         <div th:replace="shared/pagination :: pager('/propertyList.html', ${propertyListPage})" th:scope="#request"></div>
+            <div style="clear:both;"></div>
+        </div>
+
 </div>
 <div th:replace="shared/footer :: footer"></div>
 </body>

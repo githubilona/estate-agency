@@ -1,13 +1,142 @@
 #main{
-    min-height: 500px;
+    min-height: 563px;
     /*min-width: 1400px;*/
     background-color: #f0f0f0;
-    margin: 0 20px;
+    /*margin: 0 20px;*/
     /*background: rgb(225,222,170);*/
     /*background: radial-gradient(circle, rgba(225,222,170,1) 37%, rgba(208,184,117,1) 100%);*/
 }
-#grad1 {
-    height: 200px;
-    background-color: red; /* For browsers that do not support gradients */
-    background-image: linear-gradient(to bottom right, blue, pink); /* Standard syntax (must be last) */
+:root {
+    --main-color: #151b52;
+    --gold: rgba(175,154,108,0.8);
+    --gold-hover: rgba(255, 233, 162, 0.8);
+    --gold2: rgba(255, 233, 162, 0.8) ;
+}
+body{
+    font-family: 'Catamaran';
+    font-weight: 200;
+    color: var(--main-color);
+}
+footer{
+    height: 71px;
+}
+a{
+    /*color: #118048;*/
+    color: var(--main-color);
+    font-weight: 400;
+}
+a:hover{
+    /*color: #38be6c;*/
+    color: var(--gold);
+    text-decoration: none;
+}
+.btn {
+
+    background-color: inherit;
+    /*padding: 14px 28px;*/
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+    color: black;
+
+    border: 1px solid var(--gold);
+    border-radius: 33px;
+    padding: 5px 15px 5px 15px;
+}
+
+/* On mouse-over */
+.btn:hover {
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    transition-delay: .2s; /* delays for 1 second */
+    -webkit-transition-delay: .2s; /* for Safari & Chrome */
+}
+
+.btn-success {
+    color: green;
+    border: none;
+}
+.btn-info {
+    /*background-image: linear-gradient(to top, #00c6fb 0%, #005bea 100%);*/
+    /*background-image: linear-gradient(to top, #005bea 0%, #00c6fb 100%);*/
+    /*color: white;*/
+}
+.btn-warning {color: orange;}
+.btn-danger {
+    color: red;
+    border: none;
+}
+.btn-default {
+    color: black;
+}
+
+.btn-success:hover {
+    background: green;
+}
+.btn-info:hover {
+
+}
+.btn-warning:hover {
+    background: orange;
+}
+.btn-danger:hover {
+    background: red;
+}
+.btn-default:hover {
+    background: black;
+}
+#dropdownMenuButton{
+    /*background: linear-gradient(0deg, rgba(0,168,255,1) 0%, rgba(34,84,152,1) 23%, rgba(69,211,255,1) 96%);*/
+    /*background: linear-gradient(45deg, rgba(244,244,244,1) 28%, rgba(223,223,223,1) 50%, rgba(255,255,255,1) 71%);*/
+    /*background: linear-gradient(0deg, rgba(79,107,175,1) 2%, rgba(8,36,112,1) 23%, rgba(38,95,189,1) 92%);
+    */
+
+
+    background: linear-gradient(0deg, rgba(236,235,223,1) 5%, rgba(222,221,203,1) 26%, rgba(236,235,223,1) 44%);
+    color: black;
+}
+#header{
+    background: var(--main-color) !important;
+    /*#151b52*/
+}
+#header a{
+    color: var(--gold)!important;
+}
+#header a:hover{
+    color: var(--gold-hover) !important;
+}
+#header .nav-link.active{
+    color: var(--gold-hover) !important;
+}
+.dropdown-item:hover{
+
+    background: var(--main-color) !important;
+}
+#loginItem, #logoutItem{
+    border: 2px solid var(--gold);
+    border-radius: 33px;
+    margin-left: 20px;
+    padding: 0 10px 0 10px;
+
+}
+#loginItem:hover, #logoutItem:hover{
+     border: 2px solid var(--gold-hover)
+}
+.bg-dark {
+    background: var(--main-color) !important;
+}
+.page-item active{
+    background: var(--gold) !important;
+}
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: var(--main-color) ;
+    border-color: var(--main-color);
+}
+.page-link{
+    color: var(--main-color);
+}
+.blockquote-footer{
+    color: var(--gold);
 }

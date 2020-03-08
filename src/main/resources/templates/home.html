@@ -5,11 +5,28 @@
 <head>
     <title>HOME</title>
     <div th:replace="shared/header :: header-css"/>
+
+    <style>
+
+        #main{
+
+            background-image: url("/images/homepage-image2.jpg");
+            /* Full height */
+            height: 100%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+    </style>
 </head>
 <body class="card">
 <div th:replace="shared/header :: header('home')"/>
 <div id="main">
-    To moja strona domowa
+    <h1 style="text-align: center; vertical-align: center; text-align-all:center; ">To moja strona domowa</h1>
+<!--    <img src="/images/homepage-image.jpg">-->
 </div>
 <div th:replace="shared/footer :: footer"></div>
 </body>

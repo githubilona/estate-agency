@@ -1,7 +1,9 @@
 
 <div th:fragment="contactForm(message, property)">
 
+    <div class="w3-panel w3-card-2 p-5 w-75 h-75">
     <h3>Formularz kontaktowy</h3>
+
     <form th:method="POST" th:object="${message}" th:action="@{/propertyDetails.html}">
 
         <div sec:authorize="!isAuthenticated()">
@@ -11,20 +13,18 @@
         </div>
         </div>
 
-        <br><br>
-
         <div class="form-group">
             <label for="messageText"></label>
-            <textarea class="form-control" id="messageText"  name="messageText" th:value="*{messageText}"
-                      rows="5" placeholder="Wpisz wiadomosć..."></textarea>
+            <textarea class="form-control " id="messageText"  name="messageText" th:value="*{messageText}"
+                      rows="6" placeholder="Wpisz wiadomosć..."></textarea>
         </div>
 
         <input id="property" type="hidden" name="property" th:value="${property.id}"/>
         <input id="userReceiver" type="hidden" name="userReceiver" th:value="${property.user.id}"/>
 
-        <br><br>
-        <button type="submit" class="btn btn-primary btn-raised">Wyślij</button>
+        <button type="submit" class="btn btn-primary pr-5 pl-5 pt-2 pb-2">Wyślij</button>
 
     </form>
+    </div>
 
 </div>

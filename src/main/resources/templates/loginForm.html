@@ -4,6 +4,20 @@
 <head>
     <div th:replace="shared/header :: header-css"/>
     <title>Strona domowa</title>
+    <style>
+
+        #main{
+
+            background-image: url("/images/homepage-image2.jpg");
+            /* Full height */
+            height: 100%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
 </head>
 
 <body class="card">
@@ -13,6 +27,7 @@
     <div class="row" style="margin-top:20px">
         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-4 col-md-offset-6">
 
+            <div class="shadow-lg p-3 mb-5 bg-white rounded">
             <h2>Zaloguj się</h2> <br>
             <form th:method="POST" th:action="@{/login}">
                 <div th:if="${param.error}">
@@ -28,7 +43,7 @@
                 <div class="form-group">
                     <input type="text" id="username" name="username" class="form-control" placeholder="Nazwa użytkownika"/>
                 </div>
-                <br>
+
                 <div class="form-group">
                     <input type="password" id="password" name="password" class="form-control" placeholder="Hasło"/>
                 </div>
@@ -38,9 +53,10 @@
                             th:name="${_csrf.parameterName}"
                             th:value="${_csrf.token}" />
                     <br>
-                    <button type="submit" class="btn btn-success">Zaloguj</button>
+                    <button type="submit" class="btn btn-primary w-50">Zaloguj</button>
                 </div>
             </form>
+        </div>
         </div>
     </div>
 

@@ -10,12 +10,15 @@
     <title>Strona domowa</title>
 </head>
 <body>
-<div th:replace="shared/header :: header('home')"/>
+<div th:replace="shared/header :: header('proprtyDetails')"/>
 
 <div id="main">
     <div class="container">
-    <h1 th:text="${property.name}"></h1><br/>
+    <h1 th:text="${property.name}"></h1>
     <h5 th:text="${property.address.city} + ', ' + ${property.address.province.name}"></h5>
+    Data dodania: <span th:text="' '+${#dates.format(property.creationDate,'dd-MM-yyyy HH:mm')}"></span>
+        <br>
+        <br>
 
 
     <div th:unless="${property.photos.isEmpty()}">
@@ -42,16 +45,16 @@
     <table class="table table-sm">
         <tbody>
         <tr>
+            <td>Cena:</td>
+            <td><b th:text="${#numbers.formatDecimal(property.price,2,2)} + ' zł.'"></b></td>
+        </tr>
+        <tr>
             <td>Typ:</td>
             <td><b>[[${property.propertyType.name}]]</b></td>
         </tr>
         <tr>
             <td>Rodzaj oferty:</td>
             <td><b th:text="${property.offerType.name}"></b></td>
-        </tr>
-        <tr>
-            <td>Data dodania:</td>
-            <td><b th:text="${#dates.format(property.creationDate, 'dd-MM-yyyy HH:mm')}"></b></td>
         </tr>
         <tr>
             <td>Dostępny od:</td>
@@ -90,13 +93,13 @@
             property.user.imageName : '/images/no-image2.jpg'}"/>
     </div>
 
+
         <!-- Formularz kontaktowy -->
     <div th:with="expr_result = ${property.user.username == #authentication.getName()}">
     <div th:unless="${expr_result}">
         <center>
-        <div class="w3-panel w3-card-2">
+
             <div th:replace="fragments/contactForm.html :: contactForm(${message}, ${property})"/>
-        </div>
         </center>
     </div>
 

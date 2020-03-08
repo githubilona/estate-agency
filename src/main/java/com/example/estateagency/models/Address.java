@@ -23,7 +23,7 @@ public class Address implements Serializable {
     private String city;
 
     @ManyToOne
-    @JoinColumn(name = "province_id", nullable = false)
+    @JoinColumn(name = "province_id", nullable = true)
     private Province province;
 
     private String street;
