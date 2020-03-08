@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <style>
-        img{
+        img {
             width: 20%;
             height: 20%;
         }
@@ -47,38 +47,38 @@
 <div id="main" style="padding: 50px;">
     <h2>Dodaj ogłoszenie</h2> <br>
 
-    <form th:method="POST" th:object="${property}" th:action="@{/saveProperty}"  enctype="multipart/form-data">
-                <div class="row">
-                <div class="col-md-6">
+    <form th:method="POST" th:object="${property}" th:action="@{/saveProperty}" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6">
                 <fieldset>
                     <div class="row">
-                    <div class="form-group col">
-                        <select th:field="*{propertyType.id}" class="form-control"
-                                th:classappend="${#fields.hasErrors('propertyType.id')}?'is-invalid'">
-                            <option value="-1">--wybierz typ nieruchmości--</option>
-                            <option th:each="type : ${propertyTypes}"
-                                    th:value="${type.id}"
-                                    th:text=" ${type.name}"
-                            />
-                        </select>
-                        <div class="error text-danger" th:if="${#fields.hasErrors('propertyType.id')}">
-                            <p th:each="err : ${#fields.errors('propertyType.id')}" th:text="${err}"></p>
+                        <div class="form-group col">
+                            <select th:field="*{propertyType.id}" class="form-control"
+                                    th:classappend="${#fields.hasErrors('propertyType.id')}?'is-invalid'">
+                                <option value="-1">--wybierz typ nieruchmości--</option>
+                                <option th:each="type : ${propertyTypes}"
+                                        th:value="${type.id}"
+                                        th:text=" ${type.name}"
+                                />
+                            </select>
+                            <div class="error text-danger" th:if="${#fields.hasErrors('propertyType.id')}">
+                                <p th:each="err : ${#fields.errors('propertyType.id')}" th:text="${err}"></p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group col">
-                        <select th:field="*{offerType.id}" class="form-control"
-                                th:classappend="${#fields.hasErrors('offerType.id')}?'is-invalid'">
-                            <option value="-1">--wybierz typ oferty--</option>
-                            <option th:each="type : ${offerTypes}"
-                                    th:value="${type.id}"
-                                    th:text=" ${type.name}"
-                            />
-                        </select>
-                        <div class="error text-danger" th:if="${#fields.hasErrors('offerType.id')}">
-                            <p th:each="err : ${#fields.errors('offerType.id')}" th:text="${err}"></p>
+                        <div class="form-group col">
+                            <select th:field="*{offerType.id}" class="form-control"
+                                    th:classappend="${#fields.hasErrors('offerType.id')}?'is-invalid'">
+                                <option value="-1">--wybierz typ oferty--</option>
+                                <option th:each="type : ${offerTypes}"
+                                        th:value="${type.id}"
+                                        th:text=" ${type.name}"
+                                />
+                            </select>
+                            <div class="error text-danger" th:if="${#fields.hasErrors('offerType.id')}">
+                                <p th:each="err : ${#fields.errors('offerType.id')}" th:text="${err}"></p>
+                            </div>
                         </div>
-                    </div>
                     </div>
 
 
@@ -96,8 +96,8 @@
                     <div class="form-group">
                         <label for="description" class="bmd-label-floating">Opis:</label>
                         <textarea id="description" type="text" th:field="*{description}"
-                               class="form-control" th:classappend="${#fields.hasErrors('description')}?'is-invalid'"
-                               required="true" style="height: 100px"/>
+                                  class="form-control" th:classappend="${#fields.hasErrors('description')}?'is-invalid'"
+                                  required="true" style="height: 100px"/>
 
                         <div class="error text-danger" th:if="${#fields.hasErrors('description')}">
                             <p th:each="err : ${#fields.errors('description')}" th:text="${err}"></p>
@@ -105,50 +105,52 @@
                     </div>
 
                     <div class="row">
-                    <div class="form-group col">
-                        <label for="price" class="bmd-label-floating">Cena:</label>
-                        <input id="price" type="text" th:field="*{price}"
-                               class="form-control" th:classappend="${#fields.hasErrors('price')}?'is-invalid'"
-                               required="true"/>
-                        <div class="error text-danger" th:if="${#fields.hasErrors('price')}">
-                            <p th:each="err : ${#fields.errors('price')}" th:text="${err}"></p>
+                        <div class="form-group col">
+                            <label for="price" class="bmd-label-floating">Cena:</label>
+                            <input id="price" type="text" th:field="*{price}"
+                                   class="form-control" th:classappend="${#fields.hasErrors('price')}?'is-invalid'"
+                                   required="true"/>
+                            <div class="error text-danger" th:if="${#fields.hasErrors('price')}">
+                                <p th:each="err : ${#fields.errors('price')}" th:text="${err}"></p>
+                            </div>
                         </div>
-                    </div>
 
 
-                    <div class="form-group col">
-                        <label for="numberOfRooms" class="bmd-label-floating">Liczba pokoi:</label>
-                        <input id="numberOfRooms" type="text" th:field="*{numberOfRooms}"
-                               class="form-control" th:classappend="${#fields.hasErrors('numberOfRooms')}?'is-invalid'"
-                               required="true"/>
+                        <div class="form-group col">
+                            <label for="numberOfRooms" class="bmd-label-floating">Liczba pokoi:</label>
+                            <input id="numberOfRooms" type="text" th:field="*{numberOfRooms}"
+                                   class="form-control"
+                                   th:classappend="${#fields.hasErrors('numberOfRooms')}?'is-invalid'"
+                                   required="true"/>
 
-                        <div class="error text-danger" th:if="${#fields.hasErrors('numberOfRooms')}">
-                            <p th:each="err : ${#fields.errors('numberOfRooms')}" th:text="${err}"></p>
+                            <div class="error text-danger" th:if="${#fields.hasErrors('numberOfRooms')}">
+                                <p th:each="err : ${#fields.errors('numberOfRooms')}" th:text="${err}"></p>
+                            </div>
                         </div>
-                    </div>
                     </div>
 
                     <div class="row">
-                    <div class="form-group col">
-                        <label for="area" class="bmd-label-floating">Powierzchnia (m2):</label>
-                        <input id="area" type="text" th:field="*{area}"
-                               class="form-control" th:classappend="${#fields.hasErrors('area')}?'is-invalid'"
-                               required="true"/>
+                        <div class="form-group col">
+                            <label for="area" class="bmd-label-floating">Powierzchnia (m2):</label>
+                            <input id="area" type="text" th:field="*{area}"
+                                   class="form-control" th:classappend="${#fields.hasErrors('area')}?'is-invalid'"
+                                   required="true"/>
 
-                        <div class="error text-danger" th:if="${#fields.hasErrors('area')}">
-                            <p th:each="err : ${#fields.errors('area')}" th:text="${err}"></p>
+                            <div class="error text-danger" th:if="${#fields.hasErrors('area')}">
+                                <p th:each="err : ${#fields.errors('area')}" th:text="${err}"></p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group col">
-                        <label for="availableDate" class="bmd-label-floating">Dostępny od:</label>
-                        <input id="availableDate" type="date" th:field="*{availableDate}"
-                               class="form-control" th:classappend="${#fields.hasErrors('availableDate')}?'is-invalid'"
-                               required="true"/>
-                        <div class="error text-danger" th:if="${#fields.hasErrors('availableDate')}">
-                            <p th:each="err : ${#fields.errors('availableDate')}" th:text="${err}"></p>
+                        <div class="form-group col">
+                            <label for="availableDate" class="bmd-label-floating">Dostępny od:</label>
+                            <input id="availableDate" type="date" th:field="*{availableDate}"
+                                   class="form-control"
+                                   th:classappend="${#fields.hasErrors('availableDate')}?'is-invalid'"
+                                   required="true"/>
+                            <div class="error text-danger" th:if="${#fields.hasErrors('availableDate')}">
+                                <p th:each="err : ${#fields.errors('availableDate')}" th:text="${err}"></p>
+                            </div>
                         </div>
-                    </div>
                     </div>
 
                     <div class="form-group">
@@ -159,111 +161,116 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="file" name="files" id="files" accept="image/*" class="form-control"  multiple="multiple"/>
+                        <input type="file" name="files" id="files" accept="image/*" class="form-control"
+                               multiple="multiple"/>
                     </div>
 
 
                     <hr>
                     <div class="gallery"></div>
 
-                </div>
-                    <div class="col-md-6">
+            </div>
+            <div class="col-md-6">
 
-                        <!-- Address - Additional data -->
-                        <div class="collapsible">Adres</div>
-                        <div class="content">
+                <!-- Address - Additional data -->
+                <div class="collapsible">Adres</div>
+                <div class="content">
 
-                            <div class="form-group">
-                                <label for="city" class="bmd-label-floating">Miejscowość:</label>
-                                <input id="city" type="text" name="city" th:value="*{address.city}"
-                                       class="form-control" th:classappend="${#fields.hasErrors('city')}?'is-invalid'" autofocus="true"/>
+                    <div class="form-group">
+                        <label for="city" class="bmd-label-floating">Miejscowość:</label>
+                        <input id="city" type="text" name="city" th:value="*{address.city}"
+                               class="form-control" th:classappend="${#fields.hasErrors('city')}?'is-invalid'"
+                               autofocus="true"/>
 
-                                <div class="error text-danger" th:if="${#fields.hasErrors('city')}">
-                                    <span th:each="err : ${#fields.errors('city')}" th:text="${err}"></span>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <select th:field="*{address.province.id}" class="form-control"
-                                        th:classappend="${#fields.hasErrors('address.province.id')}?'is-invalid'">
-                                    <option value="-1">--województwo--</option>
-                                    <option th:each="province : ${provinces}"
-                                            th:value="${province.id}"
-                                            th:text=" ${province.name}"
-                                    />
-                                </select>
-                                <div class="error text-danger" th:if="${#fields.hasErrors('address.province.id')}">
-                                    <p th:each="err : ${#fields.errors('address.province.id')}" th:text="${err}"></p>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="street" class="bmd-label-floating">Ulica:</label>
-                                    <input id="street" type="text"  name="street" th:value="*{address.street}"
-                                           class="form-control" th:classappend="${#fields.hasErrors('street')}?'is-invalid'"autofocus="true"/>
-
-                                    <div class="error text-danger" th:if="${#fields.hasErrors('street')}">
-                                        <span th:each="err : ${#fields.errors('street')}" th:text="${err}"></span>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-2">
-                                    <label for="localNumber" class="bmd-label-floating">Nr lokalu:</label>
-                                    <input id="localNumber" type="text" name="localNumber"  th:value="*{address.localNumber}"
-                                           class="form-control" th:classappend="${#fields.hasErrors('localNumber')}?'is-invalid'" autofocus="true"/>
-
-                                    <div class="error text-danger" th:if="${#fields.hasErrors('localNumber')}">
-                                        <span th:each="err : ${#fields.errors('localNumber')}" th:text="${err}"></span>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="error text-danger" th:if="${#fields.hasErrors('city')}">
+                            <span th:each="err : ${#fields.errors('city')}" th:text="${err}"></span>
                         </div>
-
-                        <br>
-
-                        <div class="form-group">
-                            <label class="bmd-label-floating">
-                                <input type="checkbox" th:field="*{exclusive}"/>
-                                Premium
-                            </label>
-                        </div>
-
-
-                        <div class="form-group" style="background:radial-gradient(circle, rgba(225,222,170,1) 37%, rgba(208,184,117,1) 100%)">
-
-
-                        <table class="table">
-                            <thead class="thead-light">
-                            </thead>
-                            <tbody>
-                            <tr  th:each="offer : ${premiumOffer}">
-                                <td>
-                                    <input type="radio" th:field="*{premiumOffer.id}" th:value="${offer.id}" />
-                                </td>
-                                <td>
-                                    <label th:for="${offer.id}" th:text="${offer.name}" style="font-weight: bold"></label>
-                                </td>
-                                <td>
-                                     <p th:text="${offer.price}" style="font-size: 18px; color: #a80446 "></p>
-                                </td>
-                                <td>
-                                    <p th:text="${offer.description}"></p>
-                                </td>
-                            </tr>
-
-
-                            </tbody>
-                        </table>
                     </div>
+
+                    <div class="form-group">
+                        <select th:field="*{address.province.id}" class="form-control"
+                                th:classappend="${#fields.hasErrors('address.province.id')}?'is-invalid'">
+                            <option value="-1">--województwo--</option>
+                            <option th:each="province : ${provinces}"
+                                    th:value="${province.id}"
+                                    th:text=" ${province.name}"
+                            />
+                        </select>
+                        <div class="error text-danger" th:if="${#fields.hasErrors('address.province.id')}">
+                            <p th:each="err : ${#fields.errors('address.province.id')}" th:text="${err}"></p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="street" class="bmd-label-floating">Ulica:</label>
+                            <input id="street" type="text" name="street" th:value="*{address.street}"
+                                   class="form-control" th:classappend="${#fields.hasErrors('street')}?'is-invalid'"
+                                   autofocus="true"/>
+
+                            <div class="error text-danger" th:if="${#fields.hasErrors('street')}">
+                                <span th:each="err : ${#fields.errors('street')}" th:text="${err}"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <label for="localNumber" class="bmd-label-floating">Nr lokalu:</label>
+                            <input id="localNumber" type="text" name="localNumber" th:value="*{address.localNumber}"
+                                   class="form-control"
+                                   th:classappend="${#fields.hasErrors('localNumber')}?'is-invalid'" autofocus="true"/>
+
+                            <div class="error text-danger" th:if="${#fields.hasErrors('localNumber')}">
+                                <span th:each="err : ${#fields.errors('localNumber')}" th:text="${err}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label class="bmd-label-floating">
+                        <input type="checkbox" th:field="*{exclusive}"/>
+                        Premium
+                    </label>
+                </div>
+
+
+                <div class="form-group"
+                     style="background:radial-gradient(circle, rgba(225,222,170,1) 37%, rgba(208,184,117,1) 100%)">
+
+
+                    <table class="table">
+                        <thead class="thead-light">
+                        </thead>
+                        <tbody>
+                        <tr th:each="offer : ${premiumOffer}">
+                            <td>
+                                <input type="radio" th:field="*{premiumOffer.id}" th:value="${offer.id}"/>
+                            </td>
+                            <td>
+                                <label th:for="${offer.id}" th:text="${offer.name}" style="font-weight: bold"></label>
+                            </td>
+                            <td style="width: 90px">
+                                <p th:text="${offer.price} + ' zł.'" style="font-size: 18px; color: #a80446 "></p>
+                            </td>
+                            <td>
+                                <p th:text="${offer.description}"></p>
+                            </td>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
                 </fieldset>
-                    </div>
+            </div>
 
-                </div>
-                <center>
-                    <button type="submit" class="btn btn-primary btn-raised" style="width: 120px; height: 50px">Zapisz</button>
-                </center>
-            </form>
+        </div>
+        <center>
+            <button type="submit" class="btn btn-primary btn-raised" style="width: 120px; height: 50px">Zapisz</button>
+        </center>
+    </form>
 
 
 </div>
@@ -271,9 +278,9 @@
 <div th:replace="shared/footer :: footer"></div>
 
 <script>
-    $(function() {
+    $(function () {
         // Multiple images preview in browser
-        var imagesPreview = function(input, placeToInsertImagePreview) {
+        var imagesPreview = function (input, placeToInsertImagePreview) {
 
             if (input.files) {
                 var filesAmount = input.files.length;
@@ -281,7 +288,7 @@
                 for (i = 0; i < filesAmount; i++) {
                     var reader = new FileReader();
 
-                    reader.onload = function(event) {
+                    reader.onload = function (event) {
                         $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
                     }
 
@@ -291,7 +298,7 @@
 
         };
 
-        $('#files').on('change', function() {
+        $('#files').on('change', function () {
             imagesPreview(this, 'div.gallery');
         });
     });
@@ -303,10 +310,10 @@
     var i;
 
     for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function() {
+        coll[i].addEventListener("click", function () {
             this.classList.toggle("active");
             var content = this.nextElementSibling;
-            if (content.style.maxHeight){
+            if (content.style.maxHeight) {
                 content.style.maxHeight = null;
             } else {
                 content.style.maxHeight = content.scrollHeight + "px";

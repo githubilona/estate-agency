@@ -5,15 +5,14 @@
     <div th:replace="shared/header :: header-css"/>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Strona domowa</title>
+    <title>Profil użytkownika</title>
 </head>
 <body>
 <div th:replace="shared/header :: header('home')"/>
 
-
         <div id="main" class="card-body" style="padding-left: 100px; ">
-            <H1>Dane użytkownika</H1>
         <div class="row">
+
             <div class="col-xs-6">
                     <div th:replace="fragments/userAccount.html :: userAccount(${propertyListPage.content.get(0).user})"></div>
                 <br/>
@@ -24,8 +23,8 @@
                 <div th:with="boundMin=${20000},boundMax=${40000}">
 
                     <div>
-                        <br><br>
-                        <H3>Ogłoszenia użytkownika</H3>
+                        <br>
+                        <H4>Ogłoszenia użytkownika</H4>
 
 
                         <div th:if="${propertyListPage.hasContent() eq false}">
@@ -37,12 +36,14 @@
 
 
             <span th:if="${searchCommand.isEmpty()}">
-                Masz [[${propertyListPage.totalElements}]] ogłoszeń
+                 [[${propertyListPage.totalElements}]] ogłoszeń
             </span>
                             <span th:unless="${searchCommand.isEmpty()}">
                 Wynik wyszukiwania: [[${propertyListPage.totalElements}]] ogłoszeń
             </span>
 
+            <br>
+            <br>
             <div th:each="property : ${propertyListPage.content}" class="card mb-3" style="height: 150px">
                 <div th:style="${property.exclusive} ? 'background:radial-gradient(circle, rgba(225,222,170,1) 37%, rgba(208,184,117,1) 100%)' : ''" >
                     <div class="row no-gutters" >

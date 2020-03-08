@@ -3,11 +3,7 @@
 <head>
     <title>Chat</title>
 
-
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="statics/css/chat.css" />
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" type="text/css" href="statics/css/main.css" />
     <div th:replace="shared/header :: header-css"/>
 </head>
@@ -15,98 +11,79 @@
 <div th:replace="shared/header :: header('messageDetails')"/>
 
 <div id="main">
-    <div class="container">
 
-<!--    <div class="box">-->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-primary">
-                    <div class="panel-heading" id="accordion">
-                        <span class="glyphicon glyphicon-comment"></span> Chat
-<!--                        <div class="btn-group pull-right">-->
-<!--                            <a type="button" class="btn btn-default btn-xs" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">-->
-<!--                                <span class="glyphicon glyphicon-chevron-down"></span>-->
-<!--                            </a>-->
-<!--                        </div>-->
-                    </div>
-                    <div class="panel-body">
-                        <ul class="chat" th:each="message: ${messagesList}">
-
-                            <div th:with="expr_result = ${message.userReceiver.username == #authentication.getName()}">
-                                <li th:if="${expr_result}" class="left clearfix" style="background: #e9e9e9">
-                                <span class="chat-img pull-left">
-                            <img th:src="${message.userSender.imageName != null ? message.userSender.imageName : '/images/no-image2.jpg'}"
-                                 alt="User Avatar" class="img-circle" />
-                        </span>
-                                <div class="chat-body clearfix">
-                                    <div class="header">
-
-                                        <strong class="primary-font"  th:text="${message.userSender.username}" >Jack Sparrow</strong>
-                                        <small class="pull-right text-muted">
-                                            <span class="glyphicon glyphicon-time" th:text="' '+${#dates.format(message.creationDate, 'dd-MM-yyyy HH:mm:ss')}"></span>
-                                        </small>
-                                    </div>
-                                    <p th:text="${message.messageText}">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                        dolor, quis ullamcorper ligula sodales.
-                                    </p>
-                                </div>
-                            </li>
+        <div class="container py-5 px-4">
+            <div class="row rounded-lg overflow-hidden shadow">
 
 
-                                <li th:unless="${expr_result}" class="right clearfix" style="background: #c4e5f5">
-                                    <span class="chat-img pull-right">
-                            <img th:src="${message.userSender.imageName != null ? message.userSender.imageName : '/images/no-image2.jpg'}"
-                                 alt="User Avatar" class="img-circle" />
-                        </span>
-                                    <div class="chat-body clearfix">
-                                        <div class="header">
-                                            <small class=" text-muted">
-                                                <span class="glyphicon glyphicon-time"  th:text="' '+${#dates.format(message.creationDate, 'dd-MM-yyyy HH:mm:ss')}"></span>
-                                            </small>
-                                            <strong class="pull-right primary-font" th:text="${message.userSender.username}">Bhaumik Patel</strong>
-                                        </div>
-                                        <p th:text="${message.messageText}">
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                            dolor, quis ullamcorper ligula sodales.
-                                        </p>
-                                    </div>
-                                </li>
+                <!-- Chat Box-->
+                <div class="col-12 px-0">
+                    <div class="bg-gray px-4 py-2 bg-light">
+                        <div class="media w-75 mb-2">
+                            <img th:src="${property.imageName}" alt="propertyImg" width="50" height="50" class="rounded-bottom">
+                            <div class="media-body ml-3">
+                                <a class="h5 mb-0 py-1" th:text="${property.name}" th:href="@{/propertyDetails.html(id=${property.id})}"></a>
+
+                                <br>
+                                <span>Konwersacja z </span>
+                                <a th:text="${userSender.username}" th:href="@{/userDetails.html(id=${userSender.id})}"></a>
                             </div>
-                        </ul>
-                    </div>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="input-group">
-                            <form th:method="POST" th:object="${message}" th:action="@{/sendReply}">
-
-                                <input id="messageText" type="text" name="messageText" th:value="*{messageText}"
-                                       class="form-control input-sm"  required="true" placeholder="Wpisz wiadomosć..."/>
-
-
-                                <input id="property" type="hidden" name="property" th:value="${message.property.id}"/>
-                                <input id="userReceiver" type="hidden" name="userReceiver" th:value="${message.userSender.id}"/>
-                                <input id="userSender" type="hidden" name="userSender" th:value="${message.userReceiver.id}"/>
-                                <input id="conversation" type="hidden" name="conversation" th:value="${message.conversation.id}"/>
-
-                                <br><br>
-                                <button type="submit" class="btn btn-warning btn-sm">Wyślij</button>
-                            </form>
-
-<!--                            -->
-<!--                            <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />-->
-<!--                            <span class="input-group-btn">-->
-<!--                            <button class="btn btn-warning btn-sm" id="btn-chat">-->
-<!--                                Send</button>-->
-
-<!--                        </span>-->
                         </div>
+
                     </div>
+
+                    <div class="px-4 py-5 chat-box bg-white">
+                        <div th:each="message: ${messagesList}">
+                            <div th:with="expr_result = ${message.userReceiver.username == #authentication.getName()}">
+                            <!-- Sender Message-->
+                                <div th:if="${expr_result}">
+                                    <div class="media w-75 mb-2"><img th:src="${message.userSender.imageName != null ? message.userSender.imageName : '/images/no-image2.jpg'}" alt="user" width="50" class="rounded-circle">
+                                        <div class="media-body ml-3">
+                                            <div class="bg-light rounded py-2 px-3 mb-2">
+                                                <p class="text-small mb-0 text-muted" th:text="${message.messageText}">Test which is a new approach all solutions</p>
+                                            </div>
+                                            <p class="small text-muted"  th:text="' '+${#dates.format(message.creationDate, 'dd-MM-yyyy | HH:mm')}">12:00 PM | Aug 13</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Reciever Message-->
+                                <div th:unless="${expr_result}">
+                                    <div class="media w-75 ml-auto mb-2">
+                                        <div class="media-body">
+                                            <div class="bg-primary rounded py-2 px-3 mb-2">
+                                                <p class="text-small mb-0 text-white" th:text="${message.messageText}">Test which is a new approach to have all solutions</p>
+                                            </div>
+                                            <p class="small text-muted"  th:text="' '+${#dates.format(message.creationDate, 'dd-MM-yyyy | HH:mm')}">12:00 PM | Aug 13</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                    </div>
+                    </div>
+
+                    <!-- Typing area -->
+                    <form class="bg-light" th:method="POST" th:object="${message}" th:action="@{/sendReply}">
+                        <div class="input-group">
+                            <input id="messageText" type="text" name="messageText" th:value="*{messageText}" required="true" placeholder="Wpisz wiadomosć..."
+                                   aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light"/>
+
+                            <input id="property" type="hidden" name="property" th:value="${message.property.id}"/>
+                            <input id="userReceiver" type="hidden" name="userReceiver" th:value="${message.userSender.id}"/>
+                            <input id="userSender" type="hidden" name="userSender" th:value="${message.userReceiver.id}"/>
+                            <input id="conversation" type="hidden" name="conversation" th:value="${message.conversation.id}"/>
+
+                            <div class="input-group-append">
+                                <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </form>
+
                 </div>
             </div>
-<!--        </div>-->
+        </div>
 
-</div>
 </div>
 </div>
 <div th:replace="shared/footer :: footer"></div>

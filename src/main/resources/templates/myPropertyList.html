@@ -74,9 +74,7 @@
                     </div>
                 </form>
 
-                <H2>Moje ogłoszenia</H2>
-                <h5 th:text="${user.username}"/></h5>
-
+                <H3>Moje ogłoszenia</H3>
 
                 <div th:if="${propertyListPage.hasContent() eq false}">
                     <span th:if="${searchCommand.isEmpty()}">Brak ogłoszeń w bazie</span>
@@ -87,11 +85,12 @@
 
 
             <span th:if="${searchCommand.isEmpty()}">
-                Masz [[${propertyListPage.totalElements}]] ogłoszeń
+                 [[${propertyListPage.totalElements}]] ogłoszeń
             </span>
                     <span th:unless="${searchCommand.isEmpty()}">
                 Wynik wyszukiwania: [[${propertyListPage.totalElements}]] ogłoszeń
             </span>
+            <br><br>
 
                         <div th:each="property : ${propertyListPage.content}" class="card mb-3" style="height: 150px">
                             <div th:style="${property.exclusive} ? 'background:radial-gradient(circle, rgba(225,222,170,1) 37%, rgba(208,184,117,1) 100%)' : ''" >

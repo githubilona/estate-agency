@@ -138,6 +138,8 @@ public class MessageController {
         List<Message> messagesList = messageService.findAllByConversationId(conversationId);
         model.addAttribute("messagesList", messagesList);
         model.addAttribute("message", message);
+        model.addAttribute("userSender", c.getUserSender());
+        model.addAttribute("property", c.getProperty());
 
         return "messageDetails";
     }
